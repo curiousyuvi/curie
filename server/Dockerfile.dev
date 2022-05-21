@@ -1,0 +1,18 @@
+#  Dockerfile for curie-node-server
+
+FROM node:18-slim
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm i
+
+RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["npm","start"]
