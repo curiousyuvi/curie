@@ -3,10 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="Curie - An room-music-sync/chat app" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -21,9 +18,21 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Curie</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
   </head>
   <body class="h-full w-full p-0 m-0 overflow-auto">
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="bg-static.jpg"
+      style="min-width: 100%; min-height: 100%; position: fixed; z-index: -1;"
+    >
+      <source src="bg-video.mp4" type="video/mp4" />
+    </video>
+    </div>
     <div id="root" class="h-full w-full p-0 m-0 overflow-auto"></div>
     <!--
       This HTML file is a template.

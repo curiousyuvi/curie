@@ -1,3 +1,3 @@
 export default function Rooms() {
-  return <div className="h-full bg-gray-400 w-1/4"></div>;
+  return <div className="h-full bg-indigo-700/50 w-72"></div>;
 }
