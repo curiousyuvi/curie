@@ -4,7 +4,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 import Picker, { IEmojiData } from "emoji-picker-react";
 
-const ChatTextField: FC<{ onSend: (value: String) => void }> = ({ onSend }) => {
+const ChatTextField: FC<{ onSend: (value: string) => void }> = ({ onSend }) => {
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const [message, setMessage] = useState("");
   const handleChange = (element: any) => {
@@ -13,7 +13,6 @@ const ChatTextField: FC<{ onSend: (value: String) => void }> = ({ onSend }) => {
 
   const handleSmilyClick = (event: React.MouseEvent<Element, MouseEvent>) => {
     event.preventDefault();
-    console.log("handleSmilyClicked");
 
     setEmojiPickerOpen(!emojiPickerOpen);
   };
@@ -23,13 +22,11 @@ const ChatTextField: FC<{ onSend: (value: String) => void }> = ({ onSend }) => {
     data: IEmojiData
   ) => {
     event.preventDefault();
-    console.log("handleEmojiClicked");
     setMessage(message + data.emoji);
   };
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log("handleSubmitCalled");
 
     if (message !== "") {
       onSend(message);
@@ -38,7 +35,7 @@ const ChatTextField: FC<{ onSend: (value: String) => void }> = ({ onSend }) => {
     }
   };
   return (
-    <div className="flex flex-col">
+    <div className="w-full">
       {emojiPickerOpen ? (
         <Picker
           onEmojiClick={handleEmojiClick}
@@ -47,6 +44,8 @@ const ChatTextField: FC<{ onSend: (value: String) => void }> = ({ onSend }) => {
             border: "none",
             marginBottom: "1rem",
             color: "black",
+            position: "absolute",
+            bottom: "6rem",
           }}
           disableSkinTonePicker
         />

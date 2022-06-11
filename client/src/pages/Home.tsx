@@ -1,11 +1,17 @@
-import Room from "../components/Room";
-import Rooms from "../components/Rooms";
+import React, { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useUserContext } from "../providers/UserProvider";
 
 export default function Home() {
+  const userContext = useUserContext();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userContext.token === "") navigate("/auth/login");
+    else navigate("/chat/rooms");
+  }, []);
   return (
-    <div className="h-full w-full flex justify-center items-center">
-      <Rooms />
-      <Room />
-    </div>
+    <>
+      <h1>Home</h1>
+    </>
   );
 }

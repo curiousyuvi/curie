@@ -28,7 +28,7 @@ export default function CreateRoom() {
             copy
           </button>
         </div>
-        <button className="w-full max-w-sm p-4 bg-indigo-500/50 hover:bg-indigo-500 outline outline-0 outline-indigo-500/20 hover:outline-8 rounded-lg duration-200 font-bold">
+        <button className="w-full max-w-sm p-4 bg-indigo-500/70 hover:bg-indigo-500 outline outline-0 outline-indigo-500/20 hover:outline-8 rounded-lg duration-200 font-bold">
           CREATE ROOM
         </button>
       </div>

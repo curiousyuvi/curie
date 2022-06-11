@@ -1,20 +1,22 @@
 import { FaUserCircle } from "react-icons/fa";
+import { useUserContext } from "../providers/UserProvider";
 
 export default function UserProfile() {
-  const user = {
-    name: "Yuvraj Singh",
-    username: "curiousyuvi",
-    status: "🔥Enjoying rap songs!!!",
-  };
+  const userContext = useUserContext();
+  const user = userContext.currentUser;
   return (
-    <div className="w-full h-full flex rounded-br-lg bg-blue-900/70 p-8">
-      <FaUserCircle className="text-9xl mr-8" />
-      <div className="flex flex-col items-start">
-        <label className="text-3xl mb-2 text-gray-200">{user.name}</label>
-        <label className="text-md bg-indigo-500 px-2 mb-2 rounded-lg text-white">
-          {"@" + user.username}
+    <div className="w-full h-full flex flex-col rounded-br-lg bg-blue-900/70 p-8 items-center justify-center">
+      <img
+        alt="avatar"
+        src={user!.avatar_url}
+        className="h-60 mb-4 rounded-full border-4 p-2 border-indigo-500"
+      />
+      <div className="flex flex-col items-center">
+        <label className="text-4xl mb-2 text-gray-200 font-medium">
+          {user!.name}
         </label>
-        <label>{user.status}</label>
+        <label className="mb-2">{"@" + user!.username}</label>
+        <label>{user!.status}</label>
       </div>
     </div>
   );
