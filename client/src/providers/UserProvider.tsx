@@ -6,24 +6,17 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { CurrentUser } from "../models/CurrentUser";
 import { User } from "../models/User";
-import getUser from "../services/user";
+import { getUser } from "../services/user";
 
-const userContext = createContext<User>({
-  currentUser: null,
-  token: "",
-  refreshToken: "",
-});
+const userContext = createContext<User | null>(null);
 
 const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User>({
-    currentUser: null,
-    token: "",
-    refreshToken: "",
-  });
+  const [user, setUser] = useState<User | null>(null);
+  const token = localStorage.getItem("token") || "";
+
   useEffect(() => {
-    getUser("696969").then((data) => {
+    getUser(token).then((data) => {
       setUser(data);
     });
   }, []);

@@ -37,7 +37,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="auth/login" element={<Login />} />
                 <Route
-                  path="auth/spotify-callback"
+                  path="auth/spotify_callback"
                   element={<SpotifyCallback />}
                 />
                 <Route path="auth/create-user" element={<CreateUser />} />

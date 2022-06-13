@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiCopy } from "react-icons/fi";
+import PrimaryButton from "../components/PrimaryButton";
 
 export default function CreateRoom() {
   const [roomName, setRoomName] = useState<string>("");
@@ -28,9 +29,7 @@ export default function CreateRoom() {
             copy
           </button>
         </div>
-        <button className="w-full max-w-sm p-4 bg-indigo-500/70 hover:bg-indigo-500 outline outline-0 outline-indigo-500/20 hover:outline-8 rounded-lg duration-200 font-bold">
-          CREATE ROOM
-        </button>
+        <PrimaryButton onClick={() => {}}>CREATE ROOM</PrimaryButton>
       </div>
     </div>
   );

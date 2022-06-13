@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useUserContext } from "../providers/UserProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const userContext = useUserContext();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token") || "";
+
   useEffect(() => {
-    if (userContext.token === "") navigate("/auth/login");
+    if (token === "") navigate("/auth/login");
     else navigate("/chat/rooms");
   }, []);
   return (
