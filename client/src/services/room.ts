@@ -1,8 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { CurrentRoom } from '../models/CurrentRoom';
-import { CurrentUser } from '../models/CurrentUser';
 import { Room } from '../models/Room';
-import { User } from '../models/User';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
 const apiUrl = apiEndpoint + "/api";

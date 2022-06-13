@@ -7,8 +7,10 @@ import { useUserContext } from "../providers/UserProvider";
 export default function Chat() {
   const userContext = useUserContext();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token") || "";
+
   useEffect(() => {
-    if (userContext.token === "") navigate("/auth/login");
+    if (token === "") navigate("/auth/login");
     else navigate("/chat/rooms");
   }, []);
   return (

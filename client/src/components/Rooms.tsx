@@ -7,7 +7,7 @@ import { useUserContext } from "../providers/UserProvider";
 
 export default function Rooms() {
   const userContext = useUserContext();
-  const user = userContext.currentUser;
+  const user = userContext;
   const location = useLocation();
   return (
     <div className="h-full w-full flex justify-center items-center">

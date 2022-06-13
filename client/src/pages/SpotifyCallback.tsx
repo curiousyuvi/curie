@@ -8,14 +8,13 @@ export default function SpotifyCallback() {
   const userContext = useUserContext();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const token = localStorage.getItem("token") || "";
+
   const setToken = () => {
     const code = searchParams.get("code");
     if (code) {
       console.log(`get token called with code = ${code}`);
       getToken(code).then((data) => {
-        userContext.setToken(data!.token);
-        userContext.setRefreshToken(data!.refresh_token);
-
         localStorage.setItem("token", data!.token);
         localStorage.setItem("refresh_token", data!.refresh_token);
 
@@ -24,9 +23,9 @@ export default function SpotifyCallback() {
     }
   };
   useEffect(() => {
-    if (userContext.token === "") setToken();
+    if (token === "") setToken();
     else navigate("/chat/rooms");
-  }, [userContext.token]);
+  }, []);
   return (
     <div className="w-96 bg-indigo-700/50 p-8 rounded-lg flex flex-col items-center">
       <img

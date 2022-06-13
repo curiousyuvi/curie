@@ -3,7 +3,7 @@ import { useUserContext } from "../providers/UserProvider";
 
 export default function UserProfile() {
   const userContext = useUserContext();
-  const user = userContext.currentUser;
+  const user = userContext;
   return (
     <div className="w-full h-full flex flex-col rounded-br-lg bg-blue-900/70 p-8 items-center justify-center">
       <img

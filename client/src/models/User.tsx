@@ -1,9 +1,10 @@
-import { CurrentUser } from "./CurrentUser";
+import { RoomShort } from "./RoomShort";
 
 export type User = {
-  currentUser: CurrentUser | null;
-  token: string;
-  refreshToken: string;
-  setToken: (token: string) => void;
-  setRefreshToken: (token: string) => void;
+  uid: string;
+  name: string;
+  username: string;
+  avatar_url: string;
+  rooms: RoomShort[];
+  status: string;
 };
