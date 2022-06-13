@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile.dev
 
     image: curie-node-server
+    env_file:
+      - config/dev.env
     container_name: curie-node-server
     command: npm run dev
     volumes:
