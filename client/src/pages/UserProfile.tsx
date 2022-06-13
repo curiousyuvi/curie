@@ -1,4 +1,3 @@
-import { FaUserCircle } from "react-icons/fa";
 import { useUserContext } from "../providers/UserProvider";
 
 export default function UserProfile() {

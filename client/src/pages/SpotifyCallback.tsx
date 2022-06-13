@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
-import { useUserContext } from "../providers/UserProvider";
 import { getToken } from "../services/token";
 
 export default function SpotifyCallback() {
-  const userContext = useUserContext();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const token = localStorage.getItem("token") || "";
@@ -13,7 +11,6 @@ export default function SpotifyCallback() {
   const setToken = () => {
     const code = searchParams.get("code");
     if (code) {
-      console.log(`get token called with code = ${code}`);
       getToken(code).then((data) => {
         localStorage.setItem("token", data!.token);
         localStorage.setItem("refresh_token", data!.refresh_token);

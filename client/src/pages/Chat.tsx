@@ -2,10 +2,8 @@ import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
-import { useUserContext } from "../providers/UserProvider";
 
 export default function Chat() {
-  const userContext = useUserContext();
   const navigate = useNavigate();
   const token = localStorage.getItem("token") || "";
 

@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
-import { useUserContext } from "../providers/UserProvider";
 
 export default function Login() {
-  const userContext = useUserContext();
   const navigate = useNavigate();
   const token = localStorage.getItem("token") || "";
 
   useEffect(() => {
-    if (token != "") navigate("/chat/rooms");
+    if (token !== "") navigate("/chat/rooms");
   }, []);
 
   return (
