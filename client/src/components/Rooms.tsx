@@ -1,7 +1,5 @@
 import { FC } from "react";
-import { BsFillEmojiSmileFill } from "react-icons/bs";
-import { FaLess } from "react-icons/fa";
-import { Link, Outlet, useLocation, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { RoomShort } from "../models/RoomShort";
 import { useUserContext } from "../providers/UserProvider";
 
