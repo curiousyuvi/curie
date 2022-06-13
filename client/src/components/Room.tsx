@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import ChatTextField from "./chatTextField";
+import ChatTextField from "./ChatTextField";
 import { Message } from "../models/Message";
-import ChatCloud from "./chatCloud";
+import ChatCloud from "./ChatCloud";
 import { useRoomContext } from "../providers/RoomProvider";
 import { useParams } from "react-router-dom";
 

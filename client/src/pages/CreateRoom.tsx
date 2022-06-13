@@ -29,7 +29,7 @@ export default function CreateRoom() {
             copy
           </button>
         </div>
-        <PrimaryButton onClick={() => {}} text="CREATE ROOM" />
+        <PrimaryButton onClick={() => {}}>CREATE ROOM</PrimaryButton>
       </div>
     </div>
   );

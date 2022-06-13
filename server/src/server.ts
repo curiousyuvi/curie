@@ -1,16 +1,31 @@
 import express from "express"
+import http from 'http'
 import cors from "cors"
 import dotenv from 'dotenv';
+import authRoute from './routes/authRoute'
 dotenv.config();
 
+
+const port = 5000;
 const app = express();
+const server = http.createServer(app);
 
-app.use(cors());
+const corsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+};
 
-app.get('/api', (req, res) => {
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
+app.use('/api/auth', authRoute);
+
+app.get('/api/test', (req, res) => {
     res.send("Hello from Curie-server");
 })
 
-app.listen(5000, () => {
+server.listen(port, () => {
     console.log("CURIE SERVER LISTENING ON PORT 5000...");
 });

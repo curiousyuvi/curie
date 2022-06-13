@@ -7,6 +7,10 @@ export default function Login() {
   const userContext = useUserContext();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (userContext.token != "") navigate("/chat/rooms");
+  }, []);
+
   return (
     <div className="w-96 bg-indigo-700/50 p-8 rounded-lg flex flex-col items-center">
       <img
@@ -19,8 +23,13 @@ export default function Login() {
         alt="CURIE"
         className="w-32 mb-8"
       />
-      <p className="text-lg mb-4">{"🤗 "}Welcome to Curie</p>
-      <PrimaryButton onClick={() => {}} text="LOG IN WITH SPOTIFY" />
+      <p className="text-xl mb-4">{"🤗 "}Welcome to Curie</p>
+      <a
+        href={process.env.REACT_APP_API_ENDPOINT + "/api/auth/login"}
+        className="w-full"
+      >
+        <PrimaryButton onClick={() => {}}>LOG IN WITH SPOTIFY</PrimaryButton>
+      </a>
     </div>
   );
 }

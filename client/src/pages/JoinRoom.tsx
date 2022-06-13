@@ -18,7 +18,7 @@ export default function JoinRoom() {
           className="mb-6 p-2 bg-gray-300/10 outline-none border-none outline-2 focus:outline-4 outline-indigo-500/40 focus:outline-indigo-500 rounded-lg text-2xl w-full max-w-sm duration-200"
         />
 
-        <PrimaryButton onClick={() => {}} text="JOIN ROOM" />
+        <PrimaryButton onClick={() => {}}>JOIN ROOM</PrimaryButton>
       </div>
     </div>
   );
