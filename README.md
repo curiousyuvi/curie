@@ -1,1 +1,1 @@
-# Project Name: Curie
+# Curie
