@@ -3,8 +3,10 @@ import http from 'http'
 import cors from "cors"
 import dotenv from 'dotenv';
 import authRoute from './routes/authRoute'
+import connectMongoDB from "./services/dbconnect";
 dotenv.config();
 
+connectMongoDB();
 
 const port = 5000;
 const app = express();
