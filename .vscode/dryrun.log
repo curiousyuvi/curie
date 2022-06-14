@@ -1,0 +1,12 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/curiousyuvi/Desktop/Projects/Web/curie'
+cd client && make build
+make[1]: Entering directory '/home/curiousyuvi/Desktop/Projects/Web/curie/client'
+docker build -t curie-react-client:latest . -f Dockerfile.dev
+make[1]: Leaving directory '/home/curiousyuvi/Desktop/Projects/Web/curie/client'
+cd server && make build
+make[1]: Entering directory '/home/curiousyuvi/Desktop/Projects/Web/curie/server'
+docker build -t curie-node-server:latest . -f Dockerfile.dev
+make[1]: Leaving directory '/home/curiousyuvi/Desktop/Projects/Web/curie/server'
+make: Leaving directory '/home/curiousyuvi/Desktop/Projects/Web/curie'
+ 
