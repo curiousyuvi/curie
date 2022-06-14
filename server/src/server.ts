@@ -3,6 +3,7 @@ import http from 'http'
 import cors from "cors"
 import dotenv from 'dotenv';
 import authRoute from './routes/authRoute'
+import userRoute from './routes/userRoute'
 import connectMongoDB from "./services/dbconnect";
 dotenv.config();
 
@@ -23,6 +24,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/api/auth', authRoute);
+app.use('/api/user', userRoute);
+
 
 app.get('/api/test', (req, res) => {
     res.send("Hello from Curie-server");
