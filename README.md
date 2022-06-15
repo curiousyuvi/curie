@@ -1,8 +1,29 @@
 # Curie
+![curie_poster_2](https://user-images.githubusercontent.com/58589519/173933769-db57d105-2c2e-4672-9c74-bfcd189e5a89.jpg)
 
 An app that allows users to **chat** and **listen to synced songs in chat rooms**, the playback of the song will be controlled by a chosen **DJ / Admin**, also other members of the room can suggest songs and **members can vote** 👍️ or 👎️ for that suggestion.
 
-## Contribution Guide
+## Tech/Library
+/Framework/Tools
+#### Frontend (client)
+- Made with [React.js](https://reactjs.org/) ⚛️
+- Written in [Typescript](https://www.typescriptlang.org/)
+- Styled with [TailwindCSS](https://tailwindcss.com/)
+- [Axios](https://www.npmjs.com/package/axios) as API Request client
+- [Socket.io-client](https://www.npmjs.com/package/socket.io-client) as Web-socket client
+
+#### Backend (server)
+- Made with [Express.js](https://www.npmjs.com/package/express)
+- Written in [Typescript](https://www.typescriptlang.org/)
+- NoSQL Database from [MongoDB](https://www.mongodb.com/)
+- [Mongoose](https://www.npmjs.com/package/mongoose) for handling MongoDB services
+- [Axios](https://www.npmjs.com/package/axios) as API Request client
+- [Socket.io](https://www.npmjs.com/package/socket.io) for Web-socket communication
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api/) to get metadata about tracks and playlists from Spotify
+- [Spotify Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk/) to manage player in Spotify Connect and playback control.
+
+
+## Configure and run development server
 
 - ### Configure Development Environment
 
@@ -52,7 +73,18 @@ An app that allows users to **chat** and **listen to synced songs in chat rooms*
 
 - ### Running Development Server
 
-  - Inside the root directory, run this command:
-    `make run`
+  - To run the server, we need to have [docker](https://www.docker.com/) installed in our system, head to [Get Docker](https://docs.docker.com/get-docker/) to install docker according to your system.
+
+  - Make sure docker is installed correctly, by running:
+    ```
+    docker --version
+    ```
+    If its installed correctly, you would get an output like:
+    ```
+    Docker version 20.10.17, build 100c701
+    ```
+
+  - Now inside the root directory, run this command:
+    `sudo make run`
 
   - If there are no issues and every thing goes well, then **React client** should be running on `http://localhost:3000/`, **Node server** should be running on `http://localhost:5000/` and **Mongo Express** should be running on `http://localhost:8081/`
