@@ -19,7 +19,7 @@ const getUserController = (req:Request,res:Response) => {
                console.log("User is not found");
                res.status(400).json({massage:"failure"});
            }else{
-               res.status(200).json({Name:allitems[0]._id})
+               res.status(200).json({allitems})
            }
       })
 }
