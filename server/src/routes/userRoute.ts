@@ -8,7 +8,7 @@ router.get('/uid/:token', getUIDController)
 
 router.delete('/delete/:uid', deleteUserController);
 
-router.post('/update/:uid', updateUserController)
+router.post('/update/:uid', updateUserController);
 
 router.post('/create', createUserController);
 
