@@ -4,6 +4,7 @@ import cors from "cors"
 import dotenv from 'dotenv';
 import authRoute from './routes/authRoute'
 import userRoute from './routes/userRoute'
+import roomRoute from './routes/roomRoute'
 import connectMongoDB from "./services/dbconnect";
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
+app.use('/api/room', roomRoute);
 
 
 app.get('/api/test', (req, res) => {

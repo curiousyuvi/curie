@@ -45,6 +45,7 @@ const deleteUserController = (req: Request, res: Response) => {
 
 const updateUserController = (req: Request, res: Response) => {
     updateUser(req.params.uid, req.body, (err, docs) => {
+        console.log(req.body)
         if (!err)
             if (docs)
                 res.status(200).json({ massage: "success" })
