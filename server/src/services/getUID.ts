@@ -1,5 +1,4 @@
 import axios from "axios";
-import User from "../models/User";
 
 const getUID: (token: string) => Promise<string | null> = async (token) => {
     const requestConfig = {
@@ -9,8 +8,6 @@ const getUID: (token: string) => Promise<string | null> = async (token) => {
     }
 
     const response = await axios(requestConfig);
-
-    console.log(response.data);
 
     if (response.status === 200)
         return response.data.id;
