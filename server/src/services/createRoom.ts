@@ -3,9 +3,8 @@ const createRoom = ({rid,name,username,image_url,state,users,messages}, handleEr
       const newRoom = new Room({
            _id: rid,
            name,
-           username,
-           image_url,
            state,
+           image_url,
            users,
            messages,
       })
