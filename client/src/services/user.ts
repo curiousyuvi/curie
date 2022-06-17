@@ -147,4 +147,29 @@ const searchUser = async (username: string, strict: boolean = false): Promise<Us
     }
 }
 
-export { getUser, createUser, updateUser, deleteUser, getUID, searchUser };
+const userExists = async (uid: string) => {
+    try {
+        const requestConfig: AxiosRequestConfig = {
+            url: `/user/exists/${uid}`,
+            method: "get",
+            responseType: 'json',
+        };
+
+        const response = await apiInstance(requestConfig);
+        if (response.status === 200) {
+            if (response.data.result === "user exists")
+                return true;
+            else
+                return false;
+        }
+        else {
+            console.log("Error in userExists: ", response.data);
+            return null;
+        }
+    } catch (err) {
+        console.log("Error in userExists: ", err);
+        return null;
+    }
+}
+
+export { getUser, createUser, updateUser, deleteUser, getUID, searchUser, userExists };
