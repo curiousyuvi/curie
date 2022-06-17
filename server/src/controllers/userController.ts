@@ -5,6 +5,7 @@ import getUID from "../services/getUID";
 import getUser from "../services/getUser";
 import searchUser from "../services/searchUser";
 import updateUser from "../services/updateUser";
+import userExists from "../services/userExists";
 
 const createUserController = (req: Request, res: Response) => {
     createUser(req.body, (err) => {
@@ -86,7 +87,7 @@ const searchUserController = (req: Request, res: Response) => {
                 res.status(200).json({ users: users })
             }
             else
-                res.status(404).json({ message: "user not found" })
+                res.status(200).json({ users: [] })
         }
         else {
             res.status(400).json({ message: "failure" })
@@ -94,4 +95,19 @@ const searchUserController = (req: Request, res: Response) => {
     })
 }
 
-export { createUserController, getUserController, updateUserController, deleteUserController, getUIDController, searchUserController }
+const userExistsController = (req: Request, res: Response) => {
+    userExists(req.params.uid, (err, count) => {
+        if (!err) {
+            if (count > 0)
+                res.status(200).json({ result: "user exists" })
+            else
+                res.status(200).json({ result: "user does not exist" })
+
+        }
+        else {
+            res.status(400).json({ message: "failure" })
+        }
+    })
+}
+
+export { createUserController, getUserController, updateUserController, deleteUserController, getUIDController, searchUserController, userExistsController }
