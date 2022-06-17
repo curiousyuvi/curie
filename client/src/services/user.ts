@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { RoomShort } from '../models/RoomShort';
 import { User } from '../models/User';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
@@ -7,33 +8,168 @@ const apiInstance = axios.create({
     baseURL: apiUrl
 });
 
-const getUser = async (token: string): Promise<User | null> => {
-    //TODO: remove mock code
-    const mockCurrentUser: User = { uid: "696969", name: "Yuvraj Singh", username: "curiousyuvi", avatar_url: "https://images.unsplash.com/photo-1577975882846-431adc8c2009?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2080&q=80", rooms: [{ rid: "1212", name: "Lofi munde🔥", image_url: "https://images.unsplash.com/photo-1532117364815-720cd35ff6e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2080&q=80", state: "" }, { rid: "1212", name: "Lofi munde🔥", image_url: "https://images.unsplash.com/photo-1532117364815-720cd35ff6e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2080&q=80", state: "" }, { rid: "1212", name: "Lofi munde🔥", image_url: "https://images.unsplash.com/photo-1532117364815-720cd35ff6e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2080&q=80", state: "" }, { rid: "1212", name: "Lofi munde🔥", image_url: "https://images.unsplash.com/photo-1532117364815-720cd35ff6e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2080&q=80", state: "" }], status: "🔥 chillin" };
-    return mockCurrentUser;
+const getUser = async (uid: string): Promise<User | null> => {
+    try {
+        const requestConfig: AxiosRequestConfig = {
+            url: `/user/${uid}`,
+            method: "get",
+            responseType: 'json',
+        };
 
-    // try {
-    //     const requestConfig: AxiosRequestConfig = {
-    //         url: "/user",
-    //         method: "get",
-    //         params: {
-    //             uid
-    //         },
-    //         responseType: 'json',
-    //     };
-
-    //     const response = await apiInstance(requestConfig);
-    //     if (response.status === 200) {
-    //         return response.data;
-    //     }
-    //     else {
-    //         console.log("Error in getUser: ", response.data.error);
-    //     }
-    // } catch (err) {
-    //     console.log("Error in getUser: ", err);
-
-    // }
-
+        const response = await apiInstance(requestConfig);
+        if (response.status === 200) {
+            return response.data;
+        }
+        else {
+            console.log("Error in getUser: ", response.data);
+            return null;
+        }
+    } catch (err) {
+        console.log("Error in getUser: ", err);
+        return null;
+    }
 }
 
-export { getUser };
+const createUser = async (user: User): Promise<string | null> => {
+    try {
+        const requestConfig: AxiosRequestConfig = {
+            url: "/user/create",
+            method: "post",
+            data: user,
+            responseType: 'json',
+        };
+
+        const response = await apiInstance(requestConfig);
+        if (response.status === 200) {
+            return "success";
+        }
+        else {
+            console.log("Error in createUser: ", response.data);
+            return null;
+        }
+    } catch (err) {
+        console.log("Error in createUser: ", err);
+        return null;
+    }
+}
+
+const updateUser = async (uid: string, updateDoc: {
+    name?: string;
+    avatar_url?: string;
+    rooms?: RoomShort[];
+    status?: string;
+}): Promise<string | null> => {
+    try {
+        const requestConfig: AxiosRequestConfig = {
+            url: `/user/update/${uid}`,
+            method: "post",
+            data: updateDoc,
+            responseType: 'json',
+        };
+
+        const response = await apiInstance(requestConfig);
+        if (response.status === 200) {
+            return "success";
+        }
+        else {
+            console.log("Error in updateUser: ", response.data);
+            return null;
+        }
+    } catch (err) {
+        console.log("Error in updateUser: ", err);
+        return null;
+    }
+}
+
+const deleteUser = async (uid: string): Promise<string | null> => {
+    try {
+        const requestConfig: AxiosRequestConfig = {
+            url: `/user/${uid}`,
+            method: "get",
+            responseType: 'json',
+        };
+
+        const response = await apiInstance(requestConfig);
+        if (response.status === 200) {
+            return "success";
+        }
+        else {
+            console.log("Error in getUser: ", response.data);
+            return null;
+        }
+    } catch (err) {
+        console.log("Error in getUser: ", err);
+        return null;
+    }
+}
+
+const getUID = async (token: string): Promise<string | null> => {
+    try {
+        const requestConfig: AxiosRequestConfig = {
+            url: `/user/uid/${token}`,
+            method: "get",
+            responseType: 'json',
+        };
+
+        const response = await apiInstance(requestConfig);
+        if (response.status === 200) {
+            return response.data.uid;
+        }
+        else {
+            console.log("Error in getUID: ", response.data);
+            return null;
+        }
+    } catch (err) {
+        console.log("Error in getUID: ", err);
+        return null;
+    }
+}
+
+const searchUser = async (username: string, strict: boolean = false): Promise<User[] | null> => {
+    try {
+        const requestConfig: AxiosRequestConfig = {
+            url: `/user/search/${username}`,
+            method: "get",
+            responseType: 'json',
+        };
+
+        const response = await apiInstance(requestConfig);
+        if (response.status === 200) {
+            return response.data.users;
+        }
+        else {
+            console.log("Error in searchUser: ", response.data);
+            return null;
+        }
+    } catch (err) {
+        console.log("Error in searchUser: ", err);
+        return null;
+    }
+}
+
+const userExists = async (uid: string) => {
+    try {
+        const requestConfig: AxiosRequestConfig = {
+            url: `/user/exists/${uid}`,
+            method: "get",
+            responseType: 'json',
+        };
+
+        const response = await apiInstance(requestConfig);
+        if (response.status === 200) {
+            if (response.data.result === "user exists")
+                return true;
+            else
+                return false;
+        }
+        else {
+            console.log("Error in userExists: ", response.data);
+            return null;
+        }
+    } catch (err) {
+        console.log("Error in userExists: ", err);
+        return null;
+    }
+}
+
+export { getUser, createUser, updateUser, deleteUser, getUID, searchUser, userExists };
