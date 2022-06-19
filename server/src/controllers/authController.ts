@@ -60,9 +60,9 @@ const tokenController = (req: Request, res: Response) => {
 
     axios(requestConfig).then((response: AxiosResponse) => {
         if (response.status === 200) {
+            res.cookie('refresh_token', response.data.refresh_token, { httpOnly: true, sameSite: 'none', secure: true, maxAge: 86400000 })
             res.json({
                 token: response.data.access_token,
-                refresh_token: response.data.refresh_token,
             });
         } else {
             res.status(400).json({ error: "Error in getting token from spotify" })
