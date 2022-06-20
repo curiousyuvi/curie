@@ -1,6 +1,6 @@
 #  Dockerfile for curie-node-server
 
-FROM node:18-slim
+FROM node:18.4-slim
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
