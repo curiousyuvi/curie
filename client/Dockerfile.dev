@@ -1,6 +1,6 @@
 # docker file for curie react client
 
-FROM node:18-slim
+FROM node:18.4-slim
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
