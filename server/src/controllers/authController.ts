@@ -110,5 +110,12 @@ const refreshController = (req: Request, res: Response) => {
     })
 }
 
-export { loginController, tokenController, refreshController }
+const clearController = (req: Request, res: Response) => {
+    res.cookie('refresh_token', '', { httpOnly: true, sameSite: 'none', secure: true, maxAge: 86400000 })
+    res.json({
+        message: 'logout success',
+    });
+}
+
+export { loginController, tokenController, refreshController, clearController }
 
