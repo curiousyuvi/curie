@@ -1,43 +1,51 @@
-import { FC } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { RoomShort } from "../models/RoomShort";
-import { useUserContext } from "../providers/UserProvider";
+import { Outlet } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import RoomsListTile from "./RoomsListTile";
 
 export default function Rooms() {
-  const userContext = useUserContext();
-  const user = userContext;
-  const location = useLocation();
+  const auth = useAuth();
+  const user = auth.user;
   return (
     <div className="h-full w-full flex justify-center items-center">
       <div className="h-full bg-indigo-700/50 w-72 flex flex-col border-r border-indigo-300/30">
-        {user?.rooms.map((room) => {
+        {/* //TODO: implement Room Tiles */}
+        {/* {user?.rooms.map((room) => {
           return <RoomsListTile room={room} />;
-        })}
+        })} */}
+        <RoomsListTile
+          room={{
+            rid: "121212",
+            name: "lofi",
+            image_url: "someurl",
+            state: "idle",
+          }}
+        />
+        <RoomsListTile
+          room={{
+            rid: "121212",
+            name: "lofi",
+            image_url: "someurl",
+            state: "idle",
+          }}
+        />
+        <RoomsListTile
+          room={{
+            rid: "121212",
+            name: "lofi",
+            image_url: "someurl",
+            state: "idle",
+          }}
+        />
+        <RoomsListTile
+          room={{
+            rid: "121212",
+            name: "lofi",
+            image_url: "someurl",
+            state: "idle",
+          }}
+        />
       </div>
-      {location.pathname === "/chat/rooms" ? <NoRoomSelected /> : <Outlet />}
+      <Outlet />
     </div>
   );
 }
-
-const RoomsListTile: FC<{ room: RoomShort }> = ({ room }) => {
-  return (
-    <Link to={`/chat/rooms/${room.rid}`}>
-      <div className="w-full h-16 flex items-center justify-start p-2 border border-x-0 border-t-0 border-indigo-300/30 text-gray-300 text-lg hover:bg-indigo-500/10">
-        <img
-          alt="room"
-          src={room.image_url}
-          className="h-10 rounded-full mr-2"
-        />
-        <h2 className="hover:underline">{room.name}</h2>
-      </div>
-    </Link>
-  );
-};
-
-const NoRoomSelected = () => {
-  return (
-    <div className="h-full bg-blue-900/70 w-full p-4 flex justify-center items-center">
-      <h1>Go to a room</h1>
-    </div>
-  );
-};

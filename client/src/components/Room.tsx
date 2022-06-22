@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ChatTextField from "./ChatTextField";
-import { Message } from "../models/Message";
+import { Message } from "../interfaces/Message";
 import ChatCloud from "./ChatCloud";
 import { useRoomContext } from "../providers/RoomProvider";
 import { useParams } from "react-router-dom";
@@ -20,7 +20,6 @@ export default function Room() {
 
   const scrollToBottom = () => {
     messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-    // messagesSectionRef.current?.scrollToBottom();
   };
 
   useEffect(() => {

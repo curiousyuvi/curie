@@ -6,6 +6,8 @@ import authRoute from './routes/authRoute'
 import userRoute from './routes/userRoute'
 import roomRoute from './routes/roomRoute'
 import connectMongoDB from "./services/dbconnect";
+import cookieParser from 'cookie-parser'
+
 dotenv.config();
 
 connectMongoDB();
@@ -20,9 +22,10 @@ const corsOptions = {
     optionSuccessStatus: 200,
 };
 
-
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
+
 
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
