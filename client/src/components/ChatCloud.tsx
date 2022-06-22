@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { Message } from "../models/Message";
+import { Message } from "../interfaces/Message";
 
 const ChatCloud: FC<{ message: Message }> = ({ message }) => {
   const formatDateTime = (timestamp: number) => {

@@ -13,16 +13,16 @@ export default function Navbar() {
 
   return (
     <div className="w-16 h-full rounded-bl-lg backdrop-blur-md bg-indigo-700/50 border border-l-0 border-y-0 border-indigo-300/30 text-gray-800/50 text-4xl flex flex-col items-center justify-even/50 px-0">
-      <NavbarLinkButton to="/chat/rooms">
+      <NavbarLinkButton to="/">
         <BsFillChatDotsFill />
       </NavbarLinkButton>
-      <NavbarLinkButton to="/chat/user-profile">
+      <NavbarLinkButton to="/user_profile">
         <FaUserCircle />
       </NavbarLinkButton>
-      <NavbarLinkButton to="/chat/settings">
+      <NavbarLinkButton to="/settings">
         <BsFillGearFill />
       </NavbarLinkButton>
-      <NavLink to="/chat/join-room" className="w-full">
+      <NavLink to="/join_room" className="w-full">
         <div
           className={"w-full h-16 flex justify-center items-center p-2 hover:bg-orange-500 hover:text-gray-200 duration-300  ".concat(
             location.pathname === "/join-room"
@@ -33,7 +33,7 @@ export default function Navbar() {
           <IoArrowRedoSharp />
         </div>
       </NavLink>
-      <NavLink to="/chat/create-room" className="w-full">
+      <NavLink to="/create_room" className="w-full">
         <div
           className={"w-full h-16 flex justify-center items-center p-2 hover:bg-green-500 hover:text-gray-200 duration-300  ".concat(
             location.pathname === "/create-room"

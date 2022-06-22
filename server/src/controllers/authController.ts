@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Request, Response } from "express";
 import qs from 'qs'
 import generateRandomString from "../helpers/generateRandomString";
-const redirect_uri = "http://localhost:3000/auth/spotify_callback/";
+const redirect_uri = "http://localhost:3000/spotify_callback/";
 
 
 const loginController = (req: Request, res: Response) => {
@@ -102,10 +102,10 @@ const refreshController = (req: Request, res: Response) => {
                 token: response.data.access_token,
             });
         } else {
-            res.status(401).json({ error: "Error in refreshing token from spotify" })
+
+            res.status(403).json({ error: "Error in refreshing token from spotify" })
         }
     }).catch(err => {
-
         res.status(400).json({ error: err })
     })
 }

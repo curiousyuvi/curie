@@ -5,8 +5,8 @@ import React, {
   useContext,
   useState,
 } from "react";
-import { CurrentRoom } from "../models/CurrentRoom";
-import getRoom from "../services/room";
+import { CurrentRoom } from "../interfaces/CurrentRoom";
+import useRoom from "../hooks/useRoom";
 
 const roomContext = createContext<{
   currentRoom: CurrentRoom | null;
@@ -15,6 +15,7 @@ const roomContext = createContext<{
 
 const RoomProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentRoom, setCurrentRoom] = useState<CurrentRoom | null>(null);
+  const { getRoom } = useRoom();
   const handleSwitchRoom = (rid: string) => {
     getRoom(rid).then((data) => {
       setCurrentRoom(data);

@@ -1,15 +1,6 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
 
 export default function Login() {
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token") || "";
-
-  useEffect(() => {
-    if (token !== "") navigate("/chat/rooms");
-  }, []);
-
   return (
     <div className="w-96 bg-indigo-700/50 p-8 rounded-lg flex flex-col items-center">
       <img
