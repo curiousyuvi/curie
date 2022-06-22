@@ -24,7 +24,7 @@ const authContext = createContext<AuthContext>({
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { getUID, getUser } = useUser();
-  const { refreshToken } = useToken();
+  const { refreshToken, clearRefreshToken } = useToken();
   const apiPrivate = useApiPrivate();
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string>("");
@@ -35,7 +35,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const loadUser = async () => {
-    if (token != "") {
+    if (token !== "") {
       const uiddata = await getUID(token, apiPrivate);
       if (uiddata) {
         await localStorage.setItem("UID", uiddata);
@@ -49,7 +49,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     localStorage.clear();
     setUser(null);
     setToken("");
-    //TODO: clear cookies
+    clearRefreshToken();
   };
 
   useEffect(() => {

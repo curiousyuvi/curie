@@ -46,8 +46,30 @@ const refreshToken = async (): Promise<string | null> => {
   }
 };
 
+const clearRefreshToken = async (): Promise<string | null> => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: "/auth/clear",
+      method: "get",
+      responseType: "json",
+      withCredentials: true,
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200 && response.data?.message === "success") {
+      return "success";
+    } else {
+      console.log("Error in logout: ", response.data.error);
+      return null;
+    }
+  } catch (err) {
+    console.log("Error in logout: ", err);
+    return null;
+  }
+};
+
 const useToken = () => {
-  return { getToken, refreshToken };
+  return { getToken, refreshToken, clearRefreshToken };
 };
 
 export default useToken;
