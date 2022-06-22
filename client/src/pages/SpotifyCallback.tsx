@@ -1,27 +1,34 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
-import { getToken } from "../services/token";
+import useApiPrivate from "../hooks/useApiPrivate";
+import useAuth from "../hooks/useAuth";
+import useToken from "../hooks/useToken";
+import useUser from "../hooks/useUser";
 
 export default function SpotifyCallback() {
+  const { getToken } = useToken();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const token = localStorage.getItem("token") || "";
+  const { loadUser, setToken, token } = useAuth();
 
-  const setToken = () => {
-    const code = searchParams.get("code");
-    if (code) {
-      getToken(code).then((data) => {
-        localStorage.setItem("token", data!.token);
-        localStorage.setItem("refresh_token", data!.refresh_token);
-
-        navigate("/chat/rooms");
-      });
-    }
-  };
   useEffect(() => {
-    if (token === "") setToken();
-    else navigate("/chat/rooms");
+    const loadUserAndNavigateToCreate = () => {
+      if (token !== "")
+        loadUser().then(() => {
+          if (localStorage.getItem("UID"))
+            navigate("/create_user", { replace: true });
+        });
+    };
+    loadUserAndNavigateToCreate();
+  }, [token]);
+
+  useEffect(() => {
+    const loadToken = async () => {
+      const code = searchParams.get("code");
+      if (code) setToken((await getToken(code)) || "");
+    };
+    loadToken();
   }, []);
   return (
     <div className="w-96 bg-indigo-700/50 p-8 rounded-lg flex flex-col items-center">
