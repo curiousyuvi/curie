@@ -64,7 +64,7 @@ An app that allows users to **chat** and **listen to synced songs in chat rooms*
 
   - Then click on **CREATE AN APP** button in Spotify Dashboard and create a spotify app.
 
-  - Then inside the app, go to **EDIT SETTINGS** and add `http://localhost:3000/auth/spotify_callback/` to **Redirect URIs** and **SAVE** the settings.
+  - Then inside the app, go to **EDIT SETTINGS** and add `http://localhost:3000/spotify_callback/` to **Redirect URIs** and **SAVE** the settings.
 
   - Then inside the app, go to **USERS AND ACCESS** and add your Spotify Account with email by clicling on `ADD NEW USER`.
 
@@ -84,6 +84,20 @@ An app that allows users to **chat** and **listen to synced songs in chat rooms*
     ```
 
   - Now inside the root directory, run this command:
-    `sudo make run`
+    ```
+    sudo make run
+    ```
 
   - If there are no issues and every thing goes well, then **React client** should be running on `http://localhost:3000/`, **Node server** should be running on `http://localhost:5000/` and **Mongo Express** should be running on `http://localhost:8081/`
+  - To stop the containers type `ctrl`+`c` and run:
+    ```
+    sudo make stop
+    ```
+  - To remove the containers and their networks and volumes, run:
+    ```
+    sudo make remove
+    ```
+  - To remove the containers, their networks and volumes, also the client and server images , run:
+    ```
+    sudo make hard-remove
+    ```
