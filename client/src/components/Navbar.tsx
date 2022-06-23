@@ -57,7 +57,7 @@ const NavbarLinkButton: FC<{
     <NavLink to={`${to}`} className="w-full">
       <div
         className={"w-full h-16 flex justify-center items-center p-2 duration-300 ".concat(
-          location.pathname.startsWith(to)
+          location.pathname === to
             ? "bg-indigo-500/60 text-gray-200 hover:bg-indigo-500 hover:text-gray-200 "
             : "hover:bg-gray-300/10 hover:text-gray-100/80"
         )}
