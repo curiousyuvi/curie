@@ -47,7 +47,6 @@ const ChatTextField: FC<{ onSend: (value: string) => void }> = ({ onSend }) => {
             position: "absolute",
             bottom: "6rem",
           }}
-          disableSkinTonePicker
         />
       ) : (
         <></>
