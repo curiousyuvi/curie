@@ -84,7 +84,9 @@ An app that allows users to **chat** and **listen to synced songs in chat rooms*
     ```
 
   - Now inside the root directory, run this command:
-    `sudo make run`
+    ```
+    sudo make run
+    ```
 
   - If there are no issues and every thing goes well, then **React client** should be running on `http://localhost:3000/`, **Node server** should be running on `http://localhost:5000/` and **Mongo Express** should be running on `http://localhost:8081/`
   - To stop the containers type `ctrl`+`c` and run:
