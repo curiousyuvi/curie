@@ -132,6 +132,7 @@ const searchUser = async (
       url: `/user/search/${username}`,
       method: "get",
       responseType: "json",
+      params: { strict },
     };
 
     const response = await apiInstance(requestConfig);
