@@ -1,8 +1,6 @@
 import Picker, { IEmojiData } from "emoji-picker-react";
 import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
-import { FaAccessibleIcon, FaAt, FaTag } from "react-icons/fa";
 import { IoAt, IoPerson, IoPersonOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import ChooseAvatar from "../components/ChooseAvatar";
 import PrimaryButton from "../components/PrimaryButton";
 import useAuth from "../hooks/useAuth";
@@ -108,17 +106,20 @@ export default function CreateUser() {
   };
   const handleCreateProfileClick = async () => {
     setLoading(true);
-    const isValidated = await validate();
-    if (isValidated)
-      await createUser({
-        uid: localStorage.getItem("UID") || "",
-        name: createUserForm.name,
-        username: createUserForm.username,
-        status: createUserForm.status_emote + " " + createUserForm.status_text,
-        avatar_url: createUserForm.avatar_url,
-        rooms: [],
-      });
-    await loadUser();
+    if (await validate()) {
+      if (
+        await createUser({
+          uid: localStorage.getItem("UID") || "",
+          name: createUserForm.name,
+          username: createUserForm.username,
+          status:
+            createUserForm.status_emote + " " + createUserForm.status_text,
+          avatar_url: createUserForm.avatar_url,
+          rooms: [],
+        })
+      )
+        await loadUser();
+    }
     setLoading(false);
   };
 

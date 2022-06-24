@@ -1,8 +1,7 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import { AxiosInstance, AxiosRequestConfig } from "axios";
 import { apiInstance } from "../api/axiosInstances";
 import { RoomShort } from "../interfaces/RoomShort";
 import { User } from "../interfaces/User";
-import useApiPrivate from "./useApiPrivate";
 
 const getUser = async (uid: string): Promise<User | null> => {
   try {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BiRefresh } from "react-icons/bi";
 import useGenerateRandomAvatar from "../hooks/useGenerateRandomAvatar";
+import ChooseAvatarButton from "./ChooseAvatarButton";
 
 const ChooseAvatar = ({
   setAvatar,
@@ -25,11 +26,13 @@ const ChooseAvatar = ({
   };
   useEffect(() => {
     loadAvatars();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [selectedIdx, setSelectedIdx] = useState(0);
 
   useEffect(() => {
     setAvatar(avatars[selectedIdx]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIdx, avatars]);
 
   return (
@@ -45,16 +48,13 @@ const ChooseAvatar = ({
         <div className="w-full flex flex-wrap justify-center">
           {avatars.map((avatar, i) => {
             return (
-              <button onClick={handleAvatarClick}>
-                <img
-                  id={i.toString()}
-                  className={"p-1 h-14 m-1 rounded-full ".concat(
-                    i === selectedIdx ? "outline outline-indigo-500" : ""
-                  )}
-                  src={avatar}
-                  alt="AVATAR"
-                />
-              </button>
+              <ChooseAvatarButton
+                key={i.toString()}
+                avatar={avatar}
+                idx={i}
+                selectedIdx={selectedIdx}
+                handleAvatarClick={handleAvatarClick}
+              />
             );
           })}
         </div>

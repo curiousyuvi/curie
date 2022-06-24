@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from "axios";
 import { apiInstance } from "../api/axiosInstances";
 
 const getToken = async (code: string): Promise<string | null> => {
