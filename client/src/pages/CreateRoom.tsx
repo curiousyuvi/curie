@@ -8,6 +8,7 @@ export default function CreateRoom() {
   const handleChange = (e: any) => {
     setRoomName(e.target.value);
   };
+  //TODO: Create UI for create_room
 
   return (
     <div className="flex justify-center w-full h-full bg-blue-900/70 p-4 items-center">

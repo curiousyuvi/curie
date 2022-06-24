@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
-import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useToken from "../hooks/useToken";
-import useUser from "../hooks/useUser";
 
 export default function SpotifyCallback() {
   const { getToken } = useToken();
   const navigate = useNavigate();
+  // eslint-disable-next-line
   const [searchParams, setSearchParams] = useSearchParams();
   const { loadUser, setToken, token } = useAuth();
 
@@ -21,6 +20,7 @@ export default function SpotifyCallback() {
         });
     };
     loadUserAndNavigateToCreate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   useEffect(() => {
@@ -29,6 +29,7 @@ export default function SpotifyCallback() {
       if (code) setToken((await getToken(code)) || "");
     };
     loadToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="w-96 bg-indigo-700/50 p-8 rounded-lg flex flex-col items-center">

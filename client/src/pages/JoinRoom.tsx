@@ -7,6 +7,8 @@ export default function JoinRoom() {
     setRoomId(e.target.value);
   };
 
+  //TODO: Update UI for join_room
+
   return (
     <div className="flex justify-center w-full h-full bg-blue-900/70 p-4 items-center">
       <div className="rounded-br-lg flex flex-col items-start">

@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Room from "./components/Room";
-import Rooms from "./components/Rooms";
+import Rooms from "./pages/Rooms";
 import ChatWrapper from "./components/ChatWrapper";
 import CreateRoom from "./pages/CreateRoom";
 import CreateUser from "./pages/CreateUser";
