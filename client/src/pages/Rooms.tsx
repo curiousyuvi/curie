@@ -1,7 +1,9 @@
 import { Outlet } from "react-router-dom";
 import RoomsListTile from "../components/RoomsListTile";
+import useGenerateRandomAvatar from "../hooks/useGenerateRandomAvatar";
 
 export default function Rooms() {
+  const generateRandomAvatar = useGenerateRandomAvatar();
   return (
     <div className="h-full w-full flex justify-center items-center">
       <div className="h-full bg-indigo-700/50 w-72 flex flex-col border-r border-indigo-300/30">
@@ -11,7 +13,7 @@ export default function Rooms() {
           room={{
             rid: "121212",
             name: "lofi",
-            image_url: "someurl",
+            image_url: generateRandomAvatar(),
             state: "idle",
           }}
         />
@@ -19,7 +21,7 @@ export default function Rooms() {
           room={{
             rid: "121212",
             name: "lofi",
-            image_url: "someurl",
+            image_url: generateRandomAvatar(),
             state: "idle",
           }}
         />
@@ -27,7 +29,7 @@ export default function Rooms() {
           room={{
             rid: "121212",
             name: "lofi",
-            image_url: "someurl",
+            image_url: generateRandomAvatar(),
             state: "idle",
           }}
         />
@@ -35,7 +37,7 @@ export default function Rooms() {
           room={{
             rid: "121212",
             name: "lofi",
-            image_url: "someurl",
+            image_url: generateRandomAvatar(),
             state: "idle",
           }}
         />
