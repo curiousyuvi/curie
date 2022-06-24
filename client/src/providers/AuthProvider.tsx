@@ -2,7 +2,6 @@ import React, {
   createContext,
   FC,
   ReactNode,
-  useContext,
   useEffect,
   useState,
 } from "react";
@@ -58,10 +57,12 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     };
 
     initUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     loadUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (

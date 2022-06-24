@@ -1,6 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
 import { CurrentRoom } from "../interfaces/CurrentRoom";
-import { Room } from "../interfaces/Room";
 
 const getRoom = async (rid: string): Promise<CurrentRoom | null> => {
   //TODO: remove mock code

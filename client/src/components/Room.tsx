@@ -28,6 +28,7 @@ export default function Room() {
 
   useEffect(() => {
     roomContext.switchRoom(params.rid || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
