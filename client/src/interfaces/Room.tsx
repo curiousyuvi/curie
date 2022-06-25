@@ -1,6 +1,9 @@
-import { CurrentRoom } from "./CurrentRoom";
+import { Message } from "./Message";
 
 export type Room = {
-  currentRoom: CurrentRoom | null;
-  switchRoom: (rid: string) => void;
+  rid: string;
+  name: string;
+  image_url: string;
+  users: string[];
+  messages: Message[];
 };

@@ -20,9 +20,8 @@ const generateRandomColorHex: () => string = () => {
   );
 };
 
-const generateRandomAvatar: () => string = () => {
+const generateRandomAvatar: (sprites: string) => string = (sprites) => {
   const diceBearAvatarEndpoint = "https://avatars.dicebear.com/api";
-  const sprites = "miniavs";
   const generateRandomString = useGenerateRandomString;
 
   return `${diceBearAvatarEndpoint}/${sprites}/${generateRandomString(

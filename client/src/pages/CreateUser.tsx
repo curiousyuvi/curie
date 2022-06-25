@@ -145,7 +145,6 @@ export default function CreateUser() {
       ) : (
         <></>
       )}
-
       <div className="w-full h-full max-w-lg bg-indigo-700/50 p-6 rounded-lg flex flex-col items-center">
         <h1 className="font-medium text-3xl text-gray-100 my-4">
           Create your Profile
@@ -210,8 +209,11 @@ export default function CreateUser() {
             {validationIssue.status_text}
           </label>
         </div>
-
-        <ChooseAvatar setAvatar={setAvatar} />
+        <label className="font-medium w-full flex justify-start px-4 mt-6 my-2">
+          Choose an Avatar
+        </label>
+        <ChooseAvatar setAvatar={setAvatar} sprites={"miniavs"} />
+        <span className="h-8"></span>
         <PrimaryButton onClick={handleCreateProfileClick}>
           {loading ? "Loading..." : "CREATE PROFILE"}
         </PrimaryButton>
