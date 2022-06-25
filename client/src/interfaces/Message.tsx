@@ -1,6 +1,6 @@
 export type Message = {
+  mid?: string;
   type: string;
-  text: string;
-  senderUid: string;
-  timestamp: number;
+  content: string;
+  sender: string;
 };

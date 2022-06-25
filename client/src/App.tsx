@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Room from "./components/Room";
+import ChatRoom from "./components/ChatRoom";
 import Rooms from "./pages/Rooms";
 import ChatWrapper from "./components/ChatWrapper";
 import CreateRoom from "./pages/CreateRoom";
@@ -11,7 +11,7 @@ import Settings from "./pages/Settings";
 import SpotifyCallback from "./pages/SpotifyCallback";
 import UserProfile from "./pages/UserProfile";
 import AuthProvider from "./providers/AuthProvider";
-import RoomProvider from "./providers/RoomProvider";
+import RoomsProvider from "./providers/RoomsProvider";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import LayoutWrapper from "./components/LayoutWrapper";
 import NoRoom from "./components/NoRoom";
@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <RoomProvider>
+        <RoomsProvider>
           <Router>
             <Routes>
               <Route path="/" element={<LayoutWrapper />}>
@@ -36,7 +36,7 @@ function App() {
                   <Route element={<ChatWrapper />}>
                     <Route element={<Rooms />}>
                       <Route index element={<NoRoom />} />
-                      <Route path=":rid" element={<Room />} />
+                      <Route path=":rid" element={<ChatRoom />} />
                     </Route>
                     <Route path="user_profile" element={<UserProfile />} />
                     <Route path="settings" element={<Settings />} />
@@ -47,7 +47,7 @@ function App() {
               </Route>
             </Routes>
           </Router>
-        </RoomProvider>
+        </RoomsProvider>
       </AuthProvider>
     </>
   );

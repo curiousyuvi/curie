@@ -1,7 +1,7 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
 import { apiInstance } from "../api/axiosInstances";
-import { RoomShort } from "../interfaces/RoomShort";
 import { User } from "../interfaces/User";
+import { UserShort } from "../interfaces/UserShort";
 
 const getUser = async (uid: string): Promise<User | null> => {
   try {
@@ -20,6 +20,28 @@ const getUser = async (uid: string): Promise<User | null> => {
     }
   } catch (err) {
     console.log("Error in getUser: ", err);
+    return null;
+  }
+};
+
+const getUserShort = async (uid: string): Promise<UserShort | null> => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/user/${uid}`,
+      method: "get",
+      params: { short: "true" },
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.log("Error in getUserShort: ", response.data);
+      return null;
+    }
+  } catch (err) {
+    console.log("Error in getUserShort: ", err);
     return null;
   }
 };
@@ -51,7 +73,7 @@ const updateUser = async (
   updateDoc: {
     name?: string;
     avatar_url?: string;
-    rooms?: RoomShort[];
+    rooms?: string[];
     status?: string;
   }
 ): Promise<string | null> => {
@@ -178,6 +200,7 @@ const useUser = () => {
     getUID,
     searchUser,
     userExists,
+    getUserShort,
   };
 };
 

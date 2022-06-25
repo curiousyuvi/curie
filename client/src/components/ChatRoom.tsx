@@ -2,34 +2,41 @@ import { useEffect, useRef, useState } from "react";
 import ChatTextField from "./ChatTextField";
 import { Message } from "../interfaces/Message";
 import ChatCloud from "./ChatCloud";
-import { useRoomContext } from "../providers/RoomProvider";
 import { useParams } from "react-router-dom";
+import { Room } from "../interfaces/Room";
+import useRoom from "../hooks/useRoom";
 
-export default function Room() {
+export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState<Array<Message>>([]);
-  const roomContext = useRoomContext();
+  const [messages, setMessages] = useState<Message[]>([]);
   const handleOnSend = (value: string) => {
-    setMessages([
-      ...messages,
-      { type: "text", text: value, timestamp: Date.now(), senderUid: "" },
-    ]);
+    setMessages([...messages, { type: "text", content: value, sender: "" }]);
   };
-  const room = roomContext.currentRoom;
+  const [room, setRoom] = useState<Room | null>(null);
   const params = useParams();
+  const { getRoom } = useRoom();
 
   const scrollToBottom = () => {
     messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
+    if (params.rid)
+      getRoom(params.rid).then((data) => {
+        setRoom(data);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    room?.messages && setMessages(room.messages);
+  }, [room]);
+
+  useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-    roomContext.switchRoom(params.rid || "");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="w-full h-full flex flex-col">
