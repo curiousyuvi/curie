@@ -3,6 +3,7 @@ import createUser from "../services/createUser"
 import deleteUser from "../services/deleteUser";
 import getUID from "../services/getUID";
 import getUser from "../services/getUser";
+import getUserShort from "../services/getUserShort";
 import searchUser from "../services/searchUser";
 import updateUser from "../services/updateUser";
 import userExists from "../services/userExists";
@@ -19,17 +20,31 @@ const createUserController = (req: Request, res: Response) => {
 }
 
 const getUserController = (req: Request, res: Response) => {
-    getUser(req.params.uid, (err, docs) => {
-        if (!err) {
-            if (docs)
-                res.status(200).json({ uid: docs._id, name: docs.name, username: docs.username, status: docs.status, avatar_url: docs.avatar_url, rooms: docs.rooms })
-            else
-                res.status(404).json({ message: "user not found" })
-        }
-        else {
-            res.status(400).json({ message: "failure" })
-        }
-    })
+    const short = req.query.short;
+    if (!short)
+        getUser(req.params.uid, (err, docs) => {
+            if (!err) {
+                if (docs)
+                    res.status(200).json({ uid: docs._id, name: docs.name, username: docs.username, status: docs.status, avatar_url: docs.avatar_url, rooms: docs.rooms })
+                else
+                    res.status(404).json({ message: "user not found" })
+            }
+            else {
+                res.status(400).json({ message: "failure" })
+            }
+        })
+    else
+        getUserShort(req.params.uid, (err, docs) => {
+            if (!err) {
+                if (docs)
+                    res.status(200).json({ uid: docs._id, name: docs.name, username: docs.username, status: docs.status, avatar_url: docs.avatar_url })
+                else
+                    res.status(404).json({ message: "user not found" })
+            }
+            else {
+                res.status(400).json({ message: "failure" })
+            }
+        })
 }
 
 const deleteUserController = (req: Request, res: Response) => {
