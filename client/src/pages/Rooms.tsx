@@ -13,7 +13,7 @@ export default function Rooms() {
           room={{
             rid: "121212",
             name: "lofi",
-            image_url: generateRandomAvatar(),
+            image_url: generateRandomAvatar("adventurer-neutral"),
             state: "idle",
           }}
         />
@@ -21,7 +21,7 @@ export default function Rooms() {
           room={{
             rid: "121212",
             name: "lofi",
-            image_url: generateRandomAvatar(),
+            image_url: generateRandomAvatar("adventurer-neutral"),
             state: "idle",
           }}
         />
@@ -29,7 +29,7 @@ export default function Rooms() {
           room={{
             rid: "121212",
             name: "lofi",
-            image_url: generateRandomAvatar(),
+            image_url: generateRandomAvatar("adventurer-neutral"),
             state: "idle",
           }}
         />
@@ -37,7 +37,7 @@ export default function Rooms() {
           room={{
             rid: "121212",
             name: "lofi",
-            image_url: generateRandomAvatar(),
+            image_url: generateRandomAvatar("adventurer-neutral"),
             state: "idle",
           }}
         />

@@ -5,22 +5,26 @@ import ChooseAvatarButton from "./ChooseAvatarButton";
 
 const ChooseAvatar = ({
   setAvatar,
+  sprites,
 }: {
   setAvatar: (avatar_url: string) => void;
+  sprites: string;
 }) => {
   const generateRandomAvatar = useGenerateRandomAvatar();
   const handleAvatarClick = (event: any) => {
+    event.preventDefault();
     const idx = parseInt(event.target.id);
     if (idx >= 0 && idx < 8) setSelectedIdx(idx);
   };
   const [avatars, setAvatats] = useState(["", "", "", "", "", "", "", ""]);
-  const refreshAvatars = () => {
+  const handleRefreshAvatars = (event: any) => {
+    event.preventDefault();
     loadAvatars();
   };
   const loadAvatars = () => {
     const newAvatars = ["", "", "", "", "", "", "", ""];
     for (let i = 0; i < 8; i++) {
-      newAvatars[i] = generateRandomAvatar();
+      newAvatars[i] = generateRandomAvatar(sprites);
     }
     setAvatats([...newAvatars]);
   };
@@ -36,9 +40,8 @@ const ChooseAvatar = ({
   }, [selectedIdx, avatars]);
 
   return (
-    <div className="flex flex-col items-start px-4 my-6">
-      <label className="font-medium">Choose an Avatar</label>
-      <div className="w-full flex items-center mt-2">
+    <div className="flex flex-col items-start px-4">
+      <div className="w-full flex items-center">
         <img
           src={avatars[selectedIdx]}
           alt="AVATAR"
@@ -60,7 +63,7 @@ const ChooseAvatar = ({
         </div>
       </div>
       <button
-        onClick={refreshAvatars}
+        onClick={handleRefreshAvatars}
         className="flex items-center my-2 rounded-full bg-gray-500/30 border border-gray-500 px-2 py-1 text-sm"
       >
         <BiRefresh className="text-xl mr-1" />
