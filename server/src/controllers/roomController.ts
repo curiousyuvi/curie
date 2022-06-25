@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import createRoom from "../services/createRoom";
 import deleteRoom from "../services/deleteRoom";
 import getRoom from "../services/getRoom";
+import getRoomShort from "../services/getRoomShort";
 import updateRoom from "../services/updateRoom";
 
 
@@ -17,21 +18,38 @@ const createRoomController = (req: Request, res: Response) => {
 }
 
 const getRoomController = (req: Request, res: Response) => {
-    getRoom(req.params.rid, (err, docs) => {
-        if (!err) {
-            if (docs)
-                res.status(200).json({
-                    rid: docs._id, name: docs.name, state: docs.state, image_url: docs.image_url, users: docs.users, messages: docs.messages.map(message => {
-                        return { mid: message._id, type: message.type, content: message.content, sender: message.sender }
+    const short = req.query.short;
+    if (!short)
+        getRoom(req.params.rid, (err, docs) => {
+            if (!err) {
+                if (docs)
+                    res.status(200).json({
+                        rid: docs._id, name: docs.name, state: docs.state, image_url: docs.image_url, users: docs.users, messages: docs.messages.map(message => {
+                            return { mid: message._id, type: message.type, content: message.content, sender: message.sender }
+                        })
                     })
-                })
-            else
-                res.status(404).json({ message: "user not found" })
-        }
-        else {
-            res.status(400).json({ message: "failure" })
-        }
-    })
+
+                else
+                    res.status(404).json({ message: "user not found" })
+            }
+            else {
+                res.status(400).json({ message: "failure" })
+            }
+        })
+    else
+        getRoomShort(req.params.rid, (err, docs) => {
+            if (!err) {
+                if (docs)
+                    res.status(200).json({
+                        rid: docs._id, name: docs.name, image_url: docs.image_url
+                    })
+                else
+                    res.status(404).json({ message: "user not found" })
+            }
+            else {
+                res.status(400).json({ message: "failure" })
+            }
+        })
 }
 
 const deleteRoomController = (req: Request, res: Response) => {
