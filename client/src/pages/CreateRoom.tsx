@@ -56,7 +56,7 @@ export default function CreateRoom() {
         name: roomName,
         image_url: avatar,
         messages: [],
-        users: [localStorage.getItem("UID") || ""],
+        users: [],
       });
       navigate(`/${roomID}`, { replace: true });
     }
