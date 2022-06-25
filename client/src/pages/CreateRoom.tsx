@@ -1,14 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiCopy } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import ChooseAvatar from "../components/ChooseAvatar";
 import PrimaryButton from "../components/PrimaryButton";
+import useGenerateUniqueRandomString from "../hooks/useGenerateUniqueRandomString";
+import useRoom from "../hooks/useRoom";
 
 export default function CreateRoom() {
   const [roomName, setRoomName] = useState<string>("");
+  const { createRoom } = useRoom();
   const [avatar, setAvatar] = useState<string>("");
-  const roomId = "ASKHDIQ3Q342KHKQE";
+  const generateUniqueRandomString = useGenerateUniqueRandomString();
+  const [roomID, setRoomID] = useState<string>("");
   const handleChange = (e: any) => {
     setRoomName(e.target.value);
+  };
+  const [validationIssue, setValidationIssue] = useState({ roomName: "" });
+
+  const copyToClipBoard = () => {
+    navigator.clipboard.writeText(roomID);
+  };
+
+  useEffect(() => {
+    setRoomID(generateUniqueRandomString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const navigate = useNavigate();
+
+  const validate = () => {
+    if (roomName === "") {
+      setValidationIssue({
+        ...validationIssue,
+        roomName: "Room name can't be empty",
+      });
+      return false;
+    } else if (roomName.length < 3) {
+      setValidationIssue({
+        ...validationIssue,
+        roomName: "Room name can't be less than 3 charachters",
+      });
+      return false;
+    } else {
+      setValidationIssue({
+        roomName: "",
+      });
+      return true;
+    }
+  };
+
+  const handleCreateRoomClick = async () => {
+    if (validate()) {
+      await createRoom({
+        rid: roomID,
+        name: roomName,
+        image_url: avatar,
+        messages: [],
+        users: [localStorage.getItem("UID") || ""],
+      });
+      navigate(`/${roomID}`, { replace: true });
+    }
   };
   //TODO: Create UI for create_room
 
@@ -18,7 +69,7 @@ export default function CreateRoom() {
         <h1 className="flex w-full justify-center text-gray-200 text-4xl">
           Create a Room
         </h1>
-        <span className="h-12" />
+        <span className="sm:h-8 h-4" />
         <label className="font-medium">Write a room name</label>
         <span className="h-3" />
         <input
@@ -26,30 +77,41 @@ export default function CreateRoom() {
           value={roomName}
           onChange={handleChange}
           placeholder="Enter room name..."
-          className="p-2 bg-gray-300/10 outline-none border-none outline-2 focus:outline-4 outline-indigo-500/40 focus:outline-indigo-500 rounded-lg text-2xl w-full duration-200"
+          className="sm:p-2 p-1 bg-gray-300/10 outline-none border-none outline-2 focus:outline-4 outline-indigo-500/40 focus:outline-indigo-500 rounded-lg sm:text-2xl text-lg w-full duration-200"
         />
-        <span className="h-12" />
+        <span className="h-2" />
+        <label className="text-sm text-red-500">
+          {validationIssue.roomName}
+        </label>
+        <span className="sm:h-8 h-4" />
         <label className="font-medium">Choose an image for room</label>
         <span className="h-3" />
         <ChooseAvatar setAvatar={setAvatar} sprites={"adventurer-neutral"} />
-        <span className="h-12" />
-        <div className="flex items-center">
-          <label className="font-medium mr-4">Room ID :</label>
-          <span className="mr-4 font-medium text-2xl text-gray-200 underline decoration-indigo-500 decoration-1 decoration-dashed underline-offset-4">
-            {roomId}
-          </span>
-          <button className="p-1 bg-indigo-500/50 hover:bg-indigo-500 rounded-lg flex items-center duration-300">
-            <FiCopy className="mr-1" />
-            copy
-          </button>
+        <span className="sm:h-8 h-4" />
+        <div className="flex flex-col items-start">
+          <label className="font-medium mb-2">Room ID</label>
+          <div className="w-full flex">
+            <span className="mr-4 font-medium text-sm sm:text-lg text-gray-200 underline decoration-indigo-500 decoration-1 decoration-dashed underline-offset-4">
+              {roomID}
+            </span>
+            <button
+              onClick={copyToClipBoard}
+              className="p-1 bg-indigo-500/50 hover:bg-indigo-500 rounded-lg flex items-center duration-300"
+            >
+              <FiCopy className="mr-1" />
+              copy
+            </button>
+          </div>
         </div>
         <span className="h-2" />
         <label className="text-sm text-white/40">
           Note: This Room ID will be used when joining room
         </label>
-        <span className="h-8" />
+        <span className="sm:h-8 h-4" />
         <span className="w-full flex justify-center">
-          <PrimaryButton onClick={() => {}}>CREATE ROOM</PrimaryButton>
+          <PrimaryButton onClick={handleCreateRoomClick}>
+            CREATE ROOM
+          </PrimaryButton>
         </span>
       </div>
     </div>
