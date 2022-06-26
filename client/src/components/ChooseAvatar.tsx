@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BiRefresh } from "react-icons/bi";
 import useGenerateRandomAvatar from "../hooks/useGenerateRandomAvatar";
+import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import ChooseAvatarButton from "./ChooseAvatarButton";
 
 const ChooseAvatar = ({
@@ -11,12 +12,23 @@ const ChooseAvatar = ({
   sprites: string;
 }) => {
   const generateRandomAvatar = useGenerateRandomAvatar();
+  const getPlaceholderAvatar = usePlaceholderAvatar();
+  const placeholderAvatar = getPlaceholderAvatar();
   const handleAvatarClick = (event: any) => {
     event.preventDefault();
     const idx = parseInt(event.target.id);
     if (idx >= 0 && idx < 8) setSelectedIdx(idx);
   };
-  const [avatars, setAvatats] = useState(["", "", "", "", "", "", "", ""]);
+  const [avatars, setAvatats] = useState([
+    placeholderAvatar,
+    placeholderAvatar,
+    placeholderAvatar,
+    placeholderAvatar,
+    placeholderAvatar,
+    placeholderAvatar,
+    placeholderAvatar,
+    placeholderAvatar,
+  ]);
   const handleRefreshAvatars = (event: any) => {
     event.preventDefault();
     loadAvatars();

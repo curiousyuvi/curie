@@ -1,4 +1,8 @@
-import { Outlet } from "react-router-dom";
+import { BsFillPlusSquareFill, BsPlusSquare } from "react-icons/bs";
+import { IoArrowRedo, IoArrowRedoOutline } from "react-icons/io5";
+import { NavLink, Outlet } from "react-router-dom";
+import NavbarLinkButton from "../components/NavbarLinkButton";
+import NoRooms from "../components/NoRooms";
 import RoomsListTile from "../components/RoomsListTile";
 import useRooms from "../hooks/useRooms";
 
@@ -20,8 +24,7 @@ export default function Rooms() {
             );
           })
         ) : (
-          //TODO: UI for new user with no rooms
-          <></>
+          <NoRooms />
         )}
       </div>
       <Outlet />

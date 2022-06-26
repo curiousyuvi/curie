@@ -191,6 +191,28 @@ const userExists = async (uid: string) => {
   }
 };
 
+const joinRoom = async (uid: string, rid: string): Promise<boolean> => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/user/join_room/${uid}`,
+      method: "get",
+      params: { rid },
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return true;
+    } else {
+      console.log("Error in joinRoom: ", response.data);
+      return false;
+    }
+  } catch (err) {
+    console.log("Error in joinRoom: ", err);
+    return false;
+  }
+};
+
 const useUser = () => {
   return {
     getUser,
@@ -201,6 +223,7 @@ const useUser = () => {
     searchUser,
     userExists,
     getUserShort,
+    joinRoom,
   };
 };
 

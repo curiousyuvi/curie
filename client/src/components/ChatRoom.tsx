@@ -5,14 +5,28 @@ import ChatCloud from "./ChatCloud";
 import { useParams } from "react-router-dom";
 import { Room } from "../interfaces/Room";
 import useRoom from "../hooks/useRoom";
+import useUser from "../hooks/useUser";
+import useAuth from "../hooks/useAuth";
+import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
+  const generatePlaceholderAvatar = usePlaceholderAvatar();
+  const placeholderAvatar = generatePlaceholderAvatar();
   const [messages, setMessages] = useState<Message[]>([]);
+  const { joinRoom } = useUser();
+  const { joinUser } = useRoom();
+  const { loadUser } = useAuth();
   const handleOnSend = (value: string) => {
     setMessages([...messages, { type: "text", content: value, sender: "" }]);
   };
-  const [room, setRoom] = useState<Room | null>(null);
+  const [room, setRoom] = useState<Room>({
+    name: "Curie Room",
+    rid: "curierid",
+    image_url: placeholderAvatar,
+    users: [],
+    messages: [],
+  });
   const params = useParams();
   const { getRoom } = useRoom();
 
@@ -21,12 +35,17 @@ export default function ChatRoom() {
   };
 
   useEffect(() => {
-    if (params.rid)
+    const uid = localStorage.getItem("UID");
+    if (params.rid && uid) {
       getRoom(params.rid).then((data) => {
-        setRoom(data);
+        if (data) setRoom(data);
       });
+      joinRoom(uid, params.rid);
+      joinUser(params.rid, uid);
+      loadUser();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [params.rid]);
 
   useEffect(() => {
     room?.messages && setMessages(room.messages);

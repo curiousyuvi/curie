@@ -4,11 +4,14 @@ import { IoAt, IoPerson, IoPersonOutline } from "react-icons/io5";
 import ChooseAvatar from "../components/ChooseAvatar";
 import PrimaryButton from "../components/PrimaryButton";
 import useAuth from "../hooks/useAuth";
+import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import useUser from "../hooks/useUser";
 
 export default function CreateUser() {
   const { createUser, searchUser } = useUser();
   const { loadUser } = useAuth();
+  const getPlaceholderAvatar = usePlaceholderAvatar();
+  const placeholderAvatar = getPlaceholderAvatar();
   const [createUserForm, setCreateUserForm] = useState<{
     name: string;
     username: string;
@@ -20,7 +23,7 @@ export default function CreateUser() {
     username: "",
     status_text: "vibing",
     status_emote: "😎",
-    avatar_url: "",
+    avatar_url: placeholderAvatar,
   });
 
   const handleFormChange: ChangeEventHandler<HTMLInputElement> = (
@@ -106,6 +109,7 @@ export default function CreateUser() {
   };
   const handleCreateProfileClick = async () => {
     setLoading(true);
+    await loadUser();
     if (await validate()) {
       if (
         await createUser({
