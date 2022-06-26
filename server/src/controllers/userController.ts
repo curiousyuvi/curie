@@ -5,6 +5,7 @@ import getUID from "../services/getUID";
 import getUser from "../services/getUser";
 import getUserShort from "../services/getUserShort";
 import joinRoom from "../services/joinRoom";
+import removeRoom from "../services/removeRoom";
 import searchUser from "../services/searchUser";
 import updateUser from "../services/updateUser";
 import userExists from "../services/userExists";
@@ -134,4 +135,13 @@ const joinRoomController = (req: Request, res: Response) => {
     })
 }
 
-export { joinRoomController, createUserController, getUserController, updateUserController, deleteUserController, getUIDController, searchUserController, userExistsController }
+const removeRoomController = (req: Request, res: Response) => {
+    removeRoom(req.params.uid, req.query.rid, (err) => {
+        if (!err)
+            res.status(200).json({ massage: "success" })
+        else
+            res.status(400).json({ message: "failure" })
+    })
+}
+
+export { removeRoomController, joinRoomController, createUserController, getUserController, updateUserController, deleteUserController, getUIDController, searchUserController, userExistsController }
