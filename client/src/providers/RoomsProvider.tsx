@@ -20,7 +20,9 @@ const RoomsProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     user?.rooms.forEach((rid) => {
       getRoomShort(rid).then((data) => {
-        data && setRooms([...rooms, data]);
+        if (data)
+          if (!rooms.find((e) => e.rid === data.rid))
+            setRooms([...rooms, data]);
       });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

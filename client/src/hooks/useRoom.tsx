@@ -24,6 +24,28 @@ const getRoom = async (rid: string): Promise<Room | null> => {
   }
 };
 
+const joinUser = async (rid: string, uid: string): Promise<boolean> => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/room/join_user/${rid}`,
+      method: "get",
+      params: { uid },
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return true;
+    } else {
+      console.log("Error in joinUser: ", response.data);
+      return false;
+    }
+  } catch (err) {
+    console.log("Error in joinUser: ", err);
+    return false;
+  }
+};
+
 const getRoomShort = async (rid: string): Promise<RoomShort | null> => {
   try {
     const requestConfig: AxiosRequestConfig = {
@@ -118,7 +140,14 @@ const deleteRoom = async (rid: string): Promise<string | null> => {
 };
 
 const useRoom = () => {
-  return { getRoom, createRoom, updateRoom, deleteRoom, getRoomShort };
+  return {
+    getRoom,
+    createRoom,
+    updateRoom,
+    deleteRoom,
+    getRoomShort,
+    joinUser,
+  };
 };
 
 export default useRoom;
