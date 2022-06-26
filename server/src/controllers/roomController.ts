@@ -3,6 +3,7 @@ import createRoom from "../services/createRoom";
 import deleteRoom from "../services/deleteRoom";
 import getRoom from "../services/getRoom";
 import getRoomShort from "../services/getRoomShort";
+import joinUser from "../services/joinUser";
 import updateRoom from "../services/updateRoom";
 
 
@@ -76,4 +77,13 @@ const updateRoomController = (req: Request, res: Response) => {
     })
 }
 
-export { createRoomController, getRoomController, deleteRoomController, updateRoomController }
+const joinUserController = (req: Request, res: Response) => {
+    joinUser(req.params.rid, req.query.uid, (err) => {
+        if (!err)
+            res.status(200).json({ massage: "success" })
+        else
+            res.status(400).json({ message: "failure" })
+    })
+}
+
+export { createRoomController, getRoomController, deleteRoomController, updateRoomController, joinUserController }
