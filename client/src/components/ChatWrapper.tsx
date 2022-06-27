@@ -8,7 +8,7 @@ export default function ChatWrapper() {
       <Header />
       <div className="w-full h-full flex ">
         <Navbar />
-        <div className="h-full w-full rounded-br-lg overflow-hidden">
+        <div className="h-full w-full rounded-b-lg sm:rounded-bl-none overflow-hidden">
           <Outlet />
         </div>
       </div>

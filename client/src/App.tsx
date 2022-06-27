@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ChatRoom from "./components/ChatRoom";
 import Rooms from "./pages/Rooms";
 import ChatWrapper from "./components/ChatWrapper";
 import CreateRoom from "./pages/CreateRoom";
@@ -15,6 +14,8 @@ import RoomsProvider from "./providers/RoomsProvider";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import LayoutWrapper from "./components/LayoutWrapper";
 import NoRoom from "./components/NoRoom";
+import ChatRoomDetails from "./pages/ChatRoomDetails";
+import ChatRoom from "./pages/ChatRoom";
 
 function App() {
   return (
@@ -37,6 +38,10 @@ function App() {
                     <Route element={<Rooms />}>
                       <Route index element={<NoRoom />} />
                       <Route path=":rid" element={<ChatRoom />} />
+                      <Route
+                        path=":rid/details"
+                        element={<ChatRoomDetails />}
+                      />
                     </Route>
                     <Route path="user_profile" element={<UserProfile />} />
                     <Route path="settings" element={<Settings />} />

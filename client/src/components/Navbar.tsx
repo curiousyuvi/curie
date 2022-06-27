@@ -13,8 +13,13 @@ import useAuth from "../hooks/useAuth";
 import NavbarLinkButton from "./NavbarLinkButton";
 
 export default function Navbar() {
+  const location = useLocation();
   return (
-    <div className="w-16 h-full rounded-bl-lg backdrop-blur-md bg-indigo-700/50 border border-l-0 border-y-0 border-indigo-300/30 text-gray-800/50 text-4xl flex flex-col items-center justify-even/50 px-0">
+    <div
+      className={"w-16 h-full rounded-bl-lg backdrop-blur-md bg-indigo-700/50 border border-l-0 border-y-0 border-indigo-300/30 text-gray-800/50 text-4xl flex-col items-center justify-even/50 px-0 ".concat(
+        location.pathname === "/" ? "flex" : "hidden sm:flex"
+      )}
+    >
       <NavbarLinkButton
         to="/"
         IdleIcon={<IoChatboxEllipsesOutline />}

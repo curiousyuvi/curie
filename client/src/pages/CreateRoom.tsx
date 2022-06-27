@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FiCopy } from "react-icons/fi";
+import { IoArrowBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import ChooseAvatar from "../components/ChooseAvatar";
 import PrimaryButton from "../components/PrimaryButton";
@@ -27,6 +28,10 @@ export default function CreateRoom() {
   }, []);
 
   const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate("/");
+  };
 
   const validate = () => {
     if (roomName === "") {
@@ -61,15 +66,22 @@ export default function CreateRoom() {
       navigate(`/${roomID}`, { replace: true });
     }
   };
-  //TODO: Create UI for create_room
 
   return (
-    <div className="w-full h-full rounded-br-lg flex justify-center items-center bg-blue-900/70">
-      <div className="w-full max-w-lg flex flex-col items-start p-4">
-        <h1 className="flex w-full justify-center text-gray-200 text-4xl">
+    <div className="w-full h-full rounded-br-lg flex flex-col items-center bg-blue-900/70">
+      <div className="w-full h-12 sm:h-24 flex items-center">
+        <button
+          className="text-2xl hover:text-white duration-100 mx-2 sm:hidden"
+          onClick={handleBackClick}
+        >
+          <IoArrowBack />
+        </button>
+        <h1 className="text-gray-200 text-2xl mx-auto sm:text-4xl">
           Create a Room
         </h1>
-        <span className="sm:h-8 h-4" />
+        <span className="w-10" />
+      </div>
+      <div className="w-full h-full max-w-lg flex flex-col items-start justify-center p-4">
         <label className="font-medium">Write a room name</label>
         <span className="h-3" />
         <input
