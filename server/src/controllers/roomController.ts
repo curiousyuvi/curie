@@ -1,10 +1,13 @@
 import { Request, Response } from "express"
+import addAdmin from "../services/addAdmin";
 import createRoom from "../services/createRoom";
 import deleteRoom from "../services/deleteRoom";
 import getRoom from "../services/getRoom";
 import getRoomShort from "../services/getRoomShort";
 import joinUser from "../services/joinUser";
+import removeAdmin from "../services/removeAdmin";
 import removeUser from "../services/removeUser";
+import roomExists from "../services/roomExists";
 import updateRoom from "../services/updateRoom";
 
 
@@ -26,7 +29,7 @@ const getRoomController = (req: Request, res: Response) => {
             if (!err) {
                 if (docs)
                     res.status(200).json({
-                        rid: docs._id, name: docs.name, state: docs.state, image_url: docs.image_url, users: docs.users, messages: docs.messages.map(message => {
+                        rid: docs._id, name: docs.name, state: docs.state, image_url: docs.image_url, admins: docs.admins, users: docs.users, messages: docs.messages.map(message => {
                             return { mid: message._id, type: message.type, content: message.content, sender: message.sender }
                         })
                     })
@@ -87,6 +90,15 @@ const joinUserController = (req: Request, res: Response) => {
     })
 }
 
+const addAdminController = (req: Request, res: Response) => {
+    addAdmin(req.params.rid, req.query.uid, (err) => {
+        if (!err)
+            res.status(200).json({ massage: "success" })
+        else
+            res.status(400).json({ message: "failure" })
+    })
+}
+
 const removeUserController = (req: Request, res: Response) => {
     removeUser(req.params.rid, req.query.uid, (err) => {
         if (!err)
@@ -96,4 +108,31 @@ const removeUserController = (req: Request, res: Response) => {
     })
 }
 
-export { createRoomController, getRoomController, deleteRoomController, updateRoomController, joinUserController, removeUserController }
+const removeAdminController = (req: Request, res: Response) => {
+    removeAdmin(req.params.rid, req.query.uid, (err) => {
+        if (!err)
+            res.status(200).json({ massage: "success" })
+        else
+            res.status(400).json({ message: "failure" })
+    })
+}
+
+const roomExistsController = (req: Request, res: Response) => {
+    roomExists(req.params.rid, (err, count) => {
+        if (!err) {
+            if (count > 0)
+                res.status(200).json({ result: "room exists" })
+            else
+                res.status(200).json({ result: "room does not exist" })
+
+        }
+        else {
+            res.status(400).json({ message: "failure" })
+        }
+    })
+}
+
+
+
+
+export { removeAdminController, addAdminController, roomExistsController, createRoomController, getRoomController, deleteRoomController, updateRoomController, joinUserController, removeUserController }
