@@ -8,6 +8,7 @@ import joinUser from "../services/joinUser";
 import removeAdmin from "../services/removeAdmin";
 import removeUser from "../services/removeUser";
 import roomExists from "../services/roomExists";
+import sendMessage from "../services/sendMessage";
 import updateRoom from "../services/updateRoom";
 
 
@@ -81,6 +82,15 @@ const updateRoomController = (req: Request, res: Response) => {
     })
 }
 
+const sendMessageController = (req: Request, res: Response) => {
+    sendMessage(req.params.rid, req.body, (err) => {
+        if (!err)
+            res.status(200).json({ massage: "success" })
+        else
+            res.status(400).json({ message: "failure" })
+    })
+}
+
 const joinUserController = (req: Request, res: Response) => {
     joinUser(req.params.rid, req.query.uid, (err) => {
         if (!err)
@@ -135,4 +145,4 @@ const roomExistsController = (req: Request, res: Response) => {
 
 
 
-export { removeAdminController, addAdminController, roomExistsController, createRoomController, getRoomController, deleteRoomController, updateRoomController, joinUserController, removeUserController }
+export { sendMessageController, removeAdminController, addAdminController, roomExistsController, createRoomController, getRoomController, deleteRoomController, updateRoomController, joinUserController, removeUserController }
