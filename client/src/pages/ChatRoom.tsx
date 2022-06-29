@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Message } from "../interfaces/Message";
 import { useNavigate, useParams } from "react-router-dom";
-import { Room } from "../interfaces/Room";
-import useRoom from "../hooks/useRoom";
-import useUser from "../hooks/useUser";
-import useAuth from "../hooks/useAuth";
-import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import ChatCloud from "../components/ChatCloud";
 import ChatTextField from "../components/ChatTextField";
 import {
@@ -13,45 +8,21 @@ import {
   IoEllipsisVertical,
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
+import useRoom from "../hooks/useRoom";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
-  const generatePlaceholderAvatar = usePlaceholderAvatar();
-  const placeholderAvatar = generatePlaceholderAvatar();
   const [messages, setMessages] = useState<Message[]>([]);
-  const { joinRoom } = useUser();
-  const { joinUser } = useRoom();
-  const { loadUser } = useAuth();
   const navigate = useNavigate();
   const handleOnSend = (value: string) => {
     setMessages([...messages, { type: "text", content: value, sender: "" }]);
   };
-  const [room, setRoom] = useState<Room>({
-    name: "Curie Room",
-    rid: "curierid",
-    image_url: placeholderAvatar,
-    users: [],
-    messages: [],
-  });
+  const { room } = useRoom();
   const params = useParams();
-  const { getRoom } = useRoom();
 
   const scrollToBottom = () => {
     messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
-  useEffect(() => {
-    const uid = localStorage.getItem("UID");
-    if (params.rid && uid) {
-      getRoom(params.rid).then((data) => {
-        if (data) setRoom(data);
-      });
-      joinRoom(uid, params.rid);
-      joinUser(params.rid, uid);
-      loadUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.rid]);
 
   useEffect(() => {
     room?.messages && setMessages(room.messages);

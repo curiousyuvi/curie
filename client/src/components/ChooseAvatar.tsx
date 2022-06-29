@@ -3,6 +3,7 @@ import { BiRefresh } from "react-icons/bi";
 import useGenerateRandomAvatar from "../hooks/useGenerateRandomAvatar";
 import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import ChooseAvatarButton from "./ChooseAvatarButton";
+import SmallButton from "./SmallButton";
 
 const ChooseAvatar = ({
   setAvatar,
@@ -75,13 +76,10 @@ const ChooseAvatar = ({
           })}
         </div>
       </div>
-      <button
-        onClick={handleRefreshAvatars}
-        className="flex items-center my-2 rounded-full bg-gray-500/30 border border-gray-500 px-2 py-1 text-sm"
-      >
+      <SmallButton onClick={handleRefreshAvatars}>
         <BiRefresh className="text-xl mr-1" />
         Refresh Avatars
-      </button>
+      </SmallButton>
     </div>
   );
 };

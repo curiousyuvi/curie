@@ -16,6 +16,7 @@ import LayoutWrapper from "./components/LayoutWrapper";
 import NoRoom from "./components/NoRoom";
 import ChatRoomDetails from "./pages/ChatRoomDetails";
 import ChatRoom from "./pages/ChatRoom";
+import RoomWrapper from "./components/RoomWrapper";
 
 function App() {
   return (
@@ -37,11 +38,13 @@ function App() {
                   <Route element={<ChatWrapper />}>
                     <Route element={<Rooms />}>
                       <Route index element={<NoRoom />} />
-                      <Route path=":rid" element={<ChatRoom />} />
-                      <Route
-                        path=":rid/details"
-                        element={<ChatRoomDetails />}
-                      />
+                      <Route element={<RoomWrapper />}>
+                        <Route path=":rid" element={<ChatRoom />} />
+                        <Route
+                          path=":rid/details"
+                          element={<ChatRoomDetails />}
+                        />
+                      </Route>
                     </Route>
                     <Route path="user_profile" element={<UserProfile />} />
                     <Route path="settings" element={<Settings />} />

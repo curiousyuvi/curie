@@ -1,48 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 import { Message } from "../interfaces/Message";
 import { useNavigate, useParams } from "react-router-dom";
-import { Room } from "../interfaces/Room";
-import useRoom from "../hooks/useRoom";
-import useUser from "../hooks/useUser";
-import useAuth from "../hooks/useAuth";
-import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import { IoArrowBack, IoPencil } from "react-icons/io5";
 import OutlineButton from "../components/OutlineButton";
+import RoomMemberList from "../components/RoomMemberList";
+import useRoom from "../hooks/useRoom";
+import { TbCopy, TbDoorExit } from "react-icons/tb";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import useRoomServices from "../hooks/useRoomServices";
+import useAuth from "../hooks/useAuth";
+import useUser from "../hooks/useUser";
+import toast from "react-hot-toast";
 
 export default function ChatRoomDetails() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
-  const generatePlaceholderAvatar = usePlaceholderAvatar();
-  const placeholderAvatar = generatePlaceholderAvatar();
   const [messages, setMessages] = useState<Message[]>([]);
-  const { joinRoom } = useUser();
-  const { joinUser } = useRoom();
-  const { loadUser } = useAuth();
-  const [room, setRoom] = useState<Room>({
-    name: "Curie Room",
-    rid: "curierid",
-    image_url: placeholderAvatar,
-    users: [],
-    messages: [],
-  });
+
   const params = useParams();
-  const { getRoom } = useRoom();
+  const { removeUser, deleteRoom, removeAdmin } = useRoomServices();
+  const { loadUser } = useAuth();
+  const { removeRoom } = useUser();
 
   const scrollToBottom = () => {
     messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    const uid = localStorage.getItem("UID");
-    if (params.rid && uid) {
-      getRoom(params.rid).then((data) => {
-        if (data) setRoom(data);
-      });
-      joinRoom(uid, params.rid);
-      joinUser(params.rid, uid);
-      loadUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.rid]);
+  const { room } = useRoom();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,6 +38,26 @@ export default function ChatRoomDetails() {
 
   const handleBackClick = () => {
     navigate(`/${params.rid}`);
+  };
+
+  const handleLeaveRoom = async () => {
+    navigate("/");
+    await removeUser(room.rid, localStorage.getItem("UID") || "");
+    await removeAdmin(room.rid, localStorage.getItem("UID") || "");
+    await removeRoom(localStorage.getItem("UID") || "", room.rid);
+    await loadUser();
+  };
+  const handleDeleteRoom = async () => {
+    navigate("/");
+    await removeUser(room.rid, localStorage.getItem("UID") || "");
+    await removeRoom(localStorage.getItem("UID") || "", room.rid);
+    await deleteRoom(room.rid);
+    await loadUser();
+  };
+
+  const handleCopyRoomID = () => {
+    navigator.clipboard.writeText(room.rid);
+    toast("Room ID copied to clipboard!", { icon: "✅" });
   };
 
   return (
@@ -70,9 +73,9 @@ export default function ChatRoomDetails() {
         <span className="w-10" />
       </div>
       <div className="w-full h-[calc(100vh-10rem)] p-4 flex flex-col items-center overflow-y-auto relative">
-        <div className="absolute w-full h-[40rem] translate-y-[-22rem] rounded-full bg-indigo-500/50 z-[-1]"></div>
+        <div className="absolute w-full h-[40rem] translate-y-[-28rem] rounded-full bg-indigo-500/50 z-[-1]"></div>
 
-        <span className="my-[4.5rem]" />
+        <span className="my-[2.8rem]" />
         <img
           src={room.image_url}
           alt="Room"
@@ -90,6 +93,48 @@ export default function ChatRoomDetails() {
             </span>
           </OutlineButton>
         </span>
+        <span className="my-2" />
+        <span>
+          <OutlineButton type="indigo" onClick={handleCopyRoomID}>
+            <span className="flex items-center justify-center">
+              <TbCopy />
+              <span className="mx-1" />
+              Copy RoomID
+            </span>
+          </OutlineButton>
+        </span>
+        <span className="my-3" />
+        <div className="w-full">
+          <h2 className="text-2xl">Memebers</h2>
+          <hr className="border-indigo-300/30 my-1" />
+          <RoomMemberList users={room.users} admins={room.admins} />
+        </div>
+        <span className="my-3" />
+        <div className="flex items-center w-full justify-center">
+          <span>
+            <OutlineButton type="orange" onClick={handleLeaveRoom}>
+              <span className="flex items-center justify-center">
+                <TbDoorExit />
+                <span className="mx-1" />
+                Leave Room
+              </span>
+            </OutlineButton>
+          </span>
+          <span className="mx-2" />
+          {room.admins.includes(localStorage.getItem("UID") || "") ? (
+            <span>
+              <OutlineButton type="red" onClick={handleDeleteRoom}>
+                <span className="flex items-center justify-center">
+                  <RiDeleteBin6Line />
+                  <span className="mx-1" />
+                  Delete Room
+                </span>
+              </OutlineButton>
+            </span>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -213,6 +213,28 @@ const joinRoom = async (uid: string, rid: string): Promise<boolean> => {
   }
 };
 
+const removeRoom = async (uid: string, rid: string): Promise<boolean> => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/user/remove_room/${uid}`,
+      method: "get",
+      params: { rid },
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return true;
+    } else {
+      console.log("Error in removeRoom: ", response.data);
+      return false;
+    }
+  } catch (err) {
+    console.log("Error in removeRoom: ", err);
+    return false;
+  }
+};
+
 const useUser = () => {
   return {
     getUser,
@@ -224,6 +246,7 @@ const useUser = () => {
     userExists,
     getUserShort,
     joinRoom,
+    removeRoom,
   };
 };
 

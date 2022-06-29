@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import ChooseAvatar from "../components/ChooseAvatar";
 import PrimaryButton from "../components/PrimaryButton";
 import useGenerateUniqueRandomString from "../hooks/useGenerateUniqueRandomString";
-import useRoom from "../hooks/useRoom";
+import useRoomServices from "../hooks/useRoomServices";
 
 export default function CreateRoom() {
   const [roomName, setRoomName] = useState<string>("");
-  const { createRoom } = useRoom();
+  const { createRoom } = useRoomServices();
   const [avatar, setAvatar] = useState<string>("");
   const generateUniqueRandomString = useGenerateUniqueRandomString();
   const [roomID, setRoomID] = useState<string>("");
@@ -62,6 +62,7 @@ export default function CreateRoom() {
         image_url: avatar,
         messages: [],
         users: [],
+        admins: [localStorage.getItem("UID") || ""],
       });
       navigate(`/${roomID}`, { replace: true });
     }

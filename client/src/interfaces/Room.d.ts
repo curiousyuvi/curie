@@ -5,5 +5,6 @@ export type Room = {
   name: string;
   image_url: string;
   users: string[];
+  admins: string[];
   messages: Message[];
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 const LayoutWrapper = () => {
   return (
@@ -14,6 +15,7 @@ const LayoutWrapper = () => {
       >
         <source src="/bg-video.mp4" type="video/mp4" />
       </video>
+      <Toaster />
       <div className="w-full h-full flex justify-center items-center p-4 text-gray-300">
         <Outlet />
       </div>

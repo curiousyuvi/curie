@@ -34,20 +34,31 @@ const ChatTextField: FC<{ onSend: (value: string) => void }> = ({ onSend }) => {
       setEmojiPickerOpen(false);
     }
   };
+
+  const handleEmojiPickerDismiss = () => {
+    setEmojiPickerOpen(false);
+  };
   return (
     <div className="w-full">
       {emojiPickerOpen ? (
-        <Picker
-          onEmojiClick={handleEmojiClick}
-          pickerStyle={{
-            boxShadow: "none",
-            border: "none",
-            marginBottom: "1rem",
-            color: "black",
-            position: "absolute",
-            bottom: "6rem",
-          }}
-        />
+        <>
+          <div
+            className="fixed w-screen h-screen top-0 left-0 z-20"
+            onClick={handleEmojiPickerDismiss}
+          />
+          <Picker
+            onEmojiClick={handleEmojiClick}
+            pickerStyle={{
+              boxShadow: "none",
+              border: "none",
+              marginBottom: "1rem",
+              color: "black",
+              position: "absolute",
+              bottom: "6rem",
+              zIndex: "30",
+            }}
+          />
+        </>
       ) : (
         <></>
       )}
