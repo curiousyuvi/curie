@@ -1,10 +1,5 @@
 import mongoose from "mongoose";
-
-const Message = new mongoose.Schema({
-    type: { type: String, default: 'text' },
-    content: { type: String, required: true },
-    sender: { type: String, required: true }
-})
+import Message from "./Message";
 
 const RoomSchema = new mongoose.Schema({
     _id: { type: String, required: true, unique: true },
