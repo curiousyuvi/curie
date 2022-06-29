@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import useAuth from "../hooks/useAuth";
-import useRoom from "../hooks/useRoom";
+import useRoomServices from "../hooks/useRoomServices";
 import { RoomShort } from "../interfaces/RoomShort";
 
 const roomsContext = createContext<{
@@ -16,15 +16,20 @@ const roomsContext = createContext<{
 const RoomsProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [rooms, setRooms] = useState<RoomShort[]>([]);
   const { user } = useAuth();
-  const { getRoomShort } = useRoom();
-  useEffect(() => {
-    user?.rooms.forEach((rid) => {
-      getRoomShort(rid).then((data) => {
-        if (data)
-          if (!rooms.find((e) => e.rid === data.rid))
-            setRooms([...rooms, data]);
-      });
+  const { getRoomShort } = useRoomServices();
+  const loadRooms = async () => {
+    let result: RoomShort[] = [];
+    const promises = user?.rooms.map(async (rid) => {
+      const data = await getRoomShort(rid);
+      if (data) result.push(data);
     });
+
+    if (promises) await Promise.all(promises);
+
+    setRooms(result);
+  };
+  useEffect(() => {
+    loadRooms();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
