@@ -5,7 +5,12 @@ import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import useRoomServices from "../hooks/useRoomServices";
 import useUser from "../hooks/useUser";
 import { Room } from "../interfaces/Room";
-const roomContext = createContext<{ room: Room; loadRoom: () => void }>({
+import { UserShort } from "../interfaces/UserShort";
+const roomContext = createContext<{
+  room: Room;
+  loadRoom: () => void;
+  userShorts: UserShort[];
+}>({
   room: {
     name: "Curie Room",
     rid: "curierid",
@@ -15,6 +20,7 @@ const roomContext = createContext<{ room: Room; loadRoom: () => void }>({
     admins: [],
   },
   loadRoom: () => {},
+  userShorts: [],
 });
 
 const RoomProvider = ({ children }: { children: ReactNode }) => {
@@ -30,9 +36,41 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   });
   const params = useParams();
   const { getRoom, joinUser, roomExists } = useRoomServices();
-  const { joinRoom } = useUser();
+  const { joinRoom, getUserShort } = useUser();
   const { loadUser } = useAuth();
+  const [userShorts, setUserShorts] = useState<UserShort[]>([]);
   const { user } = useAuth();
+
+  const loadRoomMemberList = async () => {
+    let result: UserShort[] = [];
+    if (room.users.find((e) => e === localStorage.getItem("UID"))) {
+      result.push({
+        uid: user?.uid || "",
+        name: "You",
+        username: user?.username || "",
+        status: user?.status || "",
+        avatar_url: user?.avatar_url || "",
+      });
+    }
+
+    const promises1 = room.admins.map(async (uid) => {
+      const data = await getUserShort(uid);
+      if (data) if (!result.find((e) => e.uid === data.uid)) result.push(data);
+    });
+
+    const promises2 = room.users.map(async (uid) => {
+      const data = await getUserShort(uid);
+      if (data) if (!result.find((e) => e.uid === data.uid)) result.push(data);
+    });
+
+    await Promise.all([...promises1, ...promises2]);
+
+    setUserShorts(result);
+  };
+  useEffect(() => {
+    loadRoomMemberList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [room]);
 
   const loadRoom = () => {
     const uid = localStorage.getItem("UID");
@@ -55,10 +93,10 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
       });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.rid, user]);
+  }, [params.rid]);
 
   return (
-    <roomContext.Provider value={{ room, loadRoom }}>
+    <roomContext.Provider value={{ room, loadRoom, userShorts }}>
       {children}
     </roomContext.Provider>
   );

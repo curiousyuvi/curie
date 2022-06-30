@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FiCopy } from "react-icons/fi";
 import { IoArrowBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ export default function CreateRoom() {
 
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(roomID);
+    toast("Room ID copied to clipboard!", { icon: "✅" });
   };
 
   useEffect(() => {

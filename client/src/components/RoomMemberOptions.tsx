@@ -3,10 +3,12 @@ import { RiUserStarLine } from "react-icons/ri";
 import { TbStarOff } from "react-icons/tb";
 import useRoom from "../hooks/useRoom";
 import useRoomServices from "../hooks/useRoomServices";
+import useUser from "../hooks/useUser";
 import { UserShort } from "../interfaces/UserShort";
 
 const RoomMemberOptions = ({ user }: { user: UserShort }) => {
   const { room, loadRoom } = useRoom();
+  const { removeRoom } = useUser();
   const { removeUser, addAdmin, removeAdmin } = useRoomServices();
   const handelMakeAdmin = async () => {
     await addAdmin(room.rid, user.uid);
@@ -18,6 +20,7 @@ const RoomMemberOptions = ({ user }: { user: UserShort }) => {
   };
   const handelKickOut = async () => {
     await removeUser(room.rid, user.uid);
+    await removeRoom(user.uid, room.rid);
     loadRoom();
   };
 

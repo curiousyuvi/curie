@@ -1,6 +1,6 @@
 export type Message = {
   mid?: string;
-  type: string;
+  type: 'text' | 'notification';
   content: string;
   sender: string;
 };
