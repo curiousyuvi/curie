@@ -1,5 +1,4 @@
 import axios from "axios";
-import { query } from "express";
 
 const searchMusic = async (token, query) => {
     try {
