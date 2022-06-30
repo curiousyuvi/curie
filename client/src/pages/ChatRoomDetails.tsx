@@ -25,7 +25,7 @@ export default function ChatRoomDetails() {
     messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const { room } = useRoom();
+  const { room, userShorts } = useRoom();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -107,7 +107,7 @@ export default function ChatRoomDetails() {
         <div className="w-full">
           <h2 className="text-2xl">Memebers</h2>
           <hr className="border-indigo-300/30 my-1" />
-          <RoomMemberList users={room.users} admins={room.admins} />
+          <RoomMemberList userShorts={userShorts} admins={room.admins} />
         </div>
         <span className="my-3" />
         <div className="flex items-center w-full justify-center">

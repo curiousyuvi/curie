@@ -9,28 +9,45 @@ import {
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
 import useRoom from "../hooks/useRoom";
+import useAuth from "../hooks/useAuth";
+import useMessage from "../hooks/useMessage";
+import ChatNotification from "../components/ChatNotification";
+import ChatDateRule from "../components/ChatDateRule";
+import useDateTimeHelper from "../hooks/useDateTimeHelper";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { sendMessage } = useMessage();
+  const { midFromDate, dateFromMid, formatDate } = useDateTimeHelper();
   const handleOnSend = (value: string) => {
-    setMessages([...messages, { type: "text", content: value, sender: "" }]);
+    setMessages([
+      ...messages,
+      {
+        mid: midFromDate(new Date()),
+        type: "text",
+        content: value,
+        sender: user?.uid || "",
+      },
+    ]);
+
+    sendMessage(
+      { type: "text", content: value, sender: user?.uid || "" },
+      room.rid
+    );
   };
   const { room } = useRoom();
   const params = useParams();
 
   const scrollToBottom = () => {
-    messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesSectionRef.current?.scrollIntoView({ behavior: "auto" });
   };
 
   useEffect(() => {
     room?.messages && setMessages(room.messages);
   }, [room]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   const handleBackClick = () => {
     navigate("/");
@@ -39,6 +56,41 @@ export default function ChatRoom() {
   const handleOptionsClick = () => {
     navigate(`/${params.rid}/details`);
   };
+
+  const [messageList, setMessageList] = useState<any>([]);
+
+  const newDayMessage = (prevMessage: Message, newMessage: Message) => {
+    return (
+      dateFromMid(prevMessage.mid || "").getDate() !==
+      dateFromMid(newMessage.mid || "").getDate()
+    );
+  };
+
+  const createMessageList = () => {
+    let newMessageList: any[] = [];
+
+    messages.forEach((message, i) => {
+      if (i === 0 || newDayMessage(messages[i - 1], message)) {
+        newMessageList.push(
+          <ChatDateRule date={formatDate(dateFromMid(message?.mid || ""))} />
+        );
+      }
+      if (message.type === "text")
+        newMessageList.push(<ChatCloud message={message} />);
+      else if (message.type === "notification")
+        return newMessageList.push(<ChatNotification message={message} />);
+    });
+
+    setMessageList(newMessageList);
+  };
+
+  useEffect(() => {
+    createMessageList();
+  }, [messages]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messageList]);
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -65,9 +117,7 @@ export default function ChatRoom() {
       </div>
       <div className="h-full bg-blue-900/70 w-full p-4 flex flex-col justify-between">
         <div className="w-full h-[calc(100vh-16.5rem)] flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative">
-          {messages?.map((message) => {
-            return <ChatCloud message={message} />;
-          })}
+          {messageList}
           <div ref={messagesSectionRef} />
         </div>
         <ChatTextField onSend={handleOnSend} />
