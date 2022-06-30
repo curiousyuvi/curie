@@ -86,6 +86,7 @@ export default function ChatRoom() {
 
   useEffect(() => {
     createMessageList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
   useEffect(() => {

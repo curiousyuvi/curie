@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
-import useUser from "../hooks/useUser";
 import { UserShort } from "../interfaces/UserShort";
 import RoomMemberListTile from "./RoomMemberListTile";
 

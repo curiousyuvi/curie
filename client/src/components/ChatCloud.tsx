@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { FaUserCircle } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import useDateTimeHelper from "../hooks/useDateTimeHelper";
 import useRoom from "../hooks/useRoom";
