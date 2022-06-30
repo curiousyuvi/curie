@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoute from './routes/authRoute'
 import userRoute from './routes/userRoute'
 import roomRoute from './routes/roomRoute'
+import musicRoute from './routes/musicRoutes'
 import connectMongoDB from "./services/dbconnect";
 import cookieParser from 'cookie-parser'
 
@@ -30,6 +31,8 @@ app.use(express.json());
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/room', roomRoute);
+app.use('/api/music', musicRoute);
+
 
 
 app.get('/api/test', (req, res) => {
