@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { BsFillPlusSquareFill, BsPlusSquare } from "react-icons/bs";
 import {
   IoArrowRedo,
@@ -8,7 +8,6 @@ import {
   IoSettings,
   IoSettingsOutline,
 } from "react-icons/io5";
-import { FC, ReactNode } from "react";
 import useAuth from "../hooks/useAuth";
 import NavbarLinkButton from "./NavbarLinkButton";
 

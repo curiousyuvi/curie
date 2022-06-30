@@ -1,7 +1,4 @@
-import { BsFillPlusSquareFill, BsPlusSquare } from "react-icons/bs";
-import { IoArrowRedo, IoArrowRedoOutline } from "react-icons/io5";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-import NavbarLinkButton from "../components/NavbarLinkButton";
+import { Outlet, useLocation } from "react-router-dom";
 import NoRooms from "../components/NoRooms";
 import RoomsListTile from "../components/RoomsListTile";
 import useRooms from "../hooks/useRooms";
