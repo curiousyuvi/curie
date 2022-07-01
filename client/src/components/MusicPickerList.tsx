@@ -18,6 +18,7 @@ const MusicPickerList = ({ query }: { query: string }) => {
   useEffect(() => {
     if (query !== "") loadMusicList();
     else setTracks([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
   return (
     <div className="h-96 w-full overflow-y-auto">
