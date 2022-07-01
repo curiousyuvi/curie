@@ -14,6 +14,7 @@ import useMessage from "../hooks/useMessage";
 import ChatNotification from "../components/ChatNotification";
 import ChatDateRule from "../components/ChatDateRule";
 import useDateTimeHelper from "../hooks/useDateTimeHelper";
+import Music from "../components/Music";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
@@ -22,6 +23,7 @@ export default function ChatRoom() {
   const { user } = useAuth();
   const { sendMessage } = useMessage();
   const { midFromDate, dateFromMid, formatDate } = useDateTimeHelper();
+  const [musicModalOpen, setMusicModalOpen] = useState(false);
   const handleOnSend = (value: string) => {
     setMessages([
       ...messages,
@@ -72,13 +74,18 @@ export default function ChatRoom() {
     messages.forEach((message, i) => {
       if (i === 0 || newDayMessage(messages[i - 1], message)) {
         newMessageList.push(
-          <ChatDateRule date={formatDate(dateFromMid(message?.mid || ""))} />
+          <ChatDateRule
+            key={i}
+            date={formatDate(dateFromMid(message?.mid || ""))}
+          />
         );
       }
       if (message.type === "text")
-        newMessageList.push(<ChatCloud message={message} />);
+        newMessageList.push(<ChatCloud key={message.mid} message={message} />);
       else if (message.type === "notification")
-        return newMessageList.push(<ChatNotification message={message} />);
+        return newMessageList.push(
+          <ChatNotification key={message.mid} message={message} />
+        );
     });
 
     setMessageList(newMessageList);
@@ -116,12 +123,16 @@ export default function ChatRoom() {
           <IoEllipsisVertical className="hidden group-hover:flex text-white" />
         </button>
       </div>
-      <div className="h-full bg-blue-900/70 w-full p-4 flex flex-col justify-between">
+      <div className="h-full bg-blue-900/70 w-full p-4 flex flex-col justify-between relative">
         <div className="w-full h-[calc(100vh-16.5rem)] flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative">
           {messageList}
           <div ref={messagesSectionRef} />
         </div>
         <ChatTextField onSend={handleOnSend} />
+        <Music
+          musicModalOpen={musicModalOpen}
+          setMusicModalOpen={setMusicModalOpen}
+        />
       </div>
     </div>
   );
