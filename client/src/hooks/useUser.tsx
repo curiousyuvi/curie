@@ -128,7 +128,6 @@ const getUID = async (
       url: `/user/uid/${token}`,
       method: "get",
       responseType: "json",
-      withCredentials: true,
     };
 
     const response = await apiInstance(requestConfig);
