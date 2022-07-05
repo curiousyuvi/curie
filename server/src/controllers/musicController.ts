@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import searchMusic from "../services/searchMusic"
+import switchOnPlayer from "../services/switchOnPlayer"
 
 
 const searchMusicController = async (req: Request, res: Response) => {
@@ -9,4 +10,12 @@ const searchMusicController = async (req: Request, res: Response) => {
     else res.status(400).json({ message: 'failure' })
 }
 
-export { searchMusicController }
+const switchOnPlayerController = async (req: Request, res: Response) => {
+    const deviceId = req.query.device_id;
+    const result = await switchOnPlayer(deviceId, req.params.token)
+
+    if (result) res.status(200).json({ message: 'success' })
+    else res.status(400).json({ message: 'failure' })
+}
+
+export { searchMusicController, switchOnPlayerController }

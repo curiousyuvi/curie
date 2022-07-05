@@ -12,7 +12,8 @@ const loginController = (req: Request, res: Response) => {
     user-modify-playback-state \
     user-read-playback-state \
     user-read-currently-playing \
-    user-read-email";
+    user-read-email \
+    user-read-private";
 
         const state = generateRandomString(16);
 

@@ -20,7 +20,7 @@ const MusicPickerListTile = ({ track }: { track: Track }) => {
       </div>
       <span className="mx-2" />
       <div className="w-full flex flex-col items-start justify-between">
-        <p className="text-gray-200 overflow-hidden text-ellipsis w-full h-6">
+        <p className="text-gray-200 overflow-hidden text-ellipsis font-medium w-full h-6">
           {track.name}
         </p>
         <span className="my-1" />

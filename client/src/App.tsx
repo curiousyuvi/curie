@@ -17,45 +17,42 @@ import NoRoom from "./components/NoRoom";
 import ChatRoomDetails from "./pages/ChatRoomDetails";
 import ChatRoom from "./pages/ChatRoom";
 import RoomWrapper from "./components/RoomWrapper";
+import RoomMusicProvider from "./providers/RoomMusicProvider";
+import WebPlaybackWrapper from "./components/WebPlaybackWrapper";
 
 function App() {
   return (
     <>
       <AuthProvider>
-        <RoomsProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<LayoutWrapper />}>
-                <Route element={<ProtectedRoutes.NoAuth />}>
-                  <Route path="login" element={<Login />} />
-                  <Route
-                    path="spotify_callback"
-                    element={<SpotifyCallback />}
-                  />
-                  <Route path="create_user" element={<CreateUser />} />
-                </Route>
-                <Route element={<ProtectedRoutes.Auth />}>
-                  <Route element={<ChatWrapper />}>
-                    <Route element={<Rooms />}>
-                      <Route index element={<NoRoom />} />
-                      <Route element={<RoomWrapper />}>
-                        <Route path=":rid" element={<ChatRoom />} />
-                        <Route
-                          path=":rid/details"
-                          element={<ChatRoomDetails />}
-                        />
-                      </Route>
+        <Router>
+          <Routes>
+            <Route path="/" element={<LayoutWrapper />}>
+              <Route element={<ProtectedRoutes.NoAuth />}>
+                <Route path="login" element={<Login />} />
+                <Route path="spotify_callback" element={<SpotifyCallback />} />
+                <Route path="create_user" element={<CreateUser />} />
+              </Route>
+              <Route element={<ProtectedRoutes.Auth />}>
+                <Route element={<ChatWrapper />}>
+                  <Route element={<Rooms />}>
+                    <Route index element={<NoRoom />} />
+                    <Route element={<RoomWrapper />}>
+                      <Route path=":rid" element={<ChatRoom />} />
+                      <Route
+                        path=":rid/details"
+                        element={<ChatRoomDetails />}
+                      />
                     </Route>
-                    <Route path="user_profile" element={<UserProfile />} />
-                    <Route path="settings" element={<Settings />} />
-                    <Route path="join_room" element={<JoinRoom />} />
-                    <Route path="create_room" element={<CreateRoom />} />
                   </Route>
+                  <Route path="user_profile" element={<UserProfile />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="join_room" element={<JoinRoom />} />
+                  <Route path="create_room" element={<CreateRoom />} />
                 </Route>
               </Route>
-            </Routes>
-          </Router>
-        </RoomsProvider>
+            </Route>
+          </Routes>
+        </Router>
       </AuthProvider>
     </>
   );

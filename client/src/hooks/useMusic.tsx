@@ -27,8 +27,34 @@ const searchMusic = async (
   }
 };
 
+const switchOnPlayer = async (
+  deviceId: string,
+  token: string,
+  apiInstance: AxiosInstance
+) => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/music/switch_on_player/${token}`,
+      params: { device_id: deviceId },
+      method: "get",
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return true;
+    } else {
+      console.log("Error in getUID: ", response.data);
+      return false;
+    }
+  } catch (err) {
+    console.log("Error in getUID: ", err);
+    return false;
+  }
+};
+
 const useMusic = () => {
-  return { searchTrack: searchMusic };
+  return { searchTrack: searchMusic, switchOnPlayer };
 };
 
 export default useMusic;
