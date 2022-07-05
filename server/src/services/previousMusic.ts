@@ -1,26 +1,24 @@
 import axios from "axios";
 
-const switchOnPlayer = async (deviceId, token: string) => {
+const previousMusic = async (token) => {
     try {
         const requestConfig = {
-            url: "https://api.spotify.com/v1/me/player",
-            params: { device_ids: [deviceId] },
-            method: 'put',
+            url: "https://api.spotify.com/v1/me/player/previous",
+            method: 'post',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         }
 
         const response = await axios(requestConfig);
 
-        if (response.status === 200) {
-
+        if (response.status === 204) {
             return true
         }
         else
             return false;
     } catch (err) {
-        console.log('Error in Switching player: ', err);
+        console.log('Error in skipping to previous music: ', err);
         return false;
     }
 }
 
-export default switchOnPlayer
+export default previousMusic
