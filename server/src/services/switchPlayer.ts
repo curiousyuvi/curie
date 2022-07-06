@@ -11,13 +11,13 @@ const switchPlayer = async (deviceId, token: string) => {
 
         const response = await axios(requestConfig);
 
-        if (response.status === 204) {
+        if (response.status === 204 || response.status === 202 || response.status === 200) {
             return true
         }
         else
             return false;
     } catch (err) {
-        console.log('Error in Switching player: ', err);
+        console.log('Error in Switching player: ', err.response.data);
         return false;
     }
 }

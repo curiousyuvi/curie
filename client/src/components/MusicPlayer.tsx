@@ -4,24 +4,30 @@ import {
   BsSkipEndFill,
   BsSkipStartFill,
 } from "react-icons/bs";
+import useApiPrivate from "../hooks/useApiPrivate";
+import useAuth from "../hooks/useAuth";
+import useMusic from "../hooks/useMusic";
 import useRoomMusic from "../hooks/useRoomMusic";
 import PlayerNotActive from "./PlayerNotActive";
 
 const MusicPlayer = () => {
-  const { active, currentTrack, paused, player, progress } = useRoomMusic();
+  const { active, currentTrack, paused, player, progress, deviceId } =
+    useRoomMusic();
+  const { token } = useAuth();
+  const apiPrivate = useApiPrivate();
+  const { play, pause, next, previous } = useMusic();
   const handlePlay = () => {
-    player?.resume();
-    console.log("device id: ", player?._options.id);
+    play(token, apiPrivate);
   };
 
   const handlePause = () => {
-    player?.pause();
+    pause(token, apiPrivate);
   };
   const handlePrev = () => {
-    player?.previousTrack();
+    previous(token, apiPrivate);
   };
   const handleNext = () => {
-    player?.nextTrack();
+    next(token, apiPrivate);
   };
 
   return (

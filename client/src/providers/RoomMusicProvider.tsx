@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from "react";
+import React, { createContext, ReactNode, useEffect, useState } from "react";
 import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import { RoomMusicContext } from "../interfaces/RoomMusicContext";
 import { Track } from "../interfaces/Track";
@@ -20,6 +20,8 @@ const roomMusicContext = createContext<RoomMusicContext>({
     uri: "curietrackuri",
   },
   setCurrentTrack: () => {},
+  deviceId: "curiedeviceid",
+  setDeviceId: () => {},
 });
 
 const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
@@ -33,10 +35,23 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     id: "curietrackid",
     name: "curiet rackn amesd gfaga egwar",
     artists: ["tractartists", "tractartists", "tractartists", "tractartists"],
-    duration: 100000,
+    duration: 60000,
     thumbnail: placeHolderAvatar,
     uri: "curietrackuri",
   });
+  const [deviceId, setDeviceId] = useState("curiedeviceid");
+
+  useEffect(() => {
+    const timer = () => {
+      setProgress(
+        progress + (progress >= currentTrack.duration || paused ? 0 : 1000)
+      );
+    };
+
+    const id = setInterval(timer, 1000);
+    return () => clearInterval(id);
+  }, [progress, paused]);
+
   return (
     <roomMusicContext.Provider
       value={{
@@ -50,6 +65,8 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
         setProgress,
         currentTrack,
         setCurrentTrack,
+        deviceId,
+        setDeviceId,
       }}
     >
       {children}

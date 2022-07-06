@@ -11,4 +11,6 @@ export type RoomMusicContext = {
     setProgress: (progress: number) => void;
     currentTrack: Track;
     setCurrentTrack: (currentTrack: Track) => void;
+    deviceId: string;
+    setDeviceId: (deviceId: string) => void;
 }

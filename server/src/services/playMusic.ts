@@ -23,7 +23,7 @@ const playMusic = async (uri, position, token) => {
         const response = await axios(requestConfig);
         console.log(response.status)
 
-        if (response.status === 204) {
+        if (response.status === 204 || response.status === 202 || response.status === 200) {
             return true
         }
         else

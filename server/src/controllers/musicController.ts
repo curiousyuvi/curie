@@ -56,8 +56,6 @@ const pauseMusicController = async (req: Request, res: Response) => {
 
 const previousMusicController = async (req: Request, res: Response) => {
     const token = req.params.token;
-
-
     const result = await previousMusic(token);
 
     if (result) res.status(204).json({ message: 'success' })
@@ -66,8 +64,6 @@ const previousMusicController = async (req: Request, res: Response) => {
 
 const nextMusicController = async (req: Request, res: Response) => {
     const token = req.params.token;
-
-
     const result = await nextMusic(token);
 
     if (result) res.status(204).json({ message: 'success' })
