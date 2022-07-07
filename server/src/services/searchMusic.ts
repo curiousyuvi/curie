@@ -26,7 +26,7 @@ const searchMusic = async (token, query) => {
         else
             return null;
     } catch (err) {
-        console.log('Error in Music Search: ', err);
+        console.error('Error in Music Search: ', err.response.data);
         return null;
     }
 }

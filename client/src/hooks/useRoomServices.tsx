@@ -15,11 +15,11 @@ const getRoom = async (rid: string): Promise<Room | null> => {
     if (response.status === 200) {
       return response.data;
     } else {
-      console.log("Error in getRoom: ", response.data);
+      console.error("Error in getRoom: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in getRoom: ", err);
+    console.error("Error in getRoom: ", err);
     return null;
   }
 };
@@ -37,11 +37,11 @@ const joinUser = async (rid: string, uid: string): Promise<boolean> => {
     if (response.status === 200) {
       return true;
     } else {
-      console.log("Error in joinUser: ", response.data);
+      console.error("Error in joinUser: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in joinUser: ", err);
+    console.error("Error in joinUser: ", err);
     return false;
   }
 };
@@ -59,11 +59,11 @@ const removeUser = async (rid: string, uid: string): Promise<boolean> => {
     if (response.status === 200) {
       return true;
     } else {
-      console.log("Error in removeUser: ", response.data);
+      console.error("Error in removeUser: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in removeUser: ", err);
+    console.error("Error in removeUser: ", err);
     return false;
   }
 };
@@ -81,11 +81,11 @@ const addAdmin = async (rid: string, uid: string): Promise<boolean> => {
     if (response.status === 200) {
       return true;
     } else {
-      console.log("Error in addAdmin: ", response.data);
+      console.error("Error in addAdmin: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in addAdmin: ", err);
+    console.error("Error in addAdmin: ", err);
     return false;
   }
 };
@@ -103,11 +103,11 @@ const removeAdmin = async (rid: string, uid: string): Promise<boolean> => {
     if (response.status === 200) {
       return true;
     } else {
-      console.log("Error in removeAdmin: ", response.data);
+      console.error("Error in removeAdmin: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in removeAdmin: ", err);
+    console.error("Error in removeAdmin: ", err);
     return false;
   }
 };
@@ -125,11 +125,11 @@ const getRoomShort = async (rid: string): Promise<RoomShort | null> => {
     if (response.status === 200) {
       return response.data;
     } else {
-      console.log("Error in getRoomShort: ", response.data);
+      console.error("Error in getRoomShort: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in getRoomShort: ", err);
+    console.error("Error in getRoomShort: ", err);
     return null;
   }
 };
@@ -147,11 +147,11 @@ const createRoom = async (room: Room): Promise<string | null> => {
     if (response.status === 200) {
       return "success";
     } else {
-      console.log("Error in createRoom: ", response.data);
+      console.error("Error in createRoom: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in createRoom: ", err);
+    console.error("Error in createRoom: ", err);
     return null;
   }
 };
@@ -175,11 +175,11 @@ const updateRoom = async (
     if (response.status === 200) {
       return "success";
     } else {
-      console.log("Error in updateRoom: ", response.data);
+      console.error("Error in updateRoom: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in updateRoom: ", err);
+    console.error("Error in updateRoom: ", err);
     return null;
   }
 };
@@ -196,11 +196,11 @@ const deleteRoom = async (rid: string): Promise<string | null> => {
     if (response.status === 200) {
       return "success";
     } else {
-      console.log("Error in deleteRoom: ", response.data);
+      console.error("Error in deleteRoom: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in deleteRoom: ", err);
+    console.error("Error in deleteRoom: ", err);
     return null;
   }
 };
@@ -218,11 +218,11 @@ const roomExists = async (rid: string) => {
       if (response.data.result === "room exists") return true;
       else return false;
     } else {
-      console.log("Error in roomExists: ", response.data);
+      console.error("Error in roomExists: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in roomExists: ", err);
+    console.error("Error in roomExists: ", err);
     return null;
   }
 };

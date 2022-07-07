@@ -12,7 +12,8 @@ const loginController = (req: Request, res: Response) => {
     user-modify-playback-state \
     user-read-playback-state \
     user-read-currently-playing \
-    user-read-email";
+    user-read-email \
+    user-read-private";
 
         const state = generateRandomString(16);
 
@@ -31,7 +32,7 @@ const loginController = (req: Request, res: Response) => {
             auth_query_parameters.toString()
         );
     } catch (err) {
-        console.log("Error in Login Controller :", err);
+        console.error("Error in Login Controller :", err.response.data);
     }
 }
 

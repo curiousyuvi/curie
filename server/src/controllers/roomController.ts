@@ -17,7 +17,7 @@ const createRoomController = (req: Request, res: Response) => {
         if (!err) {
             res.status(200).json({ message: "success" });
         } else {
-            console.log("Error in create user: ", err);
+            console.error("Error in create user: ", err);
             res.status(400).json({ message: "failure" });
         }
     })

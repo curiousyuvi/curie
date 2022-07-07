@@ -6,18 +6,19 @@ import { Track } from "../interfaces/Track";
 import MusicPickerListTile from "./MusicPickerListTile";
 
 const MusicPickerList = ({ query }: { query: string }) => {
-  const { searchTrack } = useMusic();
+  const { searchMusic } = useMusic();
   const { token } = useAuth();
   const apiPrivateInstance = useApiPrivate();
   const [tracks, setTracks] = useState<Track[]>([]);
 
   const loadMusicList = async () => {
-    setTracks(await searchTrack(query, token, apiPrivateInstance));
+    setTracks(await searchMusic(query, token, apiPrivateInstance));
   };
 
   useEffect(() => {
     if (query !== "") loadMusicList();
     else setTracks([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
   return (
     <div className="h-96 w-full overflow-y-auto">

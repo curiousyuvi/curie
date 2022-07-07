@@ -1,5 +1,3 @@
-import React from "react";
-import { BsSoundwave } from "react-icons/bs";
 import MusicFAB from "./MusicFAB";
 import MusicModal from "./MusicModal";
 

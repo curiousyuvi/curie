@@ -11,4 +11,5 @@ const privateApiInstance = axios.create({
     withCredentials: true
 });
 
+
 export { apiInstance, privateApiInstance }

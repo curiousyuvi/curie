@@ -18,11 +18,11 @@ const sendMessage: (
     if (response.status === 200) {
       return "success";
     } else {
-      console.log("Error in sendMessage: ", response.data);
+      console.error("Error in sending message: " + response.data.message);
       return null;
     }
   } catch (err) {
-    console.log("Error in sendMessage: ", err);
+    console.error("Error in sending message: ", err);
     return null;
   }
 };
