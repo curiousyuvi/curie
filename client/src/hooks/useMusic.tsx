@@ -150,8 +150,34 @@ const previous = async (token: string, apiInstance: AxiosInstance) => {
   }
 };
 
+const addToQueue = async (
+  token: string,
+  uri: string,
+  apiInstance: AxiosInstance
+) => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/music/add_to_queue/${token}`,
+      data: { uri },
+      method: "post",
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 204) {
+      return true;
+    } else {
+      console.error("Error in adding music to queue: ", response.data);
+      return false;
+    }
+  } catch (err) {
+    console.error("Error in adding music to queue: ", err);
+    return false;
+  }
+};
+
 const useMusic = () => {
-  return { searchMusic, switchPlayer, play, pause, next, previous };
+  return { searchMusic, switchPlayer, play, pause, next, previous, addToQueue };
 };
 
 export default useMusic;

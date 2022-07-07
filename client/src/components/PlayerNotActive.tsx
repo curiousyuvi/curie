@@ -1,6 +1,5 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
-import useRoomMusic from "../hooks/useRoomMusic";
 
 const PlayerNotActive = () => {
   const { user } = useAuth();

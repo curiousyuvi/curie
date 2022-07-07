@@ -1,7 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { apiInstance } from "../api/axiosInstances";
 import { Message } from "../interfaces/Message";
-import useToast from "./useToast";
 
 const sendMessage: (
   message: Message,
