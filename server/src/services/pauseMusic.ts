@@ -20,7 +20,7 @@ const pauseMusic = async (token) => {
         else
             return false;
     } catch (err) {
-        console.log('Error in pausing music: ', err);
+        console.error('Error in pausing music: ', err.response.data);
         return false;
     }
 }

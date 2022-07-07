@@ -15,7 +15,7 @@ const getCurrentlyPlaying = async (token) => {
         else
             return null;
     } catch (err) {
-        console.log('Error in getting currently playing: ', err.response.data);
+        console.error('Error in getting currently playing: ', err.response.data);
         return null;
     }
 }

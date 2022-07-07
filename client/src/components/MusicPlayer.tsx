@@ -11,8 +11,7 @@ import useRoomMusic from "../hooks/useRoomMusic";
 import PlayerNotActive from "./PlayerNotActive";
 
 const MusicPlayer = () => {
-  const { active, currentTrack, paused, player, progress, deviceId } =
-    useRoomMusic();
+  const { active, currentTrack, paused, progress } = useRoomMusic();
   const { token } = useAuth();
   const apiPrivate = useApiPrivate();
   const { play, pause, next, previous } = useMusic();
@@ -74,11 +73,14 @@ const MusicPlayer = () => {
           <span className="mx-2" />
 
           {paused ? (
-            <button className="text-4xl" onClick={handlePlay}>
+            <button className="text-4xl hover:scale-110" onClick={handlePlay}>
               <BsFillPlayCircleFill />{" "}
             </button>
           ) : (
-            <button className="text-4xl" onClick={handlePause}>
+            <button
+              className="text-4xl hover:scale-110 duration-100"
+              onClick={handlePause}
+            >
               <BsPauseCircleFill />
             </button>
           )}

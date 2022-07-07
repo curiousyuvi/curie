@@ -13,7 +13,6 @@ export default function JoinRoom() {
   const navigate = useNavigate();
   const { roomExists } = useRoomServices();
 
-  //TODO: Update UI for join_room
   const handleBackClick = () => {
     navigate("/");
   };

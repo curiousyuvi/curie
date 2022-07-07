@@ -15,7 +15,7 @@ const createUserController = (req: Request, res: Response) => {
         if (!err) {
             res.status(200).json({ message: "success" });
         } else {
-            console.log("Error in create user: ", err);
+            console.error("Error in create user: ", err);
             res.status(400).json({ message: "failure" });
         }
     })
@@ -80,7 +80,7 @@ const getUIDController = (req: Request, res: Response) => {
         else
             res.status(404).json({ message: "not found" })
     }).catch(err => {
-        console.log("Error in getting UID: ", err);
+        console.error("Error in getting UID: ", err);
         res.status(400).json({ message: "failure" })
     })
 }

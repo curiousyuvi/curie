@@ -18,11 +18,11 @@ const searchMusic = async (
     if (response.status === 200) {
       return response.data.tracks;
     } else {
-      console.log("Error in getUID: ", response.data);
+      console.error("Error in searching music: ", response.data);
       return [];
     }
   } catch (err) {
-    console.log("Error in getUID: ", err);
+    console.error("Error in searching music: ", err);
     return [];
   }
 };
@@ -41,18 +41,14 @@ const switchPlayer = async (
     };
 
     const response = await apiInstance(requestConfig);
-    if (
-      response.status === 204 ||
-      response.status === 202 ||
-      response.status === 200
-    ) {
+    if (response.status === 204) {
       return true;
     } else {
-      console.log("Error in getUID: ", response.data);
+      console.error("Error in switching player: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in getUID: ", err);
+    console.error("Error in switching player: ", err);
     return false;
   }
 };
@@ -61,7 +57,8 @@ const play = async (
   token: string,
   apiInstance: AxiosInstance,
   uri?: string,
-  position?: number
+  position?: number,
+  deviceId?: string
 ) => {
   try {
     const requestConfig: AxiosRequestConfig = {
@@ -69,6 +66,9 @@ const play = async (
       data: {
         uri,
         position,
+      },
+      params: {
+        device_id: deviceId,
       },
       method: "put",
       responseType: "json",
@@ -78,11 +78,11 @@ const play = async (
     if (response.status === 204) {
       return true;
     } else {
-      console.log("Error in play/resume: ", response.data);
+      console.error("Error in play/resume: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in play/resume: ", err);
+    console.error("Error in play/resume: ", err);
     return false;
   }
 };
@@ -99,11 +99,11 @@ const pause = async (token: string, apiInstance: AxiosInstance) => {
     if (response.status === 204) {
       return true;
     } else {
-      console.log("Error in pause: ", response.data);
+      console.error("Error in pause: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in pause: ", err);
+    console.error("Error in pause: ", err);
     return false;
   }
 };
@@ -120,11 +120,11 @@ const next = async (token: string, apiInstance: AxiosInstance) => {
     if (response.status === 204) {
       return true;
     } else {
-      console.log("Error in skipping to next music: ", response.data);
+      console.error("Error in skipping to next music: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in skipping to next music: ", err);
+    console.error("Error in skipping to next music: ", err);
     return false;
   }
 };
@@ -141,11 +141,11 @@ const previous = async (token: string, apiInstance: AxiosInstance) => {
     if (response.status === 204) {
       return true;
     } else {
-      console.log("Error in skipping to previous music: ", response.data);
+      console.error("Error in skipping to previous music: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in skipping to previous music: ", err);
+    console.error("Error in skipping to previous music: ", err);
     return false;
   }
 };

@@ -17,14 +17,13 @@ const searchMusicController = async (req: Request, res: Response) => {
 }
 
 const currentlyPlayingController = async (req: Request, res: Response) => {
-    console.log(req.params.token)
     const result = await getCurrentlyPlaying(req.params.token)
 
     if (result) res.status(200).json(result)
     else res.status(400).json({ message: 'failure' })
 }
 
-const switchOnPlayerController = async (req: Request, res: Response) => {
+const switchPlayerController = async (req: Request, res: Response) => {
     const deviceId = req.body.device_id;
     const result = await switchPlayer(deviceId, req.params.token)
 
@@ -35,10 +34,11 @@ const switchOnPlayerController = async (req: Request, res: Response) => {
 const playMusicController = async (req: Request, res: Response) => {
     const uri = req.body.uri;
     const position = req.body.position;
+    const deviceId = req.body.device_id
     const token = req.params.token;
 
 
-    const result = await playMusic(uri, position, token);
+    const result = await playMusic(uri, position, deviceId, token);
 
     if (result) res.status(204).json({ message: 'success' })
     else res.status(400).json({ message: 'failure' })
@@ -83,7 +83,7 @@ const addToQueueController = async (req: Request, res: Response) => {
 
 export {
     searchMusicController,
-    switchOnPlayerController,
+    switchPlayerController,
     playMusicController,
     pauseMusicController,
     previousMusicController,

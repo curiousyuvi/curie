@@ -18,7 +18,7 @@ const addToQueue = async (uri, token) => {
         else
             return false;
     } catch (err) {
-        console.log('Error in skipping to adding to queue: ', err);
+        console.error('Error in skipping to adding to queue: ', err.response.data);
         return false;
     }
 }

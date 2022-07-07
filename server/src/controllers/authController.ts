@@ -32,7 +32,7 @@ const loginController = (req: Request, res: Response) => {
             auth_query_parameters.toString()
         );
     } catch (err) {
-        console.log("Error in Login Controller :", err);
+        console.error("Error in Login Controller :", err.response.data);
     }
 }
 

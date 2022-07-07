@@ -15,11 +15,11 @@ const getUser = async (uid: string): Promise<User | null> => {
     if (response.status === 200) {
       return response.data;
     } else {
-      console.log("Error in getUser: ", response.data);
+      console.error("Error in getUser: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in getUser: ", err);
+    console.error("Error in getUser: ", err);
     return null;
   }
 };
@@ -37,11 +37,11 @@ const getUserShort = async (uid: string): Promise<UserShort | null> => {
     if (response.status === 200) {
       return response.data;
     } else {
-      console.log("Error in getUserShort: ", response.data);
+      console.error("Error in getUserShort: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in getUserShort: ", err);
+    console.error("Error in getUserShort: ", err);
     return null;
   }
 };
@@ -59,11 +59,11 @@ const createUser = async (user: User): Promise<string | null> => {
     if (response.status === 200) {
       return "success";
     } else {
-      console.log("Error in createUser: ", response.data);
+      console.error("Error in createUser: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in createUser: ", err);
+    console.error("Error in createUser: ", err);
     return null;
   }
 };
@@ -89,11 +89,11 @@ const updateUser = async (
     if (response.status === 200) {
       return "success";
     } else {
-      console.log("Error in updateUser: ", response.data);
+      console.error("Error in updateUser: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in updateUser: ", err);
+    console.error("Error in updateUser: ", err);
     return null;
   }
 };
@@ -110,11 +110,11 @@ const deleteUser = async (uid: string): Promise<string | null> => {
     if (response.status === 200) {
       return "success";
     } else {
-      console.log("Error in getUser: ", response.data);
+      console.error("Error in getUser: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in getUser: ", err);
+    console.error("Error in getUser: ", err);
     return null;
   }
 };
@@ -134,11 +134,11 @@ const getUID = async (
     if (response.status === 200) {
       return response.data.uid;
     } else {
-      console.log("Error in getUID: ", response.data);
+      console.error("Error in getUID: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in getUID: ", err);
+    console.error("Error in getUID: ", err);
     return null;
   }
 };
@@ -159,11 +159,11 @@ const searchUser = async (
     if (response.status === 200) {
       return response.data.users;
     } else {
-      console.log("Error in searchUser: ", response.data);
+      console.error("Error in searchUser: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in searchUser: ", err);
+    console.error("Error in searchUser: ", err);
     return null;
   }
 };
@@ -181,11 +181,11 @@ const userExists = async (uid: string) => {
       if (response.data.result === "user exists") return true;
       else return false;
     } else {
-      console.log("Error in userExists: ", response.data);
+      console.error("Error in userExists: ", response.data);
       return null;
     }
   } catch (err) {
-    console.log("Error in userExists: ", err);
+    console.error("Error in userExists: ", err);
     return null;
   }
 };
@@ -203,11 +203,11 @@ const joinRoom = async (uid: string, rid: string): Promise<boolean> => {
     if (response.status === 200) {
       return true;
     } else {
-      console.log("Error in joinRoom: ", response.data);
+      console.error("Error in joinRoom: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in joinRoom: ", err);
+    console.error("Error in joinRoom: ", err);
     return false;
   }
 };
@@ -225,11 +225,11 @@ const removeRoom = async (uid: string, rid: string): Promise<boolean> => {
     if (response.status === 200) {
       return true;
     } else {
-      console.log("Error in removeRoom: ", response.data);
+      console.error("Error in removeRoom: ", response.data);
       return false;
     }
   } catch (err) {
-    console.log("Error in removeRoom: ", err);
+    console.error("Error in removeRoom: ", err);
     return false;
   }
 };

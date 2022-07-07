@@ -16,7 +16,7 @@ const nextMusic = async (token) => {
         else
             return false;
     } catch (err) {
-        console.log('Error in skipping to next music: ', err);
+        console.error('Error in skipping to next music: ', err.response.data);
         return false;
     }
 }

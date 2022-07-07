@@ -12,15 +12,15 @@ const roomMusicContext = createContext<RoomMusicContext>({
   progress: 0,
   setProgress: () => {},
   currentTrack: {
-    id: "curietrackid",
-    name: "curietrackname",
-    artists: ["tractartists"],
+    id: "",
+    name: "",
+    artists: [""],
     duration: 100000,
-    thumbnail: "curiethumbnail",
-    uri: "curietrackuri",
+    thumbnail: "",
+    uri: "",
   },
   setCurrentTrack: () => {},
-  deviceId: "curiedeviceid",
+  deviceId: "",
   setDeviceId: () => {},
 });
 
@@ -32,14 +32,14 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   const [progress, setProgress] = useState<number>(0);
   const [active, setActive] = useState<boolean>(false);
   const [currentTrack, setCurrentTrack] = useState<Track>({
-    id: "curietrackid",
-    name: "curiet rackn amesd gfaga egwar",
-    artists: ["tractartists", "tractartists", "tractartists", "tractartists"],
-    duration: 60000,
+    id: "",
+    name: "lorem ipsum",
+    artists: ["lorem ipsum", "lorem ipsum"],
+    duration: 0,
     thumbnail: placeHolderAvatar,
-    uri: "curietrackuri",
+    uri: "",
   });
-  const [deviceId, setDeviceId] = useState("curiedeviceid");
+  const [deviceId, setDeviceId] = useState("");
 
   useEffect(() => {
     const timer = () => {
@@ -50,6 +50,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
 
     const id = setInterval(timer, 1000);
     return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress, paused]);
 
   return (

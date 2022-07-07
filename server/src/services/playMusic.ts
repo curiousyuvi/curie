@@ -1,17 +1,18 @@
 import axios from "axios";
 
-const playMusic = async (uri, position, token) => {
+const playMusic = async (uri, position, deviceId, token) => {
+    const requestBody = {
+        uris: undefined,
+        position_ms: position
+    };
+    if (uri) requestBody.uris = [uri]
     try {
-        console.log('data to be sent: ', {
-            context_uri: uri,
-            position_ms: position
-        })
         const requestConfig = {
             url: "https://api.spotify.com/v1/me/player/play",
             method: 'put',
-            data: {
-                context_uri: uri,
-                position_ms: position
+            data: requestBody,
+            params: {
+                device_id: deviceId
             },
             headers: {
                 'Accept': 'application/json',
@@ -21,7 +22,6 @@ const playMusic = async (uri, position, token) => {
         }
 
         const response = await axios(requestConfig);
-        console.log(response.status)
 
         if (response.status === 204 || response.status === 202 || response.status === 200) {
             return true
@@ -29,7 +29,7 @@ const playMusic = async (uri, position, token) => {
         else
             return false;
     } catch (err) {
-        console.log('Error in playing music: ', err);
+        console.error('Error in playing music: ', err.response.data);
         return false;
     }
 }

@@ -10,15 +10,12 @@ import Settings from "./pages/Settings";
 import SpotifyCallback from "./pages/SpotifyCallback";
 import UserProfile from "./pages/UserProfile";
 import AuthProvider from "./providers/AuthProvider";
-import RoomsProvider from "./providers/RoomsProvider";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import LayoutWrapper from "./components/LayoutWrapper";
 import NoRoom from "./components/NoRoom";
 import ChatRoomDetails from "./pages/ChatRoomDetails";
 import ChatRoom from "./pages/ChatRoom";
 import RoomWrapper from "./components/RoomWrapper";
-import RoomMusicProvider from "./providers/RoomMusicProvider";
-import WebPlaybackWrapper from "./components/WebPlaybackWrapper";
 
 function App() {
   return (

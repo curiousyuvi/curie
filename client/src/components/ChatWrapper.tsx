@@ -7,9 +7,9 @@ import WebPlaybackWrapper from "./WebPlaybackWrapper";
 
 export default function ChatWrapper() {
   return (
-    <RoomsProvider>
-      <RoomMusicProvider>
-        <WebPlaybackWrapper>
+    <RoomMusicProvider>
+      <WebPlaybackWrapper>
+        <RoomsProvider>
           <div className="flex flex-col w-full h-full max-w-6xl">
             <Header />
             <div className="w-full h-full flex ">
@@ -19,8 +19,8 @@ export default function ChatWrapper() {
               </div>
             </div>
           </div>
-        </WebPlaybackWrapper>
-      </RoomMusicProvider>
-    </RoomsProvider>
+        </RoomsProvider>
+      </WebPlaybackWrapper>
+    </RoomMusicProvider>
   );
 }

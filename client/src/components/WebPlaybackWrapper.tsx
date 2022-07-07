@@ -1,11 +1,12 @@
 import React, { useEffect, ReactNode } from "react";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
-import useMusic from "../hooks/useMusic";
+import useRefreshPlayerActiveStatus from "../hooks/useRefreshPlayerActiveStatus";
 import useRoomMusic from "../hooks/useRoomMusic";
 
 function WebPlaybackWrapper({ children }: { children: ReactNode }) {
   const { token, user } = useAuth();
+  const privateApiInstance = useApiPrivate();
   const {
     player,
     setPlayer,
@@ -13,10 +14,10 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     setActive,
     setCurrentTrack,
     setProgress,
+    deviceId,
   } = useRoomMusic();
-  const { switchPlayer } = useMusic();
-  const apiPrivate = useApiPrivate();
-  const { deviceId, setDeviceId } = useRoomMusic();
+  const refreshPlayerActiveStatus = useRefreshPlayerActiveStatus();
+  const { setDeviceId } = useRoomMusic();
 
   useEffect(() => {
     if (user) {
@@ -55,24 +56,20 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
 
         spotifyPlayer.on("ready", ({ device_id }: { device_id: string }) => {
           setDeviceId(device_id);
-          console.log("Ready with Device ID", device_id);
         });
 
         spotifyPlayer.on(
           "not_ready",
           ({ device_id }: { device_id: string }) => {
-            console.log("Device ID has gone offline", device_id);
+            console.error("Device ID has gone offline", device_id);
           }
         );
 
         spotifyPlayer.on(
           "player_state_changed",
           (state: Spotify.PlaybackState | null) => {
-            console.log("state change listender called");
             if (!state) {
               setActive(false);
-              console.log("switching to ", deviceId);
-              switchPlayer(deviceId, token, apiPrivate);
               return;
             }
             setActive(true);
@@ -88,8 +85,6 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
                 duration: state.duration,
               });
             setPaused(state.paused);
-            console.log("position: ", state.position);
-            console.log("duration: ", state.duration);
 
             setProgress(state.position);
           }
@@ -108,7 +103,24 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
       player?.removeListener("initialization_error");
       player?.removeListener("player_state_changed");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (player && deviceId !== "") {
+      const refresh = () => {
+        refreshPlayerActiveStatus(
+          setActive,
+          deviceId,
+          token,
+          privateApiInstance
+        );
+      };
+      const id = setInterval(refresh, 3000);
+      return () => clearInterval(id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [player, deviceId]);
 
   return <>{children}</>;
 }

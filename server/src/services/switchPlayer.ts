@@ -4,7 +4,7 @@ const switchPlayer = async (deviceId, token: string) => {
     try {
         const requestConfig = {
             url: "https://api.spotify.com/v1/me/player",
-            data: { device_ids: [deviceId] },
+            data: { device_ids: [deviceId], play: true },
             method: 'put',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         }
@@ -17,7 +17,7 @@ const switchPlayer = async (deviceId, token: string) => {
         else
             return false;
     } catch (err) {
-        console.log('Error in Switching player: ', err.response.data);
+        console.error('Error in Switching player: ', err.response.data);
         return false;
     }
 }

@@ -15,11 +15,11 @@ const getToken = async (code: string): Promise<string | null> => {
     if (response.status === 200) {
       return response.data?.token;
     } else {
-      console.log("Error in getToken: ", response.data.error);
+      console.error("Error in getToken: ", response.data.error);
       return null;
     }
   } catch (err) {
-    console.log("Error in getToken: ", err);
+    console.error("Error in getToken: ", err);
     return null;
   }
 };
@@ -37,11 +37,11 @@ const refreshToken = async (): Promise<string | null> => {
     if (response.status === 200) {
       return response.data?.token;
     } else {
-      console.log("Error in refreshToken: ", response.data.error);
+      console.error("Error in refreshToken: ", response.data.error);
       return null;
     }
   } catch (err) {
-    console.log("Error in refreshToken: ", err);
+    console.error("Error in refreshToken: ", err);
     return null;
   }
 };
@@ -59,11 +59,11 @@ const clearRefreshToken = async (): Promise<string | null> => {
     if (response.status === 200 && response.data?.message === "success") {
       return "success";
     } else {
-      console.log("Error in logout: ", response.data.error);
+      console.error("Error in logout: ", response.data.error);
       return null;
     }
   } catch (err) {
-    console.log("Error in logout: ", err);
+    console.error("Error in logout: ", err);
     return null;
   }
 };

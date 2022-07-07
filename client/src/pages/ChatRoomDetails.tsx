@@ -11,6 +11,7 @@ import useRoomServices from "../hooks/useRoomServices";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
 import toast from "react-hot-toast";
+import useToast from "../hooks/useToast";
 
 export default function ChatRoomDetails() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
@@ -55,9 +56,11 @@ export default function ChatRoomDetails() {
     await loadUser();
   };
 
+  const { successToast } = useToast();
+
   const handleCopyRoomID = () => {
     navigator.clipboard.writeText(room.rid);
-    toast("Room ID copied to clipboard!", { icon: "✅" });
+    successToast("Room ID copied to clipboard!");
   };
 
   return (
