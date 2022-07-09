@@ -1,5 +1,5 @@
 import express from "express";
-import { addToQueueController, currentlyPlayingController, nextMusicController, pauseMusicController, playMusicController, previousMusicController, searchMusicController, switchPlayerController } from "../controllers/musicController";
+import { searchMusicController, currentlyPlayingController, switchPlayerController, playMusicController, pauseMusicController, previousMusicController, nextMusicController, addToQueueController } from "../controllers/musicController";
 const router = express.Router();
 
 router.get("/search/:query", searchMusicController);

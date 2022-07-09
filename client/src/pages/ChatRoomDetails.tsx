@@ -11,6 +11,7 @@ import useRoomServices from "../hooks/useRoomServices";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
 import useToast from "../hooks/useToast";
+import useSocket from "../hooks/useSocket";
 
 export default function ChatRoomDetails() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
@@ -20,6 +21,7 @@ export default function ChatRoomDetails() {
   const { removeUser, deleteRoom, removeAdmin } = useRoomServices();
   const { loadUser } = useAuth();
   const { removeRoom } = useUser();
+  const { user } = useAuth();
 
   const scrollToBottom = () => {
     messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,6 +29,7 @@ export default function ChatRoomDetails() {
 
   const { room, userShorts } = useRoom();
   const navigate = useNavigate();
+  const { socket } = useSocket();
 
   useEffect(() => {
     room?.messages && setMessages(room.messages);
@@ -42,6 +45,11 @@ export default function ChatRoomDetails() {
 
   const handleLeaveRoom = async () => {
     navigate("/");
+    if (socket && user)
+      socket.emit("send_leave_room", {
+        uid: user.uid,
+        rid: params.rid,
+      });
     await removeUser(room.rid, localStorage.getItem("UID") || "");
     await removeAdmin(room.rid, localStorage.getItem("UID") || "");
     await removeRoom(localStorage.getItem("UID") || "", room.rid);

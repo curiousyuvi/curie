@@ -15,6 +15,7 @@ import ChatNotification from "../components/ChatNotification";
 import ChatDateRule from "../components/ChatDateRule";
 import useDateTimeHelper from "../hooks/useDateTimeHelper";
 import Music from "../components/Music";
+import useSocket from "../hooks/useSocket";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);

@@ -8,7 +8,6 @@ import previousMusic from "../services/previousMusic"
 import searchMusic from "../services/searchMusic"
 import switchPlayer from "../services/switchPlayer"
 
-
 const searchMusicController = async (req: Request, res: Response) => {
     const tracks = await searchMusic(req.query.token, req.params.query)
 

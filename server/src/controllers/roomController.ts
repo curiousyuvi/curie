@@ -11,7 +11,6 @@ import roomExists from "../services/roomExists";
 import sendMessage from "../services/sendMessage";
 import updateRoom from "../services/updateRoom";
 
-
 const createRoomController = (req: Request, res: Response) => {
     createRoom(req.body, (err) => {
         if (!err) {

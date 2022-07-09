@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUserController, deleteUserController, getUIDController, getUserController, joinRoomController, removeRoomController, searchUserController, updateUserController, userExistsController } from '../controllers/userController';
+import { getUserController, getUIDController, joinRoomController, removeRoomController, searchUserController, deleteUserController, updateUserController, createUserController, userExistsController } from '../controllers/userController';
 const router = express.Router();
 
 router.get('/:uid', getUserController);

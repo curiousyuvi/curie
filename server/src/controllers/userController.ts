@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import createUser from "../services/createUser"
+import createUser from "../services/createUser";
 import deleteUser from "../services/deleteUser";
 import getUID from "../services/getUID";
 import getUser from "../services/getUser";
