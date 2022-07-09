@@ -22,6 +22,10 @@ const setupSocket = (server, corsOptions) => {
             client.to(rid).emit('receive_leave_room', { uid, rid })
         })
 
+        client.on('send_message', ({ message, rid }) => {
+            client.to(rid).emit('receive_message', { message, rid })
+        })
+
 
     })
 }

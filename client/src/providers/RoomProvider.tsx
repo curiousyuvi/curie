@@ -112,7 +112,11 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
     rid: string;
   }) => {
     if (rid === room.rid) {
-      setRoom({ ...room, users: [...room.users, uid] });
+      const newUserShort = await getUserShort(uid);
+      if (newUserShort) {
+        if (!userShorts.find((userShort) => userShort.uid === uid))
+          setUserShorts([...userShorts, newUserShort]);
+      }
     }
   };
 
@@ -124,7 +128,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
     rid: string;
   }) => {
     if (rid === room.rid) {
-      setRoom({ ...room, users: room.users.filter((user) => uid !== user) });
+      setUserShorts(userShorts.filter((userShort) => userShort.uid !== uid));
     }
   };
 
@@ -137,7 +141,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
       socket?.off("receive_leave_room", handleReceiveLeaveRoomSocket);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, room]);
+  }, [socket, userShorts]);
 
   return (
     <roomContext.Provider value={{ room, loadRoom, userShorts }}>

@@ -32,8 +32,9 @@ function App() {
                 <Route element={<Rooms />}>
                   <Route index element={<NoRoom />} />
                   <Route element={<RoomWrapper />}>
-                    <Route path=":rid" element={<ChatRoom />} />
-                    <Route path=":rid/details" element={<ChatRoomDetails />} />
+                    <Route path=":rid" element={<ChatRoom />}>
+                      <Route path="details" element={<ChatRoomDetails />} />
+                    </Route>
                   </Route>
                 </Route>
                 <Route path="user_profile" element={<UserProfile />} />

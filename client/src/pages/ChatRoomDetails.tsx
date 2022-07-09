@@ -14,30 +14,14 @@ import useToast from "../hooks/useToast";
 import useSocket from "../hooks/useSocket";
 
 export default function ChatRoomDetails() {
-  const messagesSectionRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-
   const params = useParams();
   const { removeUser, deleteRoom, removeAdmin } = useRoomServices();
   const { loadUser } = useAuth();
   const { removeRoom } = useUser();
   const { user } = useAuth();
-
-  const scrollToBottom = () => {
-    messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const { room, userShorts } = useRoom();
+  const { room, userShorts, loadRoom } = useRoom();
   const navigate = useNavigate();
   const { socket } = useSocket();
-
-  useEffect(() => {
-    room?.messages && setMessages(room.messages);
-  }, [room]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   const handleBackClick = () => {
     navigate(`/${params.rid}`);
