@@ -14,11 +14,13 @@ const setupSocket = (server, corsOptions) => {
 
         client.on('send_join_room', ({ uid, rid }) => {
             client.join(rid);
+            console.log(`user: ${uid} joined room : ${rid}`)
             client.to(rid).emit('receive_join_room', { uid, rid })
         })
 
         client.on('send_leave_room', ({ uid, rid }) => {
             client.leave(rid);
+            console.log(`user: ${uid} left room : ${rid}`)
             client.to(rid).emit('receive_leave_room', { uid, rid })
         })
 

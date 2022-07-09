@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-import { Message } from "../interfaces/Message";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoArrowBack, IoPencil } from "react-icons/io5";
 import OutlineButton from "../components/OutlineButton";
@@ -19,7 +17,7 @@ export default function ChatRoomDetails() {
   const { loadUser } = useAuth();
   const { removeRoom } = useUser();
   const { user } = useAuth();
-  const { room, userShorts, loadRoom } = useRoom();
+  const { room, userShorts } = useRoom();
   const navigate = useNavigate();
   const { socket } = useSocket();
 

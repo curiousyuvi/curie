@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Message } from "../interfaces/Message";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useOutlet, useParams } from "react-router-dom";
 import ChatCloud from "../components/ChatCloud";
 import ChatTextField from "../components/ChatTextField";
 import {
@@ -16,7 +16,6 @@ import ChatDateRule from "../components/ChatDateRule";
 import useDateTimeHelper from "../hooks/useDateTimeHelper";
 import Music from "../components/Music";
 import useSocket from "../hooks/useSocket";
-import ChatRoomDetails from "./ChatRoomDetails";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
@@ -30,7 +29,7 @@ export default function ChatRoom() {
   const { room } = useRoom();
   const params = useParams();
   const [messageList, setMessageList] = useState<any>([]);
-  const location = useLocation();
+  const outlet = useOutlet();
 
   const handleOnSend = (value: string) => {
     setMessages([
@@ -130,7 +129,7 @@ export default function ChatRoom() {
     scrollToBottom();
   }, [messageList]);
 
-  if (location.pathname.endsWith("details")) return <Outlet />;
+  if (outlet) return <Outlet />;
   else
     return (
       <div className="w-full h-full flex flex-col">
