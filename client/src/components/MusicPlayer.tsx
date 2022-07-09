@@ -7,7 +7,9 @@ import {
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
+import useRoom from "../hooks/useRoom";
 import useRoomMusic from "../hooks/useRoomMusic";
+import useSocket from "../hooks/useSocket";
 import PlayerNotActive from "./PlayerNotActive";
 
 const MusicPlayer = () => {
@@ -15,18 +17,40 @@ const MusicPlayer = () => {
   const { token } = useAuth();
   const apiPrivate = useApiPrivate();
   const { play, pause, next, previous } = useMusic();
+  const { socket } = useSocket();
+  const { user } = useAuth();
+  const { room } = useRoom();
+
   const handlePlay = () => {
     play(token, apiPrivate);
+    socket?.emit("send_play_pause", {
+      uid: user?.uid,
+      rid: room.rid,
+      play: true,
+    });
   };
 
   const handlePause = () => {
     pause(token, apiPrivate);
+    socket?.emit("send_play_pause", {
+      uid: user?.uid,
+      rid: room.rid,
+      play: false,
+    });
   };
   const handlePrev = () => {
     previous(token, apiPrivate);
+    socket?.emit("send_next", {
+      uid: user?.uid,
+      rid: room.rid,
+    });
   };
   const handleNext = () => {
     next(token, apiPrivate);
+    socket?.emit("send_previous", {
+      uid: user?.uid,
+      rid: room.rid,
+    });
   };
 
   return (

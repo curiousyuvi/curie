@@ -4,6 +4,8 @@ import { MdOutlineNextPlan } from "react-icons/md";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
+import useRoom from "../hooks/useRoom";
+import useSocket from "../hooks/useSocket";
 
 import { Track } from "../interfaces/Track";
 
@@ -11,8 +13,17 @@ const MusicPickerListTile = ({ track }: { track: Track }) => {
   const { play, addToQueue } = useMusic();
   const privateAPIInstance = useApiPrivate();
   const { token } = useAuth();
+  const { socket } = useSocket();
+  const { user } = useAuth();
+  const { room } = useRoom();
+
   const handlePlayClick = () => {
     play(token, privateAPIInstance, track.uri);
+    socket?.emit("send_play_track", {
+      uid: user?.uid,
+      rid: room.rid,
+      trackUri: track.uri,
+    });
   };
 
   const handleAddToQueue = () => {
