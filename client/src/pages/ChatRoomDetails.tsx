@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-import { Message } from "../interfaces/Message";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoArrowBack, IoPencil } from "react-icons/io5";
 import OutlineButton from "../components/OutlineButton";
@@ -11,30 +9,17 @@ import useRoomServices from "../hooks/useRoomServices";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
 import useToast from "../hooks/useToast";
+import useSocket from "../hooks/useSocket";
 
 export default function ChatRoomDetails() {
-  const messagesSectionRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-
   const params = useParams();
   const { removeUser, deleteRoom, removeAdmin } = useRoomServices();
   const { loadUser } = useAuth();
   const { removeRoom } = useUser();
-
-  const scrollToBottom = () => {
-    messagesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
+  const { user } = useAuth();
   const { room, userShorts } = useRoom();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    room?.messages && setMessages(room.messages);
-  }, [room]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  const { socket } = useSocket();
 
   const handleBackClick = () => {
     navigate(`/${params.rid}`);
@@ -42,6 +27,11 @@ export default function ChatRoomDetails() {
 
   const handleLeaveRoom = async () => {
     navigate("/");
+    if (socket && user)
+      socket.emit("send_leave_room", {
+        uid: user.uid,
+        rid: params.rid,
+      });
     await removeUser(room.rid, localStorage.getItem("UID") || "");
     await removeAdmin(room.rid, localStorage.getItem("UID") || "");
     await removeRoom(localStorage.getItem("UID") || "", room.rid);

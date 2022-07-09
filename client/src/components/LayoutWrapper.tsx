@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import AuthProvider from "../providers/AuthProvider";
 
 const LayoutWrapper = () => {
   return (
@@ -17,7 +18,9 @@ const LayoutWrapper = () => {
       </video>
       <Toaster />
       <div className="w-full h-full flex justify-center items-center p-4 text-gray-300">
-        <Outlet />
+        <AuthProvider>
+          <Outlet />
+        </AuthProvider>
       </div>
     </>
   );
