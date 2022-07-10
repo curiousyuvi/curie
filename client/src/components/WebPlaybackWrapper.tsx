@@ -2,7 +2,6 @@ import React, { useEffect, ReactNode } from "react";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
-import useRefreshPlayerActiveStatus from "../hooks/useRefreshPlayerActiveStatus";
 import useRoomMusic from "../hooks/useRoomMusic";
 
 function WebPlaybackWrapper({ children }: { children: ReactNode }) {
@@ -17,9 +16,8 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     setProgress,
     deviceId,
   } = useRoomMusic();
-  const refreshPlayerActiveStatus = useRefreshPlayerActiveStatus();
   const { setDeviceId } = useRoomMusic();
-  const { play, switchPlayer } = useMusic();
+  const { switchPlayer } = useMusic();
 
   useEffect(() => {
     if (user) {

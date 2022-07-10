@@ -1,9 +1,4 @@
-import {
-  BsFillPlayCircleFill,
-  BsPauseCircleFill,
-  BsSkipEndFill,
-  BsSkipStartFill,
-} from "react-icons/bs";
+import { BsFillPlayCircleFill, BsPauseCircleFill } from "react-icons/bs";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
@@ -15,7 +10,7 @@ const MusicPlayer = () => {
   const { currentTrack, paused, progress } = useRoomMusic();
   const { token } = useAuth();
   const apiPrivate = useApiPrivate();
-  const { play, pause, next, previous } = useMusic();
+  const { play, pause } = useMusic();
   const { socket } = useSocket();
   const { user } = useAuth();
   const { room } = useRoom();

@@ -1,6 +1,5 @@
 import React from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
-import { MdOutlineNextPlan } from "react-icons/md";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
