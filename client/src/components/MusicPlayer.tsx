@@ -10,10 +10,9 @@ import useMusic from "../hooks/useMusic";
 import useRoom from "../hooks/useRoom";
 import useRoomMusic from "../hooks/useRoomMusic";
 import useSocket from "../hooks/useSocket";
-import PlayerNotActive from "./PlayerNotActive";
 
 const MusicPlayer = () => {
-  const { active, currentTrack, paused, progress } = useRoomMusic();
+  const { currentTrack, paused, progress } = useRoomMusic();
   const { token } = useAuth();
   const apiPrivate = useApiPrivate();
   const { play, pause, next, previous } = useMusic();
@@ -38,37 +37,22 @@ const MusicPlayer = () => {
       play: false,
     });
   };
-  const handlePrev = () => {
-    previous(token, apiPrivate);
-    socket?.emit("send_next", {
-      uid: user?.uid,
-      rid: room.rid,
-    });
-  };
-  const handleNext = () => {
-    next(token, apiPrivate);
-    socket?.emit("send_previous", {
-      uid: user?.uid,
-      rid: room.rid,
-    });
-  };
 
   return (
-    <div className="w-full bg-indigo-500 relative">
-      {!active ? <PlayerNotActive /> : <></>}
-      <div className="w-full flex flex-col">
-        <div className="p-2 w-full h-24 flex items-center justify-start">
+    <div className="w-full absolute bottom-0 left-0 right-0 px-4 pb-4">
+      <div className="w-full bg-indigo-500 flex flex-col rounded-lg px-2 drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)]">
+        <div className="p-2 w-full h-20 flex items-center justify-start">
           <img
             src={currentTrack.thumbnail}
             alt="thumbnail"
-            className="h-20 rounded"
+            className="h-14 rounded"
           />
           <span className="mx-2" />
           <div className="w-full flex flex-col items-start justify-between">
             <p className="text-gray-100 font-medium overflow-hidden text-ellipsis w-full h-6">
               {currentTrack.name}
             </p>
-            <span className="my-1" />
+            <span className="mt-1" />
             <p className="text-sm overflow-hidden text-ellipsis w-full h-4">
               {currentTrack.artists.map((artist, i) => {
                 return (
@@ -79,8 +63,23 @@ const MusicPlayer = () => {
               })}
             </p>
           </div>
+          {paused ? (
+            <button
+              className="text-4xl px-2 text-white/90 hover:text-white hover:scale-110"
+              onClick={handlePlay}
+            >
+              <BsFillPlayCircleFill />{" "}
+            </button>
+          ) : (
+            <button
+              className="text-4xl px-2 text-white/90 hover:text-white hover:scale-110 duration-100"
+              onClick={handlePause}
+            >
+              <BsPauseCircleFill />
+            </button>
+          )}
         </div>
-        <div className="w-full bg-white/30 h-[0.2rem]">
+        <div className="w-full bg-white/30 h-[0.2rem] rounded-full overflow-hidden">
           <div
             className="bg-white h-[0.2rem]"
             style={{
@@ -89,31 +88,6 @@ const MusicPlayer = () => {
               ).toString()}%`,
             }}
           ></div>
-        </div>
-        <div className="h-14 bg-white/10 flex justify-center items-center text-white/90 hover:text-white duration-100 text-3xl">
-          <button onClick={handlePrev}>
-            <BsSkipStartFill />
-          </button>
-          <span className="mx-2" />
-
-          {paused ? (
-            <button className="text-4xl hover:scale-110" onClick={handlePlay}>
-              <BsFillPlayCircleFill />{" "}
-            </button>
-          ) : (
-            <button
-              className="text-4xl hover:scale-110 duration-100"
-              onClick={handlePause}
-            >
-              <BsPauseCircleFill />
-            </button>
-          )}
-
-          <span className="mx-2" />
-
-          <button onClick={handleNext}>
-            <BsSkipEndFill />
-          </button>
         </div>
       </div>
     </div>

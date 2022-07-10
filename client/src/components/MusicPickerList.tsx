@@ -21,7 +21,7 @@ const MusicPickerList = ({ query }: { query: string }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
   return (
-    <div className="h-96 w-full overflow-y-auto">
+    <div className="h-[35rem] w-full overflow-y-auto pb-[8rem]">
       {tracks.length !== 0 ? (
         tracks.map((track) => (
           <MusicPickerListTile key={track.id} track={track} />
