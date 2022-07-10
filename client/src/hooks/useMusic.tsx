@@ -28,14 +28,15 @@ const searchMusic = async (
 };
 
 const switchPlayer = async (
-  deviceId: string,
   token: string,
+  deviceId: string,
+  play: boolean,
   apiInstance: AxiosInstance
 ) => {
   try {
     const requestConfig: AxiosRequestConfig = {
       url: `/music/switch_player/${token}`,
-      params: { device_id: deviceId },
+      data: { device_id: deviceId, play },
       method: "put",
       responseType: "json",
     };

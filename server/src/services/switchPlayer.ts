@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const switchPlayer = async (deviceId, token: string) => {
+const switchPlayer = async (deviceId, play: boolean, token: string) => {
     try {
         const requestConfig = {
             url: "https://api.spotify.com/v1/me/player",
-            data: { device_ids: [deviceId], play: true },
+            data: { device_ids: [deviceId], play },
             method: 'put',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         }

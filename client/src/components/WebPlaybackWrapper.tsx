@@ -1,7 +1,7 @@
 import React, { useEffect, ReactNode } from "react";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
-import useRefreshPlayerActiveStatus from "../hooks/useRefreshPlayerActiveStatus";
+import useMusic from "../hooks/useMusic";
 import useRoomMusic from "../hooks/useRoomMusic";
 
 function WebPlaybackWrapper({ children }: { children: ReactNode }) {
@@ -16,8 +16,8 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     setProgress,
     deviceId,
   } = useRoomMusic();
-  const refreshPlayerActiveStatus = useRefreshPlayerActiveStatus();
   const { setDeviceId } = useRoomMusic();
+  const { switchPlayer } = useMusic();
 
   useEffect(() => {
     if (user) {
@@ -33,7 +33,7 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
           getOAuthToken: (cb: any) => {
             cb(token);
           },
-          volume: 0.5,
+          volume: 1,
         });
 
         setPlayer(spotifyPlayer);
@@ -108,19 +108,13 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (player && deviceId !== "") {
-      const refresh = () => {
-        refreshPlayerActiveStatus(
-          setActive,
-          deviceId,
-          token,
-          privateApiInstance
-        );
+      const initiatePlayback = async () => {
+        await switchPlayer(token, deviceId, false, privateApiInstance);
       };
-      const id = setInterval(refresh, 3000);
-      return () => clearInterval(id);
+      initiatePlayback();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player, deviceId]);
+  }, [player, deviceId, token]);
 
   return <>{children}</>;
 }

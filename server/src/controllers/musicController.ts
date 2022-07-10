@@ -24,7 +24,8 @@ const currentlyPlayingController = async (req: Request, res: Response) => {
 
 const switchPlayerController = async (req: Request, res: Response) => {
     const deviceId = req.body.device_id;
-    const result = await switchPlayer(deviceId, req.params.token)
+    const play = req.body.play;
+    const result = await switchPlayer(deviceId, play, req.params.token)
 
     if (result) res.status(204).json({ message: 'success' })
     else res.status(400).json({ message: 'failure' })

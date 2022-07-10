@@ -21,7 +21,7 @@ const MusicPicker = () => {
           <BiSearchAlt2 className="text-2xl absolute right-2 text-gray-400 peer-focus:text-white" />
         </div>
       </div>
-      <div className="h-96 p-2 overflow-hidden">
+      <div className="h-[35rem] p-2 overflow-hidden">
         <MusicPickerList query={query} />
       </div>
     </div>
