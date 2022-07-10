@@ -1,5 +1,9 @@
 import React, { createContext, ReactNode, useEffect, useState } from "react";
+import { privateApiInstance } from "../api/axiosInstances";
+import useAuth from "../hooks/useAuth";
+import useMusic from "../hooks/useMusic";
 import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
+import useSocket from "../hooks/useSocket";
 import { RoomMusicContext } from "../interfaces/RoomMusicContext";
 import { Track } from "../interfaces/Track";
 const roomMusicContext = createContext<RoomMusicContext>({
@@ -15,7 +19,7 @@ const roomMusicContext = createContext<RoomMusicContext>({
     id: "",
     name: "",
     artists: [""],
-    duration: 100000,
+    duration: 0,
     thumbnail: "",
     uri: "",
   },
@@ -39,6 +43,9 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     thumbnail: placeHolderAvatar,
     uri: "",
   });
+  const { socket } = useSocket();
+  const { token } = useAuth();
+  const music = useMusic();
   const [deviceId, setDeviceId] = useState("");
 
   useEffect(() => {
@@ -52,6 +59,70 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress, paused]);
+
+  const handleReceivePlayPauseSocket = ({
+    uid,
+    rid,
+    play,
+  }: {
+    uid: string;
+    rid: string;
+    play: boolean;
+  }) => {
+    if (play) {
+      music.play(token, privateApiInstance);
+    } else {
+      music.pause(token, privateApiInstance);
+    }
+  };
+
+  const handleReceiveNextSocket = ({
+    uid,
+    rid,
+  }: {
+    uid: string;
+    rid: string;
+  }) => {
+    music.next(token, privateApiInstance);
+  };
+
+  const handleReceivePreviousSocket = ({
+    uid,
+    rid,
+  }: {
+    uid: string;
+    rid: string;
+  }) => {
+    music.previous(token, privateApiInstance);
+  };
+
+  const handleReceivePlayTrackSocket = ({
+    uid,
+    rid,
+    trackUri,
+  }: {
+    uid: string;
+    rid: string;
+    trackUri: string;
+  }) => {
+    music.play(token, privateApiInstance, trackUri);
+  };
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("receive_play_pause", handleReceivePlayPauseSocket);
+      socket.on("receive_next", handleReceiveNextSocket);
+      socket.on("receive_previous", handleReceivePreviousSocket);
+      socket.on("receive_play_track", handleReceivePlayTrackSocket);
+    }
+
+    return () => {
+      socket?.off("receive_play_pause", handleReceivePlayPauseSocket);
+      socket?.off("receive_next", handleReceiveNextSocket);
+      socket?.off("receive_previous", handleReceivePreviousSocket);
+      socket?.off("receive_play_track", handleReceivePlayTrackSocket);
+    };
+  }, [socket, token]);
 
   return (
     <roomMusicContext.Provider
