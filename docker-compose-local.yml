@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  curie-node-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+
+    image: curie-node-server
+    env_file:
+      - ./server/config/dev.env
+    container_name: curie-node-server
+    command: npm run dev
+    volumes:
+      - ./server/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5000:5000"
+    networks:
+      - curie-network
+
+  curie-react-client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+
+    image: curie-react-client
+    container_name: curie-react-client
+    command: npm start
+    volumes:
+      - ./client/:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - curie-node-server
+    ports:
+      - "3000:3000"
+    networks:
+      - curie-network
+
+networks:
+  curie-network:
+    driver: bridge
