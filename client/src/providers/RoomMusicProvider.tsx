@@ -9,7 +9,7 @@ import { Track } from "../interfaces/Track";
 const roomMusicContext = createContext<RoomMusicContext>({
   player: null,
   setPlayer: () => {},
-  paused: false,
+  paused: true,
   setPaused: () => {},
   active: false,
   setActive: () => {},
@@ -32,7 +32,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   const getPlceholderAvatar = usePlaceholderAvatar();
   const placeHolderAvatar = getPlceholderAvatar();
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
-  const [paused, setPaused] = useState<boolean>(false);
+  const [paused, setPaused] = useState<boolean>(true);
   const [progress, setProgress] = useState<number>(0);
   const [active, setActive] = useState<boolean>(false);
   const [currentTrack, setCurrentTrack] = useState<Track>({
@@ -122,6 +122,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
       socket?.off("receive_previous", handleReceivePreviousSocket);
       socket?.off("receive_play_track", handleReceivePlayTrackSocket);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket, token]);
 
   return (

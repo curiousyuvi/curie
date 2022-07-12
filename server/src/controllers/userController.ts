@@ -81,7 +81,7 @@ const getUIDController = (req: Request, res: Response) => {
             res.status(404).json({ message: "not found" })
     }).catch(err => {
         console.error("Error in getting UID: ", err);
-        res.status(400).json({ message: "failure" })
+        res.status(403).json({ message: "failure" })
     })
 }
 

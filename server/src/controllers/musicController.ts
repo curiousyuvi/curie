@@ -12,14 +12,14 @@ const searchMusicController = async (req: Request, res: Response) => {
     const tracks = await searchMusic(req.query.token, req.params.query)
 
     if (tracks) res.status(200).json({ tracks })
-    else res.status(400).json({ message: 'failure' })
+    else res.status(403).json({ message: 'failure' })
 }
 
 const currentlyPlayingController = async (req: Request, res: Response) => {
     const result = await getCurrentlyPlaying(req.params.token)
 
     if (result) res.status(200).json(result)
-    else res.status(400).json({ message: 'failure' })
+    else res.status(403).json({ message: 'failure' })
 }
 
 const switchPlayerController = async (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ const switchPlayerController = async (req: Request, res: Response) => {
     const result = await switchPlayer(deviceId, play, req.params.token)
 
     if (result) res.status(204).json({ message: 'success' })
-    else res.status(400).json({ message: 'failure' })
+    else res.status(403).json({ message: 'failure' })
 }
 
 const playMusicController = async (req: Request, res: Response) => {
@@ -41,7 +41,7 @@ const playMusicController = async (req: Request, res: Response) => {
     const result = await playMusic(uri, position, deviceId, token);
 
     if (result) res.status(204).json({ message: 'success' })
-    else res.status(400).json({ message: 'failure' })
+    else res.status(403).json({ message: 'failure' })
 }
 
 const pauseMusicController = async (req: Request, res: Response) => {
@@ -51,7 +51,7 @@ const pauseMusicController = async (req: Request, res: Response) => {
     const result = await pauseMusic(token);
 
     if (result) res.status(204).json({ message: 'success' })
-    else res.status(400).json({ message: 'failure' })
+    else res.status(403).json({ message: 'failure' })
 }
 
 const previousMusicController = async (req: Request, res: Response) => {
@@ -59,7 +59,7 @@ const previousMusicController = async (req: Request, res: Response) => {
     const result = await previousMusic(token);
 
     if (result) res.status(204).json({ message: 'success' })
-    else res.status(400).json({ message: 'failure' })
+    else res.status(403).json({ message: 'failure' })
 }
 
 const nextMusicController = async (req: Request, res: Response) => {
@@ -67,7 +67,7 @@ const nextMusicController = async (req: Request, res: Response) => {
     const result = await nextMusic(token);
 
     if (result) res.status(204).json({ message: 'success' })
-    else res.status(400).json({ message: 'failure' })
+    else res.status(403).json({ message: 'failure' })
 }
 
 const addToQueueController = async (req: Request, res: Response) => {
@@ -78,7 +78,7 @@ const addToQueueController = async (req: Request, res: Response) => {
     const result = await addToQueue(uri, token);
 
     if (result) res.status(204).json({ message: 'success' })
-    else res.status(400).json({ message: 'failure' })
+    else res.status(403).json({ message: 'failure' })
 }
 
 export {
