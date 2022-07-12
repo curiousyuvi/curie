@@ -14,10 +14,11 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     setActive,
     setCurrentTrack,
     setProgress,
+    setDevice,
     deviceId,
+    setDeviceId,
   } = useRoomMusic();
-  const { setDeviceId } = useRoomMusic();
-  const { switchPlayer } = useMusic();
+  const { switchPlayer, getCurrentPlaybackState } = useMusic();
 
   useEffect(() => {
     if (user) {
@@ -73,7 +74,7 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
               return;
             }
             setActive(true);
-            if (state.track_window.current_track.id)
+            if (state.track_window.current_track?.id)
               setCurrentTrack({
                 id: state.track_window.current_track.id,
                 name: state.track_window.current_track.name,
@@ -109,12 +110,29 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (player && deviceId !== "") {
       const initiatePlayback = async () => {
-        await switchPlayer(token, deviceId, false, privateApiInstance);
+        await switchPlayer(token, deviceId, privateApiInstance);
       };
+
       initiatePlayback();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player, deviceId, token]);
+
+  useEffect(() => {
+    const keepPlayerUpdated = async () => {
+      const state = await getCurrentPlaybackState(token, privateApiInstance);
+      if (state) {
+        setCurrentTrack(state.currentTrack);
+        setDevice(state.currentDevice);
+        setPaused(!state.playing);
+        setProgress(state.progress);
+      }
+    };
+
+    const keepPlayerUpdatedInterval = setInterval(keepPlayerUpdated, 3000);
+    return () => clearInterval(keepPlayerUpdatedInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return <>{children}</>;
 }

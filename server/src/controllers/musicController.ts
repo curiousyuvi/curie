@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import addToQueue from "../services/addToQueue"
 import getCurrentlyPlaying from "../services/currentlyPlaying"
 import getCurrentPlaybackState from "../services/getCurrentPlaybackState"
-import getPlayers from "../services/getPlayers"
+import getDevices from "../services/getDevices"
 import nextMusic from "../services/nextMusic"
 import pauseMusic from "../services/pauseMusic"
 import playMusic from "../services/playMusic"
@@ -11,7 +11,8 @@ import searchMusic from "../services/searchMusic"
 import switchPlayer from "../services/switchPlayer"
 
 const searchMusicController = async (req: Request, res: Response) => {
-    const tracks = await searchMusic(req.query.token, req.params.query)
+    console.log('token: ', req.params.token)
+    const tracks = await searchMusic(req.params.token, req.query.query)
 
     if (tracks) res.status(200).json({ tracks })
     else res.status(403).json({ message: 'failure' })
@@ -25,9 +26,9 @@ const currentlyPlayingController = async (req: Request, res: Response) => {
 }
 
 const switchPlayerController = async (req: Request, res: Response) => {
-    const deviceId = req.params.device_id;
+    const deviceId = req.body.device_id;
     const play = req.body.play;
-    const result = await switchPlayer(deviceId, play, req.body.token)
+    const result = await switchPlayer(deviceId, play, req.params.token)
 
     if (result) res.status(204).json({ message: 'success' })
     else res.status(403).json({ message: 'failure' })
@@ -83,10 +84,10 @@ const addToQueueController = async (req: Request, res: Response) => {
     else res.status(403).json({ message: 'failure' })
 }
 
-const getPlayersMusicController = async (req: Request, res: Response) => {
-    const players = await getPlayers(req.params.token)
+const getDevicesMusicController = async (req: Request, res: Response) => {
+    const devices = await getDevices(req.params.token)
 
-    if (players) res.status(200).json({ players })
+    if (devices) res.status(200).json({ devices })
     else res.status(403).json({ message: 'failure' })
 }
 
@@ -99,7 +100,7 @@ const getCurrentPlaybackStateController = async (req: Request, res: Response) =>
 
 export {
     searchMusicController,
-    getPlayersMusicController,
+    getDevicesMusicController,
     switchPlayerController,
     playMusicController,
     pauseMusicController,

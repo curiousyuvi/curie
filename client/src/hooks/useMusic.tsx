@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
 import { PlaybackState } from "../interfaces/PlaybackState";
-import { Player } from "../interfaces/Player";
+import { Device } from "../interfaces/Device";
 import { Track } from "../interfaces/Track";
 
 const searchMusic = async (
@@ -10,8 +10,8 @@ const searchMusic = async (
 ): Promise<Track[]> => {
   try {
     const requestConfig: AxiosRequestConfig = {
-      url: `/music/search/${query}`,
-      params: { token },
+      url: `/music/search/${token}`,
+      params: { query },
       method: "get",
       responseType: "json",
     };
@@ -32,13 +32,13 @@ const searchMusic = async (
 const switchPlayer = async (
   token: string,
   deviceId: string,
-  play: boolean,
-  apiInstance: AxiosInstance
+  apiInstance: AxiosInstance,
+  play?: boolean
 ) => {
   try {
     const requestConfig: AxiosRequestConfig = {
-      url: `/music/switch_player/${deviceId}`,
-      data: { token, play },
+      url: `/music/switch_player/${token}`,
+      data: { device_id: deviceId, play },
       method: "put",
       responseType: "json",
     };
@@ -179,26 +179,26 @@ const addToQueue = async (
   }
 };
 
-const getPlayers: (
+const getDevices: (
   token: string,
   apiInstance: AxiosInstance
-) => Promise<Player[]> = async (token, apiInstance) => {
+) => Promise<Device[]> = async (token, apiInstance) => {
   try {
     const requestConfig: AxiosRequestConfig = {
-      url: `/music/players/${token}`,
+      url: `/music/devices/${token}`,
       method: "get",
       responseType: "json",
     };
 
     const response = await apiInstance(requestConfig);
     if (response.status === 200) {
-      return response.data.players;
+      return response.data.devices;
     } else {
-      console.error("Error in getting players: ", response.data);
+      console.error("Error in getting devices: ", response.data);
       return [];
     }
   } catch (err) {
-    console.error("Error in getting players: ", err);
+    console.error("Error in getting devices: ", err);
     return [];
   }
 };
@@ -236,7 +236,7 @@ const useMusic = () => {
     next,
     previous,
     addToQueue,
-    getPlayers,
+    getDevices,
     getCurrentPlaybackState,
   };
 };

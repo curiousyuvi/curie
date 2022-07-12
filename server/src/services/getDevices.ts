@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getPlayers = async (token: string) => {
+const getDevices = async (token: string) => {
     try {
         const requestConfig = {
             url: "https://api.spotify.com/v1/me/player/devices",
@@ -25,9 +25,9 @@ const getPlayers = async (token: string) => {
             return devices;
         } else return null;
     } catch (err) {
-        console.error("Error in getting players: ", err.response.data);
+        console.error("Error in getting devices: ", err.response.data);
         return null;
     }
 };
 
-export default getPlayers;
+export default getDevices;

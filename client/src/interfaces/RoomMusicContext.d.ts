@@ -1,3 +1,4 @@
+import { Device } from "./Device";
 import { Track } from "./Track";
 
 export type RoomMusicContext = {
@@ -11,6 +12,8 @@ export type RoomMusicContext = {
     setProgress: (progress: number) => void;
     currentTrack: Track;
     setCurrentTrack: (currentTrack: Track) => void;
+    device: Device | null;
+    setDevice: (player: Device) => void;
     deviceId: string;
-    setDeviceId: (deviceId: string) => void;
+    setDeviceId: (deviceId: string) => void
 }

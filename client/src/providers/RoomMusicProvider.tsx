@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
 import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import useSocket from "../hooks/useSocket";
+import { Device } from "../interfaces/Device";
 import { RoomMusicContext } from "../interfaces/RoomMusicContext";
 import { Track } from "../interfaces/Track";
 const roomMusicContext = createContext<RoomMusicContext>({
@@ -24,6 +25,8 @@ const roomMusicContext = createContext<RoomMusicContext>({
     uri: "",
   },
   setCurrentTrack: () => {},
+  device: null,
+  setDevice: () => {},
   deviceId: "",
   setDeviceId: () => {},
 });
@@ -33,6 +36,8 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   const placeHolderAvatar = getPlceholderAvatar();
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
   const [paused, setPaused] = useState<boolean>(true);
+  const [device, setDevice] = useState<Device | null>(null);
+  const [deviceId, setDeviceId] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
   const [active, setActive] = useState<boolean>(false);
   const privateAPI = useApiPrivate();
@@ -47,7 +52,6 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   const { socket } = useSocket();
   const { token } = useAuth();
   const music = useMusic();
-  const [deviceId, setDeviceId] = useState("");
 
   useEffect(() => {
     const timer = () => {
@@ -139,6 +143,8 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
         setProgress,
         currentTrack,
         setCurrentTrack,
+        device,
+        setDevice,
         deviceId,
         setDeviceId,
       }}

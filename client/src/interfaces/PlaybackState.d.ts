@@ -1,8 +1,8 @@
-import { Player } from "./Player"
+import { Device } from "./Device"
 import { Track } from "./Track";
 
 export type PlaybackState = {
-    currentDevice: Player;
+    currentDevice: Device;
     currentTrack: Track;
     progress: number;
     timestamp; number;

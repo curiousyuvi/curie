@@ -13,7 +13,11 @@ const useApiPrivate = () => {
         if (err?.response?.status === 403 && !prevRequest?.sent) {
           prevRequest.sent = true;
           refreshToken().then((newToken) => {
-            if (newToken) prevRequest.params["token"] = newToken;
+            if (newToken) {
+              const pathParts: string[] = prevRequest.url.split("/");
+              pathParts[pathParts.length - 1] = newToken;
+              prevRequest.url = pathParts.join("/");
+            }
             return privateApiInstance(prevRequest);
           });
         }
