@@ -1,4 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
+import { PlaybackState } from "../interfaces/PlaybackState";
+import { Player } from "../interfaces/Player";
 import { Track } from "../interfaces/Track";
 
 const searchMusic = async (
@@ -177,8 +179,66 @@ const addToQueue = async (
   }
 };
 
+const getPlayers: (
+  token: string,
+  apiInstance: AxiosInstance
+) => Promise<Player[]> = async (token, apiInstance) => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/music/players/${token}`,
+      method: "get",
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return response.data.players;
+    } else {
+      console.error("Error in getting players: ", response.data);
+      return [];
+    }
+  } catch (err) {
+    console.error("Error in getting players: ", err);
+    return [];
+  }
+};
+
+const getCurrentPlaybackState: (
+  token: string,
+  apiInstance: AxiosInstance
+) => Promise<PlaybackState | null> = async (token, apiInstance) => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/music/current_playback_state/${token}`,
+      method: "get",
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.error("Error in getting current playback state: ", response.data);
+      return null;
+    }
+  } catch (err) {
+    console.error("Error in getting current playback state: ", err);
+    return null;
+  }
+};
+
 const useMusic = () => {
-  return { searchMusic, switchPlayer, play, pause, next, previous, addToQueue };
+  return {
+    searchMusic,
+    switchPlayer,
+    play,
+    pause,
+    next,
+    previous,
+    addToQueue,
+    getPlayers,
+    getCurrentPlaybackState,
+  };
 };
 
 export default useMusic;
