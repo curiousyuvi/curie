@@ -6,4 +6,5 @@ export type AuthContext = {
   logout: () => void;
   loadUser: () => Promise<void>;
   setToken: React.Dispatch<React.SetStateAction<string>>;
+  authLoading: boolean;
 };

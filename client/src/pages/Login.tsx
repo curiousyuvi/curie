@@ -1,6 +1,25 @@
+import Lottie from "react-lottie";
 import PrimaryButton from "../components/PrimaryButton";
+import useAuth from "../hooks/useAuth";
+import loader from "../assets/bounce_loader_lottie_w.json";
 
 export default function Login() {
+  const { authLoading } = useAuth();
+  if (authLoading)
+    return (
+      <Lottie
+        options={{
+          loop: true,
+          autoplay: true,
+          animationData: loader,
+          rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice",
+          },
+        }}
+        height={300}
+        width={300}
+      />
+    );
   return (
     <div className="w-96 bg-indigo-700/50 p-8 rounded-lg flex flex-col items-center">
       <img

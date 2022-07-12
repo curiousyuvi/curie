@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Lottie from "react-lottie";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
 import { Track } from "../interfaces/Track";
 import MusicPickerListTile from "./MusicPickerListTile";
+import searchAnimation from "../assets/search_lottie.json";
 
 const MusicPickerList = ({ query }: { query: string }) => {
   const { searchMusic } = useMusic();
@@ -27,9 +29,20 @@ const MusicPickerList = ({ query }: { query: string }) => {
           <MusicPickerListTile key={track.id} track={track} />
         ))
       ) : (
-        <p className="h-full w-full flex justify-center items-center">
-          {"🔎 "}Search and play {"🎧️ "}music
-        </p>
+        <div className="w-full h-full flex flex-col justify-center items-center">
+          <Lottie
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: searchAnimation,
+              rendererSettings: {
+                preserveAspectRatio: "xMidYMid slice",
+              },
+            }}
+            height={350}
+            width={350}
+          />
+        </div>
       )}
     </div>
   );

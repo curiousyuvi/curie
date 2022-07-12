@@ -154,8 +154,8 @@ export default function ChatRoom() {
             <IoEllipsisVertical className="hidden group-hover:flex text-white" />
           </button>
         </div>
-        <div className="h-full bg-blue-900/70 w-full p-4 flex flex-col justify-between relative">
-          <div className="w-full h-[calc(100vh-16.5rem)] flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative">
+        <div className="h-full bg-blue-900/70 w-full p-4 flex flex-col justify-between relative z-10">
+          <div className="w-full h-[calc(100vh-16.5rem)] flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10">
             {messageList}
             <div ref={messagesSectionRef} />
           </div>
