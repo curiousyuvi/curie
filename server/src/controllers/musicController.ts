@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import addToQueue from "../services/addToQueue"
 import getCurrentlyPlaying from "../services/currentlyPlaying"
+import getCurrentPlaybackState from "../services/getCurrentPlaybackState"
 import getPlayers from "../services/getPlayers"
 import nextMusic from "../services/nextMusic"
 import pauseMusic from "../services/pauseMusic"
@@ -89,6 +90,13 @@ const getPlayersMusicController = async (req: Request, res: Response) => {
     else res.status(403).json({ message: 'failure' })
 }
 
+const getCurrentPlaybackStateController = async (req: Request, res: Response) => {
+    const state = await getCurrentPlaybackState(req.params.token)
+
+    if (state) res.status(200).json(state)
+    else res.status(403).json({ message: 'failure' })
+}
+
 export {
     searchMusicController,
     getPlayersMusicController,
@@ -98,5 +106,6 @@ export {
     previousMusicController,
     nextMusicController,
     addToQueueController,
-    currentlyPlayingController
+    currentlyPlayingController,
+    getCurrentPlaybackStateController
 }

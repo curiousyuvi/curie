@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { apiInstance, privateApiInstance } from "../api/axiosInstances";
+import { privateApiInstance } from "../api/axiosInstances";
 import useToken from "./useToken";
 
 const useApiPrivate = () => {
@@ -14,7 +14,7 @@ const useApiPrivate = () => {
           prevRequest.sent = true;
           refreshToken().then((newToken) => {
             if (newToken) prevRequest.params["token"] = newToken;
-            return apiInstance(prevRequest);
+            return privateApiInstance(prevRequest);
           });
         }
         return Promise.reject(err);
@@ -22,7 +22,7 @@ const useApiPrivate = () => {
     );
 
     return () => {
-      apiInstance.interceptors.response.eject(responseInterceptor);
+      privateApiInstance.interceptors.response.eject(responseInterceptor);
     };
   }, [refreshToken]);
 

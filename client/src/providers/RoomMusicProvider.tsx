@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useEffect, useState } from "react";
-import { privateApiInstance } from "../api/axiosInstances";
+import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
 import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
@@ -35,6 +35,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   const [paused, setPaused] = useState<boolean>(true);
   const [progress, setProgress] = useState<number>(0);
   const [active, setActive] = useState<boolean>(false);
+  const privateAPI = useApiPrivate();
   const [currentTrack, setCurrentTrack] = useState<Track>({
     id: "",
     name: "lorem ipsum",
@@ -70,9 +71,9 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     play: boolean;
   }) => {
     if (play) {
-      music.play(token, privateApiInstance);
+      music.play(token, privateAPI);
     } else {
-      music.pause(token, privateApiInstance);
+      music.pause(token, privateAPI);
     }
   };
 
@@ -83,7 +84,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     uid: string;
     rid: string;
   }) => {
-    music.next(token, privateApiInstance);
+    music.next(token, privateAPI);
   };
 
   const handleReceivePreviousSocket = ({
@@ -93,7 +94,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     uid: string;
     rid: string;
   }) => {
-    music.previous(token, privateApiInstance);
+    music.previous(token, privateAPI);
   };
 
   const handleReceivePlayTrackSocket = ({
@@ -105,7 +106,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     rid: string;
     trackUri: string;
   }) => {
-    music.play(token, privateApiInstance, trackUri);
+    music.play(token, privateAPI, trackUri);
   };
 
   useEffect(() => {
