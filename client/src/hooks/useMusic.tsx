@@ -35,8 +35,8 @@ const switchPlayer = async (
 ) => {
   try {
     const requestConfig: AxiosRequestConfig = {
-      url: `/music/switch_player/${token}`,
-      data: { device_id: deviceId, play },
+      url: `/music/switch_player/${deviceId}`,
+      data: { token, play },
       method: "put",
       responseType: "json",
     };

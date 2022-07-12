@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import addToQueue from "../services/addToQueue"
 import getCurrentlyPlaying from "../services/currentlyPlaying"
+import getPlayers from "../services/getPlayers"
 import nextMusic from "../services/nextMusic"
 import pauseMusic from "../services/pauseMusic"
 import playMusic from "../services/playMusic"
@@ -23,9 +24,9 @@ const currentlyPlayingController = async (req: Request, res: Response) => {
 }
 
 const switchPlayerController = async (req: Request, res: Response) => {
-    const deviceId = req.body.device_id;
+    const deviceId = req.params.device_id;
     const play = req.body.play;
-    const result = await switchPlayer(deviceId, play, req.params.token)
+    const result = await switchPlayer(deviceId, play, req.body.token)
 
     if (result) res.status(204).json({ message: 'success' })
     else res.status(403).json({ message: 'failure' })
@@ -81,8 +82,16 @@ const addToQueueController = async (req: Request, res: Response) => {
     else res.status(403).json({ message: 'failure' })
 }
 
+const getPlayersMusicController = async (req: Request, res: Response) => {
+    const players = await getPlayers(req.params.token)
+
+    if (players) res.status(200).json({ players })
+    else res.status(403).json({ message: 'failure' })
+}
+
 export {
     searchMusicController,
+    getPlayersMusicController,
     switchPlayerController,
     playMusicController,
     pauseMusicController,
