@@ -1,4 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
+import { PlaybackState } from "../interfaces/PlaybackState";
+import { Device } from "../interfaces/Device";
 import { Track } from "../interfaces/Track";
 
 const searchMusic = async (
@@ -8,8 +10,8 @@ const searchMusic = async (
 ): Promise<Track[]> => {
   try {
     const requestConfig: AxiosRequestConfig = {
-      url: `/music/search/${query}`,
-      params: { token },
+      url: `/music/search/${token}`,
+      params: { query },
       method: "get",
       responseType: "json",
     };
@@ -30,8 +32,8 @@ const searchMusic = async (
 const switchPlayer = async (
   token: string,
   deviceId: string,
-  play: boolean,
-  apiInstance: AxiosInstance
+  apiInstance: AxiosInstance,
+  play?: boolean
 ) => {
   try {
     const requestConfig: AxiosRequestConfig = {
@@ -177,8 +179,66 @@ const addToQueue = async (
   }
 };
 
+const getDevices: (
+  token: string,
+  apiInstance: AxiosInstance
+) => Promise<Device[]> = async (token, apiInstance) => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/music/devices/${token}`,
+      method: "get",
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return response.data.devices;
+    } else {
+      console.error("Error in getting devices: ", response.data);
+      return [];
+    }
+  } catch (err) {
+    console.error("Error in getting devices: ", err);
+    return [];
+  }
+};
+
+const getCurrentPlaybackState: (
+  token: string,
+  apiInstance: AxiosInstance
+) => Promise<PlaybackState | null> = async (token, apiInstance) => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/music/current_playback_state/${token}`,
+      method: "get",
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.error("Error in getting current playback state: ", response.data);
+      return null;
+    }
+  } catch (err) {
+    console.error("Error in getting current playback state: ", err);
+    return null;
+  }
+};
+
 const useMusic = () => {
-  return { searchMusic, switchPlayer, play, pause, next, previous, addToQueue };
+  return {
+    searchMusic,
+    switchPlayer,
+    play,
+    pause,
+    next,
+    previous,
+    addToQueue,
+    getDevices,
+    getCurrentPlaybackState,
+  };
 };
 
 export default useMusic;

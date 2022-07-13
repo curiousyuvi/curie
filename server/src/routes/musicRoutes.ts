@@ -1,12 +1,16 @@
 import express from "express";
-import { searchMusicController, currentlyPlayingController, switchPlayerController, playMusicController, pauseMusicController, previousMusicController, nextMusicController, addToQueueController } from "../controllers/musicController";
+import { searchMusicController, currentlyPlayingController, switchPlayerController, playMusicController, pauseMusicController, previousMusicController, nextMusicController, addToQueueController, getDevicesMusicController, getCurrentPlaybackStateController } from "../controllers/musicController";
 const router = express.Router();
 
-router.get("/search/:query", searchMusicController);
+router.get("/search/:token", searchMusicController);
 
 router.get("/playing/:token", currentlyPlayingController);
 
 router.put("/switch_player/:token", switchPlayerController);
+
+router.get("/devices/:token", getDevicesMusicController)
+
+router.get("/current_playback_state/:token", getCurrentPlaybackStateController)
 
 router.put('/play/:token', playMusicController)
 

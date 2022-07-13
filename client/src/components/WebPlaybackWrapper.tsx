@@ -15,8 +15,8 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     setCurrentTrack,
     setProgress,
     deviceId,
+    setDeviceId,
   } = useRoomMusic();
-  const { setDeviceId } = useRoomMusic();
   const { switchPlayer } = useMusic();
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
               return;
             }
             setActive(true);
-            if (state.track_window.current_track.id)
+            if (state.track_window.current_track?.id)
               setCurrentTrack({
                 id: state.track_window.current_track.id,
                 name: state.track_window.current_track.name,
@@ -109,8 +109,9 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (player && deviceId !== "") {
       const initiatePlayback = async () => {
-        await switchPlayer(token, deviceId, false, privateApiInstance);
+        await switchPlayer(token, deviceId, privateApiInstance);
       };
+
       initiatePlayback();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
