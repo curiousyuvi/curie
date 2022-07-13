@@ -14,11 +14,10 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     setActive,
     setCurrentTrack,
     setProgress,
-    setDevice,
     deviceId,
     setDeviceId,
   } = useRoomMusic();
-  const { switchPlayer, getCurrentPlaybackState } = useMusic();
+  const { switchPlayer } = useMusic();
 
   useEffect(() => {
     if (user) {
@@ -117,22 +116,6 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player, deviceId, token]);
-
-  useEffect(() => {
-    const keepPlayerUpdated = async () => {
-      const state = await getCurrentPlaybackState(token, privateApiInstance);
-      if (state) {
-        setCurrentTrack(state.currentTrack);
-        setDevice(state.currentDevice);
-        setPaused(!state.playing);
-        setProgress(state.progress);
-      }
-    };
-
-    const keepPlayerUpdatedInterval = setInterval(keepPlayerUpdated, 3000);
-    return () => clearInterval(keepPlayerUpdatedInterval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
 
   return <>{children}</>;
 }
