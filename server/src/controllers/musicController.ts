@@ -11,7 +11,6 @@ import searchMusic from "../services/searchMusic"
 import switchPlayer from "../services/switchPlayer"
 
 const searchMusicController = async (req: Request, res: Response) => {
-    console.log('token: ', req.params.token)
     const tracks = await searchMusic(req.params.token, req.query.query)
 
     if (tracks) res.status(200).json({ tracks })
