@@ -16,6 +16,7 @@ import ChatDateRule from "../components/ChatDateRule";
 import useDateTimeHelper from "../hooks/useDateTimeHelper";
 import Music from "../components/Music";
 import useSocket from "../hooks/useSocket";
+import ChatMusicCloud from "../components/ChatMusicCloud";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
@@ -93,8 +94,12 @@ export default function ChatRoom() {
       if (message.type === "text")
         newMessageList.push(<ChatCloud key={message.mid} message={message} />);
       else if (message.type === "notification")
-        return newMessageList.push(
+        newMessageList.push(
           <ChatNotification key={message.mid} message={message} />
+        );
+      else if (message.type === "music")
+        newMessageList.push(
+          <ChatMusicCloud key={message.mid} message={message} />
         );
     });
 

@@ -1,4 +1,6 @@
 import { Server } from "socket.io";
+import idFromDate from "./helpers/idFromDate";
+import sendMessage from "./services/sendMessage";
 
 const setupSocket = (server, corsOptions) => {
     const io = new Server(server, {
@@ -32,20 +34,14 @@ const setupSocket = (server, corsOptions) => {
             client.to(rid).emit('receive_play_pause', { uid, rid, play })
         })
 
-        client.on('send_next', ({ uid, rid }) => {
-            client.to(rid).emit('receive_next', { uid, rid })
-        })
-
-        client.on('send_previous', ({ uid, rid }) => {
-            client.to(rid).emit('receive_previous', { uid, rid })
-        })
-
-        client.on('send_play_track', ({ uid, rid, trackUri }) => {
-            client.to(rid).emit('receive_play_track', { uid, rid, trackUri })
-        })
-
-        client.on('send_add_to_queue', ({ uid, rid, trackUri }) => {
-            client.to(rid).emit('receive_add_to_queue', { uid, rid, trackUri })
+        client.on('send_play_track', ({ uid, rid, track }) => {
+            client.emit('receive_play_track', { uid, rid, track })
+            client.to(rid).emit('receive_play_track', { uid, rid, track })
+            client.emit('receive_message', { rid, message: { mid: idFromDate(new Date()), type: "music", content: JSON.stringify(track), sender: uid } })
+            client.to(rid).emit('receive_message', { rid, message: { mid: idFromDate(new Date()), type: "music", content: JSON.stringify(track), sender: uid } })
+            sendMessage(rid, { type: "music", content: JSON.stringify(track), sender: uid }, err => {
+                console.error('error in sending message: ', err)
+            });
         })
 
     })
