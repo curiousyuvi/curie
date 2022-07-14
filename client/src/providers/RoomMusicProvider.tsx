@@ -81,50 +81,26 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleReceiveNextSocket = ({
-    uid,
-    rid,
-  }: {
-    uid: string;
-    rid: string;
-  }) => {
-    music.next(token, privateAPI);
-  };
-
-  const handleReceivePreviousSocket = ({
-    uid,
-    rid,
-  }: {
-    uid: string;
-    rid: string;
-  }) => {
-    music.previous(token, privateAPI);
-  };
-
   const handleReceivePlayTrackSocket = ({
     uid,
     rid,
-    trackUri,
+    track,
   }: {
     uid: string;
     rid: string;
-    trackUri: string;
+    track: Track;
   }) => {
-    music.play(token, privateAPI, trackUri);
+    music.play(token, privateAPI, track.uri);
   };
 
   useEffect(() => {
     if (socket) {
       socket.on("receive_play_pause", handleReceivePlayPauseSocket);
-      socket.on("receive_next", handleReceiveNextSocket);
-      socket.on("receive_previous", handleReceivePreviousSocket);
       socket.on("receive_play_track", handleReceivePlayTrackSocket);
     }
 
     return () => {
       socket?.off("receive_play_pause", handleReceivePlayPauseSocket);
-      socket?.off("receive_next", handleReceiveNextSocket);
-      socket?.off("receive_previous", handleReceivePreviousSocket);
       socket?.off("receive_play_track", handleReceivePlayTrackSocket);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
