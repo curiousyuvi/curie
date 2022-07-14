@@ -6,12 +6,9 @@ import useRoomServices from "../hooks/useRoomServices";
 import useSocket from "../hooks/useSocket";
 import useUser from "../hooks/useUser";
 import { Room } from "../interfaces/Room";
+import { RoomContext } from "../interfaces/RoomContext";
 import { UserShort } from "../interfaces/UserShort";
-const roomContext = createContext<{
-  room: Room;
-  loadRoom: () => void;
-  userShorts: UserShort[];
-}>({
+const roomContext = createContext<RoomContext>({
   room: {
     name: "",
     rid: "",
@@ -22,6 +19,7 @@ const roomContext = createContext<{
   },
   loadRoom: () => {},
   userShorts: [],
+  roomLoading: true,
 });
 
 const RoomProvider = ({ children }: { children: ReactNode }) => {
@@ -42,6 +40,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   const [userShorts, setUserShorts] = useState<UserShort[]>([]);
   const { user } = useAuth();
   const { socket } = useSocket();
+  const [roomLoading, setRoomLoading] = useState<boolean>(true);
 
   const loadRoomMemberList = async () => {
     let result: UserShort[] = [];
@@ -91,6 +90,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
 
       loadUser();
     }
+    setRoomLoading(false);
   };
   const navigate = useNavigate();
 
@@ -144,7 +144,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   }, [socket, userShorts]);
 
   return (
-    <roomContext.Provider value={{ room, loadRoom, userShorts }}>
+    <roomContext.Provider value={{ room, loadRoom, userShorts, roomLoading }}>
       {children}
     </roomContext.Provider>
   );

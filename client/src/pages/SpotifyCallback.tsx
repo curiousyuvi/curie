@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
+import Lottie from "react-lottie";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import PrimaryButton from "../components/PrimaryButton";
 import useAuth from "../hooks/useAuth";
+import loader from "../assets/bounce_loader_lottie_w.json";
 import useToken from "../hooks/useToken";
 
 export default function SpotifyCallback() {
@@ -32,21 +33,17 @@ export default function SpotifyCallback() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="w-96 bg-indigo-700/50 p-8 rounded-lg flex flex-col items-center">
-      <img
-        src={require("../assets/logo.png")}
-        alt="curie-logo"
-        className="w-44 mb-4"
-      />
-      <img
-        src={require("../assets/heading.png")}
-        alt="CURIE"
-        className="w-32 mb-8"
-      />
-      <p className="text-xl mb-4">{"🤗 "}Welcome to Curie</p>
-      <div>
-        <PrimaryButton onClick={() => {}}>LOGGING IN...</PrimaryButton>
-      </div>
-    </div>
+    <Lottie
+      options={{
+        loop: true,
+        autoplay: true,
+        animationData: loader,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice",
+        },
+      }}
+      height={300}
+      width={300}
+    />
   );
 }

@@ -17,6 +17,8 @@ import useDateTimeHelper from "../hooks/useDateTimeHelper";
 import Music from "../components/Music";
 import useSocket from "../hooks/useSocket";
 import ChatMusicCloud from "../components/ChatMusicCloud";
+import Lottie from "react-lottie";
+import chatLoader from "../assets/chat_loader_lottie.json";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
@@ -27,7 +29,7 @@ export default function ChatRoom() {
   const { midFromDate, dateFromMid, formatDate } = useDateTimeHelper();
   const [musicModalOpen, setMusicModalOpen] = useState(false);
   const { socket } = useSocket();
-  const { room } = useRoom();
+  const { room, roomLoading } = useRoom();
   const params = useParams();
   const [messageList, setMessageList] = useState<any>([]);
   const outlet = useOutlet();
@@ -134,7 +136,26 @@ export default function ChatRoom() {
     scrollToBottom();
   }, [messageList]);
 
-  if (outlet) return <Outlet />;
+  if (roomLoading)
+    return (
+      <div className="h-full bg-blue-900/70 w-full flex justify-center items-center">
+        <span className="opacity-70">
+          <Lottie
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: chatLoader,
+              rendererSettings: {
+                preserveAspectRatio: "xMidYMid slice",
+              },
+            }}
+            height={150}
+            width={150}
+          />
+        </span>
+      </div>
+    );
+  else if (outlet) return <Outlet />;
   else
     return (
       <div className="w-full h-full flex flex-col">
