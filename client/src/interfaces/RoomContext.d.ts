@@ -3,4 +3,6 @@ export type RoomContext = {
     loadRoom: () => void;
     userShorts: UserShort[];
     roomLoading: boolean;
+    voting: boolean;
+    setVoting: (voting: boolean) => void;
 }

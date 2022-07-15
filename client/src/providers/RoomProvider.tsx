@@ -20,6 +20,8 @@ const roomContext = createContext<RoomContext>({
   loadRoom: () => {},
   userShorts: [],
   roomLoading: true,
+  voting: false,
+  setVoting: () => {},
 });
 
 const RoomProvider = ({ children }: { children: ReactNode }) => {
@@ -41,6 +43,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
   const { socket } = useSocket();
   const [roomLoading, setRoomLoading] = useState<boolean>(true);
+  const [voting, setVoting] = useState<boolean>(true);
 
   const loadRoomMemberList = async () => {
     let result: UserShort[] = [];
@@ -144,7 +147,9 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   }, [socket, userShorts]);
 
   return (
-    <roomContext.Provider value={{ room, loadRoom, userShorts, roomLoading }}>
+    <roomContext.Provider
+      value={{ room, loadRoom, userShorts, roomLoading, voting, setVoting }}
+    >
       {children}
     </roomContext.Provider>
   );
