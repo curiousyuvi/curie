@@ -14,6 +14,12 @@ const MusicPlayer = () => {
   const { socket } = useSocket();
   const { user } = useAuth();
   const { room } = useRoom();
+  const uid = localStorage.getItem("UID");
+
+  const isAdmin = () => {
+    if (room.admins.find((admin: string) => admin === uid)) return true;
+    else return false;
+  };
 
   const handlePlay = () => {
     play(token, apiPrivate);
@@ -60,15 +66,25 @@ const MusicPlayer = () => {
           </div>
           {paused ? (
             <button
-              className="text-4xl px-2 text-white/90 hover:text-white hover:scale-110"
+              className={`text-4xl ${
+                !isAdmin()
+                  ? "cursor-not-allowed text-white/70"
+                  : "text-white/90 hover:text-white hover:scale-110"
+              }`}
               onClick={handlePlay}
+              disabled={!isAdmin()}
             >
-              <BsFillPlayCircleFill />{" "}
+              <BsFillPlayCircleFill />
             </button>
           ) : (
             <button
-              className="text-4xl px-2 text-white/90 hover:text-white hover:scale-110 duration-100"
+              className={`text-4xl ${
+                !isAdmin()
+                  ? "cursor-not-allowed text-white/70"
+                  : "text-white/90 hover:text-white hover:scale-110"
+              }`}
               onClick={handlePause}
+              disabled={!isAdmin()}
             >
               <BsPauseCircleFill />
             </button>

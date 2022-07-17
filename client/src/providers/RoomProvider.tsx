@@ -44,7 +44,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
   const { socket } = useSocket();
   const [roomLoading, setRoomLoading] = useState<boolean>(true);
-  const [voting, setVoting] = useState<boolean>(true);
+  const [voting, setVoting] = useState<boolean>(false);
 
   const loadRoomMemberList = async () => {
     let result: UserShort[] = [];

@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import MusicPickerList from "./MusicPickerList";
 
-const MusicPicker = () => {
+const MusicPicker = ({
+  setMusicModalOpen,
+}: {
+  setMusicModalOpen: (open: boolean) => void;
+}) => {
   const [query, setQuery] = useState<string>("");
   const handleSearchInputChange = (event: any) => {
     setQuery(event.target.value);
+  };
+  const handleModalDismiss = () => {
+    setMusicModalOpen(false);
   };
   return (
     <div className="w-full">
@@ -21,7 +28,10 @@ const MusicPicker = () => {
           <BiSearchAlt2 className="text-2xl absolute right-2 text-gray-400 peer-focus:text-white" />
         </div>
       </div>
-      <div className="h-[35rem] p-2 overflow-hidden">
+      <div
+        className="h-[35rem] p-2 overflow-hidden"
+        onClick={handleModalDismiss}
+      >
         <MusicPickerList query={query} />
       </div>
     </div>
