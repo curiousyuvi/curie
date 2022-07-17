@@ -19,6 +19,7 @@ import useSocket from "../hooks/useSocket";
 import ChatMusicCloud from "../components/ChatMusicCloud";
 import Lottie from "react-lottie";
 import chatLoader from "../assets/chat_loader_lottie.json";
+import ChatVotingCloud from "../components/ChatVotingCloud";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
@@ -29,7 +30,7 @@ export default function ChatRoom() {
   const { midFromDate, dateFromMid, formatDate } = useDateTimeHelper();
   const [musicModalOpen, setMusicModalOpen] = useState(false);
   const { socket } = useSocket();
-  const { room, roomLoading } = useRoom();
+  const { room, roomLoading, voting } = useRoom();
   const params = useParams();
   const [messageList, setMessageList] = useState<any>([]);
   const outlet = useOutlet();
@@ -134,7 +135,7 @@ export default function ChatRoom() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messageList]);
+  }, [messageList, voting, outlet]);
 
   if (roomLoading)
     return (
@@ -183,6 +184,7 @@ export default function ChatRoom() {
         <div className="h-full bg-blue-900/70 w-full p-4 flex flex-col justify-between relative z-10">
           <div className="w-full h-[calc(100vh-16.5rem)] flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10">
             {messageList}
+            <ChatVotingCloud />
             <div ref={messagesSectionRef} />
           </div>
           <ChatTextField onSend={handleOnSend} />

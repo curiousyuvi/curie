@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import useRoomServices from "../hooks/useRoomServices";
 import useSocket from "../hooks/useSocket";
+import useToast from "../hooks/useToast";
 import useUser from "../hooks/useUser";
 import { Room } from "../interfaces/Room";
 import { RoomContext } from "../interfaces/RoomContext";
@@ -20,6 +21,8 @@ const roomContext = createContext<RoomContext>({
   loadRoom: () => {},
   userShorts: [],
   roomLoading: true,
+  voting: false,
+  setVoting: () => {},
 });
 
 const RoomProvider = ({ children }: { children: ReactNode }) => {
@@ -41,6 +44,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
   const { socket } = useSocket();
   const [roomLoading, setRoomLoading] = useState<boolean>(true);
+  const [voting, setVoting] = useState<boolean>(true);
 
   const loadRoomMemberList = async () => {
     let result: UserShort[] = [];
@@ -93,6 +97,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
     setRoomLoading(false);
   };
   const navigate = useNavigate();
+  const { errorToast } = useToast();
 
   useEffect(() => {
     if (params.rid)
@@ -132,19 +137,27 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const handleVotingAlready = () => {
+    errorToast("Vote already active");
+  };
+
   useEffect(() => {
     socket?.on("receive_join_room", handleReceiveJoinRoomSocket);
     socket?.on("receive_leave_room", handleReceiveLeaveRoomSocket);
+    socket?.on("receive_voting_already", handleVotingAlready);
 
     return () => {
       socket?.off("receive_join_room", handleReceiveJoinRoomSocket);
       socket?.off("receive_leave_room", handleReceiveLeaveRoomSocket);
+      socket?.off("receive_voting_already", handleVotingAlready);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, userShorts]);
+  }, [socket, userShorts, room.rid]);
 
   return (
-    <roomContext.Provider value={{ room, loadRoom, userShorts, roomLoading }}>
+    <roomContext.Provider
+      value={{ room, loadRoom, userShorts, roomLoading, voting, setVoting }}
+    >
       {children}
     </roomContext.Provider>
   );

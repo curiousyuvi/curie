@@ -7,6 +7,7 @@ import ChooseAvatar from "../components/ChooseAvatar";
 import PrimaryButton from "../components/PrimaryButton";
 import useGenerateUniqueRandomString from "../hooks/useGenerateUniqueRandomString";
 import useRoomServices from "../hooks/useRoomServices";
+import useSocket from "../hooks/useSocket";
 
 export default function CreateRoom() {
   const [roomName, setRoomName] = useState<string>("");
@@ -18,6 +19,7 @@ export default function CreateRoom() {
     setRoomName(e.target.value);
   };
   const [validationIssue, setValidationIssue] = useState({ roomName: "" });
+  const { socket } = useSocket();
 
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(roomID);
@@ -65,6 +67,10 @@ export default function CreateRoom() {
         messages: [],
         users: [],
         admins: [localStorage.getItem("UID") || ""],
+      });
+      socket?.emit("send_create_room", {
+        rid: roomID,
+        uid: localStorage.getItem("UID") || "",
       });
       navigate(`/${roomID}`, { replace: true });
     }

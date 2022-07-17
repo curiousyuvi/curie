@@ -14,6 +14,8 @@ dotenv.config();
 
 connectMongoDB();
 
+global.rooms = new Map()
+
 const port = 5000;
 const app = express();
 const server = http.createServer(app);
