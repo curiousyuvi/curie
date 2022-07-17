@@ -22,7 +22,7 @@ export default function ChatRoomDetails() {
   const { socket } = useSocket();
 
   const handleBackClick = () => {
-    navigate(`/${params.rid}`);
+    navigate(-1);
   };
 
   const handleLeaveRoom = async () => {
@@ -52,6 +52,10 @@ export default function ChatRoomDetails() {
     successToast("Room ID copied to clipboard!");
   };
 
+  const handleEditClick = () => {
+    navigate(`/${room.rid}/edit`);
+  };
+
   return (
     <div className="h-full bg-blue-900/70 w-full flex flex-col">
       <div className="w-full h-12 flex justify-between items-center">
@@ -77,7 +81,7 @@ export default function ChatRoomDetails() {
         <h2 className="text-4xl text-white">{room.name}</h2>
         <span className="my-3" />
         <span>
-          <OutlineButton>
+          <OutlineButton onClick={handleEditClick}>
             <span className="flex items-center justify-center">
               <IoPencil />
               <span className="mx-1" />
@@ -97,7 +101,7 @@ export default function ChatRoomDetails() {
         </span>
         <span className="my-3" />
         <div className="w-full">
-          <h2 className="text-2xl">Memebers</h2>
+          <h2 className="text-2xl">Members</h2>
           <hr className="border-indigo-300/30 my-1" />
           <RoomMemberList userShorts={userShorts} admins={room.admins} />
         </div>

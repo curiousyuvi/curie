@@ -14,7 +14,7 @@ export default function JoinRoom() {
   const { roomExists } = useRoomServices();
 
   const handleBackClick = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   const validate = async () => {

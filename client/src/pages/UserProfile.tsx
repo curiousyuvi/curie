@@ -11,8 +11,13 @@ export default function UserProfile() {
   };
   const navigate = useNavigate();
   const handleBackClick = () => {
-    navigate("/");
+    navigate(-1);
   };
+
+  const handleEditClick = () => {
+    navigate("/edit_profile");
+  };
+
   return (
     <div className="h-full bg-blue-900/70 w-full flex flex-col">
       <div className="w-full h-12 flex justify-between items-center">
@@ -51,7 +56,7 @@ export default function UserProfile() {
         </h3>
         <span className="my-3" />
         <span>
-          <OutlineButton>
+          <OutlineButton onClick={handleEditClick}>
             <span className="flex items-center justify-center">
               <IoPencil />
               <span className="mx-1" />
