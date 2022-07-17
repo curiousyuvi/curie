@@ -32,7 +32,7 @@ const MusicModal = ({
               : "translate-x-[10rem] translate-y-[10rem] scale-0"
           }`}
         >
-          <MusicPicker />
+          <MusicPicker setMusicModalOpen={setMusicModalOpen} />
           <MusicPlayer />
         </div>
       </div>
