@@ -11,7 +11,7 @@ export default function UserProfile() {
   };
   const navigate = useNavigate();
   const handleBackClick = () => {
-    navigate("/");
+    navigate(-1);
   };
   return (
     <div className="h-full bg-blue-900/70 w-full flex flex-col">

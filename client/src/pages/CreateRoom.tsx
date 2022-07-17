@@ -34,7 +34,7 @@ export default function CreateRoom() {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   const validate = () => {

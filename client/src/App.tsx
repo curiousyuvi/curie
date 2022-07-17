@@ -15,6 +15,8 @@ import NoRoom from "./components/NoRoom";
 import ChatRoomDetails from "./pages/ChatRoomDetails";
 import ChatRoom from "./pages/ChatRoom";
 import RoomWrapper from "./components/RoomWrapper";
+import EditRoom from "./pages/EditRoom";
+import EditUser from "./pages/EditUser";
 
 function App() {
   return (
@@ -34,10 +36,12 @@ function App() {
                   <Route element={<RoomWrapper />}>
                     <Route path=":rid" element={<ChatRoom />}>
                       <Route path="details" element={<ChatRoomDetails />} />
+                      <Route path="edit" element={<EditRoom />} />
                     </Route>
                   </Route>
                 </Route>
                 <Route path="user_profile" element={<UserProfile />} />
+                <Route path="edit_profile" element={<EditUser />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="join_room" element={<JoinRoom />} />
                 <Route path="create_room" element={<CreateRoom />} />

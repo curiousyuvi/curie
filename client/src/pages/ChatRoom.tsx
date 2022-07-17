@@ -20,8 +20,6 @@ import ChatMusicCloud from "../components/ChatMusicCloud";
 import Lottie from "react-lottie";
 import chatLoader from "../assets/chat_loader_lottie.json";
 import ChatVotingCloud from "../components/ChatVotingCloud";
-import { BsFillVolumeMuteFill, BsFillVolumeUpFill } from "react-icons/bs";
-import useRoomMusic from "../hooks/useRoomMusic";
 
 export default function ChatRoom() {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
@@ -70,7 +68,7 @@ export default function ChatRoom() {
   };
 
   const handleBackClick = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   const handleOptionsClick = () => {
@@ -83,8 +81,6 @@ export default function ChatRoom() {
       dateFromMid(newMessage.mid || "").getDate()
     );
   };
-
-  const { player } = useRoomMusic();
 
   const createMessageList = () => {
     let newMessageList: any[] = [];

@@ -8,9 +8,11 @@ import SmallButton from "./SmallButton";
 const ChooseAvatar = ({
   setAvatar,
   sprites,
+  previousAvatar,
 }: {
   setAvatar: (avatar_url: string) => void;
   sprites: string;
+  previousAvatar?: string;
 }) => {
   const generateRandomAvatar = useGenerateRandomAvatar();
   const getPlaceholderAvatar = usePlaceholderAvatar();
@@ -36,8 +38,15 @@ const ChooseAvatar = ({
   };
   const loadAvatars = () => {
     const newAvatars = ["", "", "", "", "", "", "", ""];
-    for (let i = 0; i < 8; i++) {
-      newAvatars[i] = generateRandomAvatar(sprites);
+    if (previousAvatar) {
+      newAvatars[0] = previousAvatar;
+      for (let i = 1; i < 8; i++) {
+        newAvatars[i] = generateRandomAvatar(sprites);
+      }
+    } else {
+      for (let i = 0; i < 8; i++) {
+        newAvatars[i] = generateRandomAvatar(sprites);
+      }
     }
     setAvatats([...newAvatars]);
   };
