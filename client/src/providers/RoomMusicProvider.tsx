@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
@@ -52,6 +53,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   const { socket } = useSocket();
   const { token } = useAuth();
   const music = useMusic();
+  const params = useParams();
 
   useEffect(() => {
     const timer = () => {
@@ -74,10 +76,12 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     rid: string;
     play: boolean;
   }) => {
-    if (play) {
-      music.play(token, privateAPI);
-    } else {
-      music.pause(token, privateAPI);
+    if (rid === params.rid) {
+      if (play) {
+        music.play(token, privateAPI);
+      } else {
+        music.pause(token, privateAPI);
+      }
     }
   };
 
@@ -90,7 +94,12 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     rid: string;
     track: Track;
   }) => {
-    music.play(token, privateAPI, track.uri);
+    console.log("rid: ", rid);
+    console.log("params.rid: ", params.rid);
+
+    if (rid === params.rid) {
+      music.play(token, privateAPI, track.uri);
+    }
   };
 
   useEffect(() => {
@@ -104,7 +113,7 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
       socket?.off("receive_play_track", handleReceivePlayTrackSocket);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, token]);
+  }, [socket, token, params]);
 
   return (
     <roomMusicContext.Provider

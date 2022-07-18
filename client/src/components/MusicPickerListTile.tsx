@@ -1,7 +1,7 @@
 import React from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import useRoom from "../hooks/useRoom";
 import useSocket from "../hooks/useSocket";
 
 import { Track } from "../interfaces/Track";
@@ -9,12 +9,12 @@ import { Track } from "../interfaces/Track";
 const MusicPickerListTile = ({ track }: { track: Track }) => {
   const { socket } = useSocket();
   const { user } = useAuth();
-  const { room } = useRoom();
+  const params = useParams();
 
   const handlePlayClick = () => {
     socket?.emit("send_play_track", {
       uid: user?.uid,
-      rid: room.rid,
+      rid: params.rid,
       track: track,
     });
   };

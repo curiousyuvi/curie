@@ -143,6 +143,30 @@ const getUID = async (
   }
 };
 
+const getPremiumStatus = async (
+  token: string,
+  apiInstance: AxiosInstance
+): Promise<"free" | "premium" | null> => {
+  try {
+    const requestConfig: AxiosRequestConfig = {
+      url: `/user/premium_status/${token}`,
+      method: "get",
+      responseType: "json",
+    };
+
+    const response = await apiInstance(requestConfig);
+    if (response.status === 200) {
+      return response.data.status;
+    } else {
+      console.error("Error in getPremiumStatus: ", response.data);
+      return null;
+    }
+  } catch (err) {
+    console.error("Error in getPremiumStatus: ", err);
+    return null;
+  }
+};
+
 const searchUser = async (
   username: string,
   strict: boolean = false
@@ -246,6 +270,7 @@ const useUser = () => {
     getUserShort,
     joinRoom,
     removeRoom,
+    getPremiumStatus,
   };
 };
 

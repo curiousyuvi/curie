@@ -1,3 +1,5 @@
+import { Room } from "./Room";
+
 export type RoomContext = {
     room: Room;
     loadRoom: () => void;

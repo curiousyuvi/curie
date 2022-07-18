@@ -54,12 +54,12 @@ export default function ChatRoom() {
           content: value,
           sender: user?.uid || "",
         },
-        rid: room.rid,
+        rid: params.rid,
       });
 
     sendMessage(
       { type: "text", content: value, sender: user?.uid || "" },
-      room.rid
+      params.rid || ""
     );
   };
 
@@ -116,13 +116,21 @@ export default function ChatRoom() {
     message: Message;
     rid: string;
   }) => {
-    setMessages([...messages, message]);
+    console.log("rid: ", rid);
+    console.log("params.rid: ", params.rid);
+
+    if (rid === params.rid) {
+      setMessages([...messages, message]);
+    }
   };
 
   useEffect(() => {
     if (socket) socket.on("receive_message", handleReceiveMessageSocket);
+    return () => {
+      socket?.off("receive_message", handleReceiveMessageSocket);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, messages]);
+  }, [socket, messages, params]);
 
   useEffect(() => {
     room?.messages && setMessages(room.messages);
@@ -182,7 +190,7 @@ export default function ChatRoom() {
             <IoEllipsisVertical className="hidden group-hover:flex text-white" />
           </button>
         </div>
-        <div className="h-full bg-blue-900/70 w-full p-4 flex flex-col justify-between relative z-10">
+        <div className="h-full bg-blue-900/70 w-full p-2 pr-1 sm:p-4 flex flex-col justify-between relative z-10">
           <div className="w-full h-[calc(100vh-16.5rem)] flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10">
             {messageList}
             <ChatVotingCloud />
