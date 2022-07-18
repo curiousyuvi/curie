@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
+import Lottie from "react-lottie";
 import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
 import useRoomServices from "../hooks/useRoomServices";
+import girlListeningMusicAnimation from "../assets/girl_listening_to_music_lootie.json";
 
 export default function JoinRoom() {
   const [roomId, setRoomId] = useState<string>("");
@@ -49,7 +51,23 @@ export default function JoinRoom() {
         </h1>
         <span className="w-10" />
       </div>
-      <div className="h-full rounded-br-lg flex flex-col items-start justify-center">
+      <div className="h-full w-full rounded-br-lg flex flex-col items-center justify-start">
+        <Lottie
+          options={{
+            loop: true,
+            autoplay: true,
+            animationData: girlListeningMusicAnimation,
+            rendererSettings: {
+              preserveAspectRatio: "xMidYMid slice",
+            },
+          }}
+          height={230}
+          width={250}
+        />
+        <p className="px-2 text-center">
+          {"Join a Room, 💬 chat and 🎵 vibe on music with your friends"}
+        </p>
+        <span className="my-5" />
         <input
           type="text"
           value={roomId}

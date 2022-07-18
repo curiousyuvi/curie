@@ -1,15 +1,13 @@
 import { useLocation } from "react-router-dom";
-import { BsFillPlusSquareFill, BsPlusSquare } from "react-icons/bs";
-import {
-  IoArrowRedo,
-  IoArrowRedoOutline,
-  IoChatboxEllipses,
-  IoChatboxEllipsesOutline,
-  IoSettings,
-  IoSettingsOutline,
-} from "react-icons/io5";
+import { IoChatboxEllipses, IoChatboxEllipsesOutline } from "react-icons/io5";
 import useAuth from "../hooks/useAuth";
 import NavbarLinkButton from "./NavbarLinkButton";
+import {
+  RiAddBoxFill,
+  RiAddBoxLine,
+  RiLoginBoxFill,
+  RiLoginBoxLine,
+} from "react-icons/ri";
 
 export default function Navbar() {
   const location = useLocation();
@@ -25,24 +23,19 @@ export default function Navbar() {
         ActiveIcon={<IoChatboxEllipses />}
       />
       <NavbarLinkButton
-        to="/user_profile"
-        IdleIcon={<Avatar />}
-        ActiveIcon={<Avatar active />}
-      />
-      <NavbarLinkButton
-        to="/settings"
-        IdleIcon={<IoSettingsOutline />}
-        ActiveIcon={<IoSettings />}
-      />
-      <NavbarLinkButton
         to="/join_room"
-        IdleIcon={<IoArrowRedoOutline />}
-        ActiveIcon={<IoArrowRedo />}
+        IdleIcon={<RiLoginBoxLine />}
+        ActiveIcon={<RiLoginBoxFill />}
       />
       <NavbarLinkButton
         to="/create_room"
-        IdleIcon={<BsPlusSquare />}
-        ActiveIcon={<BsFillPlusSquareFill />}
+        IdleIcon={<RiAddBoxLine />}
+        ActiveIcon={<RiAddBoxFill />}
+      />
+      <NavbarLinkButton
+        to="/user_profile"
+        IdleIcon={<Avatar />}
+        ActiveIcon={<Avatar active />}
       />
     </div>
   );
