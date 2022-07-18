@@ -6,7 +6,6 @@ import CreateRoom from "./pages/CreateRoom";
 import CreateUser from "./pages/CreateUser";
 import JoinRoom from "./pages/JoinRoom";
 import Login from "./pages/Login";
-import Settings from "./pages/Settings";
 import SpotifyCallback from "./pages/SpotifyCallback";
 import UserProfile from "./pages/UserProfile";
 import ProtectedRoutes from "./components/ProtectedRoutes";
@@ -42,7 +41,6 @@ function App() {
                 </Route>
                 <Route path="user_profile" element={<UserProfile />} />
                 <Route path="edit_profile" element={<EditUser />} />
-                <Route path="settings" element={<Settings />} />
                 <Route path="join_room" element={<JoinRoom />} />
                 <Route path="create_room" element={<CreateRoom />} />
               </Route>
