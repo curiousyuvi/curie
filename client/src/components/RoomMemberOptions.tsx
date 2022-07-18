@@ -1,6 +1,7 @@
 import { GiBootKick } from "react-icons/gi";
 import { RiUserStarLine } from "react-icons/ri";
 import { TbStarOff } from "react-icons/tb";
+import { useParams } from "react-router-dom";
 import useRoom from "../hooks/useRoom";
 import useRoomServices from "../hooks/useRoomServices";
 import useUser from "../hooks/useUser";
@@ -10,17 +11,18 @@ const RoomMemberOptions = ({ user }: { user: UserShort }) => {
   const { room, loadRoom } = useRoom();
   const { removeRoom } = useUser();
   const { removeUser, addAdmin, removeAdmin } = useRoomServices();
+  const params=useParams()
   const handelMakeAdmin = async () => {
-    await addAdmin(room.rid, user.uid);
+    await addAdmin(params.rid || '', user.uid);
     loadRoom();
   };
   const handelRemoveAdmin = async () => {
-    await removeAdmin(room.rid, user.uid);
+    await removeAdmin(params.rid || '', user.uid);
     loadRoom();
   };
   const handelKickOut = async () => {
-    await removeUser(room.rid, user.uid);
-    await removeRoom(user.uid, room.rid);
+    await removeUser(params.rid || '', user.uid);
+    await removeRoom(user.uid, params.rid ||'');
     loadRoom();
   };
 

@@ -100,14 +100,34 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   const { errorToast } = useToast();
 
   useEffect(() => {
-    if (params.rid)
+    if (params.rid) {
       roomExists(params.rid).then((exists) => {
         if (exists) loadRoom();
-        else navigate("/");
+        else {
+          setRoom({
+            name: "",
+            rid: "",
+            image_url: placeholderAvatar,
+            users: [],
+            messages: [],
+            admins: [],
+          });
+          navigate("/");
+        }
       });
+    } else {
+      setRoom({
+        name: "",
+        rid: "",
+        image_url: placeholderAvatar,
+        users: [],
+        messages: [],
+        admins: [],
+      });
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.rid, socket]);
+  }, [params, socket]);
 
   const handleReceiveJoinRoomSocket = async ({
     uid,
@@ -116,7 +136,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
     uid: string;
     rid: string;
   }) => {
-    if (rid === room.rid) {
+    if (rid === params.rid) {
       const newUserShort = await getUserShort(uid);
       if (newUserShort) {
         if (!userShorts.find((userShort) => userShort.uid === uid))
@@ -132,13 +152,13 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
     uid: string;
     rid: string;
   }) => {
-    if (rid === room.rid) {
+    if (rid === params.rid) {
       setUserShorts(userShorts.filter((userShort) => userShort.uid !== uid));
     }
   };
 
-  const handleVotingAlready = () => {
-    errorToast("Vote already active");
+  const handleVotingAlready = ({ rid }: { rid: string }) => {
+    if (rid === params.rid) errorToast("Vote already active");
   };
 
   useEffect(() => {
@@ -152,7 +172,7 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
       socket?.off("receive_voting_already", handleVotingAlready);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, userShorts, room.rid]);
+  }, [socket, userShorts, params]);
 
   return (
     <roomContext.Provider

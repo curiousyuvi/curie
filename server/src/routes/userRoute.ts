@@ -1,10 +1,12 @@
 import express from 'express';
-import { getUserController, getUIDController, joinRoomController, removeRoomController, searchUserController, deleteUserController, updateUserController, createUserController, userExistsController } from '../controllers/userController';
+import { getUserController, getUIDController, joinRoomController, removeRoomController, searchUserController, deleteUserController, updateUserController, createUserController, userExistsController, getPremiumStatusController } from '../controllers/userController';
 const router = express.Router();
 
 router.get('/:uid', getUserController);
 
 router.get('/uid/:token', getUIDController)
+
+router.get('/premium_status/:token', getPremiumStatusController)
 
 router.get('/join_room/:uid', joinRoomController)
 

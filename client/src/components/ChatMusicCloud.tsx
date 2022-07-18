@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useDateTimeHelper from "../hooks/useDateTimeHelper";
 import useRoom from "../hooks/useRoom";
@@ -14,14 +15,14 @@ const ChatMusicCloud: FC<{ message: Message }> = ({ message }) => {
     return userShorts.find((e) => e.uid === uid);
   };
   const { socket } = useSocket();
-  const { room } = useRoom();
   const track: Track = JSON.parse(message.content);
+  const params = useParams();
 
   const { dateFromMid, formatTime } = useDateTimeHelper();
   const handlePlayClick = () => {
     socket?.emit("send_play_track", {
       uid: user?.uid,
-      rid: room.rid,
+      rid: params.rid,
       track: track,
     });
   };
@@ -35,7 +36,7 @@ const ChatMusicCloud: FC<{ message: Message }> = ({ message }) => {
       />
       <div className="w-full flex flex-col items-start">
         <div
-          className={`max-w-[calc(70%)] min-w-[4rem] px-3 py-2 ${
+          className={`sm:max-w-[calc(70%)] max-w-[calc(85%)]  min-w-[4rem] px-3 py-2 ${
             !(message.sender === user?.uid)
               ? "bg-indigo-500/30"
               : "bg-indigo-500/80"
@@ -58,7 +59,7 @@ const ChatMusicCloud: FC<{ message: Message }> = ({ message }) => {
               <img
                 src={track.thumbnail}
                 alt="thumbnail"
-                className="w-full h-full"
+                className="w-auto h-full"
               />
 
               <IoPlayCircleOutline className="p-3 text-4xl absolute opacity-0 group-hover:opacity-100 duration-300 h-full w-full bg-black/50 flex justify-center items-center text-white" />

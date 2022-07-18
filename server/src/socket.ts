@@ -57,7 +57,6 @@ const setupSocket = (server, corsOptions) => {
                 const room = global.rooms.get(rid)
                 if (room && room.voting) {
                     client.emit('receive_voting_already', { rid })
-                    client.to(rid).emit('receive_voting_already', { rid })
                 }
                 else {
                     global.rooms.set(rid, { voting: true, yesUsers: [uid], noUsers: [] })

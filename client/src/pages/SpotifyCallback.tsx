@@ -10,15 +10,13 @@ export default function SpotifyCallback() {
   const navigate = useNavigate();
   // eslint-disable-next-line
   const [searchParams, setSearchParams] = useSearchParams();
-  const { loadUser, setToken, token } = useAuth();
+  const { setToken, token } = useAuth();
 
   useEffect(() => {
     const loadUserAndNavigateToCreate = () => {
       if (token !== "")
-        loadUser().then(() => {
-          if (localStorage.getItem("UID"))
-            navigate("/create_user", { replace: true });
-        });
+        if (localStorage.getItem("UID"))
+          navigate("/create_user", { replace: true });
     };
     loadUserAndNavigateToCreate();
     // eslint-disable-next-line react-hooks/exhaustive-deps

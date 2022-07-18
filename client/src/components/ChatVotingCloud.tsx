@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import usePlaceholderAvatar from "../hooks/usePlaceholderAvatar";
 import useRoom from "../hooks/useRoom";
 import useSocket from "../hooks/useSocket";
@@ -23,7 +24,8 @@ const ChatVotingCloud = () => {
     uri: "",
   });
   const { socket } = useSocket();
-  const { room, voting, setVoting } = useRoom();
+  const { voting, setVoting } = useRoom();
+  const params = useParams();
   const uid = localStorage.getItem("UID") || "";
 
   const handleReceiveVotingStartSocket = ({
@@ -35,7 +37,7 @@ const ChatVotingCloud = () => {
     rid: string;
     track: Track;
   }) => {
-    if (rid === room.rid) {
+    if (rid === params.rid) {
       setVoting(true);
       setSuggestedTrack(track);
       setYesUsers([uid]);
@@ -54,7 +56,7 @@ const ChatVotingCloud = () => {
     yesUsers: string[];
     noUsers: string[];
   }) => {
-    if (rid === room.rid) {
+    if (rid === params.rid) {
       setYesUsers(yesUsers);
       setNoUsers(noUsers);
     }
@@ -69,7 +71,7 @@ const ChatVotingCloud = () => {
       yesUserslocal.push(uid);
       setYesUsers(yesUserslocal);
       setNoUsers(noUserslocal);
-      socket?.emit("send_vote", { uid, rid: room.rid, yes: true });
+      socket?.emit("send_vote", { uid, rid: params.rid, yes: true });
     }
   };
 
@@ -82,12 +84,12 @@ const ChatVotingCloud = () => {
       noUserslocal.push(uid);
       setYesUsers(yesUserslocal);
       setNoUsers(noUserslocal);
-      socket?.emit("send_vote", { uid, rid: room.rid, yes: false });
+      socket?.emit("send_vote", { uid, rid: params.rid, yes: false });
     }
   };
 
   const handleReceiveVotingFinishSocket = ({ rid }: { rid: string }) => {
-    if (rid === room.rid) {
+    if (rid === params.rid) {
       setVoting(false);
       setYesUsers([]);
       setNoUsers([]);
@@ -127,7 +129,7 @@ const ChatVotingCloud = () => {
       socket?.off("receive_voting_finish", handleReceiveVotingFinishSocket);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, room.rid]);
+  }, [socket, params]);
 
   if (!voting) return <></>;
 
@@ -139,7 +141,7 @@ const ChatVotingCloud = () => {
         className="mr-2 h-8 rounded-full"
       />
 
-      <div className="max-w-[calc(70%)] min-w-[4rem] flex flex-col justify-start items-center text-gray-100">
+      <div className="sm:max-w-[calc(70%)] max-w-[calc(80%)] min-w-[4rem] flex flex-col justify-start items-center text-gray-100">
         <div
           className={
             "w-full z-10 flex justify-end items-center bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-[length:300%_300%] animate-shift rounded-lg relative before:content-[''] before:w-full before:h-full before:bottom-0 before:left-0 before:absolute before:blur-md before:bg-gradient-to-r before:from-green-400 before:via-blue-600 before:to-purple-500 before:bg-[length:300%_300%] before:animate-shift before:rounded-lg before:z-0"
@@ -151,12 +153,12 @@ const ChatVotingCloud = () => {
               width: `${((15 - timer) * 100) / 15}%`,
             }}
           />
-          <div className={`rounded-lg flex pt-4 p-[0.3rem]`}>
+          <div className={`w-full rounded-lg flex pt-4 p-[0.3rem]`}>
             <div
-              className={`bg-gradient-to-b from-indigo-700 to-indigo-800 rounded-lg flex z-20 flex-col items-start justify-start`}
+              className={`w-full bg-gradient-to-b from-indigo-600 to-indigo-800 rounded-lg flex z-20 flex-col items-start justify-start`}
             >
               <div
-                className={`flex flex-col items-start justify-start px-3 py-2`}
+                className={`w-full flex flex-col items-start justify-start px-3 py-2`}
               >
                 <span className={`text-indigo-400 text-sm font-medium z-10`}>
                   {getUserShort(sender)?.name}

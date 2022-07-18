@@ -1,4 +1,5 @@
 import { BsFillPlayCircleFill, BsPauseCircleFill } from "react-icons/bs";
+import { useParams } from "react-router-dom";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
@@ -15,6 +16,7 @@ const MusicPlayer = () => {
   const { user } = useAuth();
   const { room } = useRoom();
   const uid = localStorage.getItem("UID");
+  const params = useParams();
 
   const isAdmin = () => {
     if (room.admins.find((admin: string) => admin === uid)) return true;
@@ -25,7 +27,7 @@ const MusicPlayer = () => {
     play(token, apiPrivate);
     socket?.emit("send_play_pause", {
       uid: user?.uid,
-      rid: room.rid,
+      rid: params.rid,
       play: true,
     });
   };
@@ -34,7 +36,7 @@ const MusicPlayer = () => {
     pause(token, apiPrivate);
     socket?.emit("send_play_pause", {
       uid: user?.uid,
-      rid: room.rid,
+      rid: params.rid,
       play: false,
     });
   };

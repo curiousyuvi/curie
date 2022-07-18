@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import createUser from "../services/createUser";
 import deleteUser from "../services/deleteUser";
+import getPremiumStatus from "../services/getPremiumStatus";
 import getUID from "../services/getUID";
 import getUser from "../services/getUser";
 import getUserShort from "../services/getUserShort";
@@ -85,6 +86,18 @@ const getUIDController = (req: Request, res: Response) => {
     })
 }
 
+const getPremiumStatusController = (req: Request, res: Response) => {
+    getPremiumStatus(req.params.token).then(status => {
+        if (status)
+            res.status(200).json({ status });
+        else
+            res.status(404).json({ message: "not found" })
+    }).catch(err => {
+        console.error("Error in getting Premium status: ", err);
+        res.status(403).json({ message: "failure" })
+    })
+}
+
 const searchUserController = (req: Request, res: Response) => {
     searchUser(req.params.username, req.query.strict, (err, docs) => {
 
@@ -144,4 +157,4 @@ const removeRoomController = (req: Request, res: Response) => {
     })
 }
 
-export { removeRoomController, joinRoomController, createUserController, getUserController, updateUserController, deleteUserController, getUIDController, searchUserController, userExistsController }
+export { removeRoomController, getPremiumStatusController, joinRoomController, createUserController, getUserController, updateUserController, deleteUserController, getUIDController, searchUserController, userExistsController }
