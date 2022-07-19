@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Request, Response } from "express";
 import qs from 'qs'
 import generateRandomString from "../helpers/generateRandomString";
-const redirect_uri = process.env.CLIENT_URL || 'http://localhost:3000'
+const redirect_uri = (process.env.CLIENT_URL || 'http://localhost:3000') + '/spotify_callback/'
 
 const loginController = (req: Request, res: Response) => {
     try {
