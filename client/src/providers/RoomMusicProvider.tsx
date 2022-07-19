@@ -94,9 +94,6 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     rid: string;
     track: Track;
   }) => {
-    console.log("rid: ", rid);
-    console.log("params.rid: ", params.rid);
-
     if (rid === params.rid) {
       music.play(token, privateAPI, track.uri);
     }
