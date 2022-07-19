@@ -191,7 +191,7 @@ export default function ChatRoom() {
           </button>
         </div>
         <div className="h-full bg-blue-900/70 w-full p-2 pr-1 sm:p-4 flex flex-col justify-between relative z-10">
-          <div className="w-full h-[calc(100vh-16.5rem)] flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10">
+          <div className="w-full sm:h-[calc(100vh-16.5rem)] h-[calc(100vh-18rem)]  flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10">
             {messageList}
             <ChatVotingCloud />
             <div ref={messagesSectionRef} />

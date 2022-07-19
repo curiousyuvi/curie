@@ -7,12 +7,8 @@ const redirect_uri = "http://localhost:3000/spotify_callback/";
 
 const loginController = (req: Request, res: Response) => {
     try {
-        const scope = "streaming \
-    app-remote-control \
-    user-modify-playback-state \
+        const scope = "user-modify-playback-state \
     user-read-playback-state \
-    user-read-currently-playing \
-    user-read-email \
     user-read-private";
 
         const state = generateRandomString(16);

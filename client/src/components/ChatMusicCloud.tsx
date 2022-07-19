@@ -66,11 +66,11 @@ const ChatMusicCloud: FC<{ message: Message }> = ({ message }) => {
             </div>
             <span className="mx-2" />
             <div className="w-full whitespace-nowrap">
-              <h1 className="sm:w-[16rem] w-[12rem] text-left text-gray-200 overflow-hidden text-ellipsis font-medium">
+              <h1 className="sm:w-[16rem] w-[8rem] text-left text-gray-200 overflow-hidden text-ellipsis font-medium">
                 {track.name}
               </h1>
               <span className="my-1" />
-              <p className="sm:w-[16rem] w-[12rem] text-left text-sm overflow-hidden text-ellipsis h-4">
+              <p className="sm:w-[16rem] w-[8rem] text-left text-sm overflow-hidden text-ellipsis h-4">
                 {track.artists.map((artist, i) => {
                   return (
                     <span key={i} className="mr-2">

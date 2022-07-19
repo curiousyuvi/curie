@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { IoArrowBack } from "react-icons/io5";
 import Lottie from "react-lottie";
 import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
@@ -14,10 +13,6 @@ export default function JoinRoom() {
   };
   const navigate = useNavigate();
   const { roomExists } = useRoomServices();
-
-  const handleBackClick = () => {
-    navigate(-1);
-  };
 
   const validate = async () => {
     const exists = await roomExists(roomId);
@@ -40,16 +35,9 @@ export default function JoinRoom() {
   return (
     <div className="flex flex-col items-center w-full h-full bg-blue-900/70 p-4 justify-start">
       <div className="w-full h-12 sm:h-24 flex items-center">
-        <button
-          className="text-2xl hover:text-white duration-100 mx-2 sm:hidden"
-          onClick={handleBackClick}
-        >
-          <IoArrowBack />
-        </button>
         <h1 className="text-gray-200 text-2xl mx-auto sm:text-4xl">
           Join a Room
         </h1>
-        <span className="w-10" />
       </div>
       <div className="h-full w-full rounded-br-lg flex flex-col items-center justify-start">
         <Lottie
