@@ -1,6 +1,6 @@
 import React from "react";
 import { BsFillPlusSquareFill, BsPlusSquare } from "react-icons/bs";
-import { IoArrowRedo, IoArrowRedoOutline } from "react-icons/io5";
+import { RiLoginBoxFill, RiLoginBoxLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 
 const NoRooms = () => {
@@ -15,9 +15,9 @@ const NoRooms = () => {
       <div className="flex items-center">
         <p className="text-gray-100 font-medium">Join a room </p>
         <NavLink to="/join_room">
-          <button className="p-3 m-2 text-xl text-white/40 bg-green-500/30 rounded group">
-            <IoArrowRedoOutline className="group-hover:hidden" />
-            <IoArrowRedo className="group-hover:flex hidden text-white" />
+          <button className="p-3 m-2 text-3xl text-white/40 bg-green-500/30 rounded group">
+            <RiLoginBoxLine className="group-hover:hidden" />
+            <RiLoginBoxFill className="group-hover:flex hidden text-white" />
           </button>
         </NavLink>
       </div>
@@ -27,7 +27,7 @@ const NoRooms = () => {
       <div className="flex items-center">
         <p className="text-gray-100 font-medium">Create a new room </p>
         <NavLink to="/create_room">
-          <button className="p-3 m-2 text-xl text-white/40 bg-pink-500/30 rounded group">
+          <button className="p-3 m-2 text-3xl text-white/40 bg-pink-500/30 rounded group">
             <BsPlusSquare className="group-hover:hidden" />
             <BsFillPlusSquareFill className="group-hover:flex hidden text-white" />
           </button>

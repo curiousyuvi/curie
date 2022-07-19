@@ -101,7 +101,9 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (params.rid) {
+      setRoomLoading(true);
       roomExists(params.rid).then((exists) => {
+        setRoomLoading(false);
         if (exists) loadRoom();
         else {
           setRoom({

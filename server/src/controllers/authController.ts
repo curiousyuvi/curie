@@ -6,12 +6,8 @@ const redirect_uri = (process.env.CLIENT_URL || 'http://localhost:3000') + '/spo
 
 const loginController = (req: Request, res: Response) => {
     try {
-        const scope = "streaming \
-    app-remote-control \
-    user-modify-playback-state \
+        const scope = "user-modify-playback-state \
     user-read-playback-state \
-    user-read-currently-playing \
-    user-read-email \
     user-read-private";
 
         const state = generateRandomString(16);

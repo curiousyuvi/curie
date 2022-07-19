@@ -14,9 +14,9 @@ export default function ChatWrapper() {
           <RoomsProvider>
             <div className="flex flex-col w-full h-full max-w-6xl">
               <Header />
-              <div className="w-full h-full flex ">
+              <div className="w-full h-full flex flex-col-reverse sm:flex-row">
                 <Navbar />
-                <div className="h-full w-full rounded-b-lg sm:rounded-bl-none overflow-hidden">
+                <div className="h-full w-full rounded-none sm:rounded-b-lg sm:rounded-bl-none overflow-hidden">
                   <Outlet />
                 </div>
               </div>
