@@ -82,7 +82,7 @@ const ChatTextField: FC<{ onSend: (value: string) => void }> = ({ onSend }) => {
             className="w-full mr-2 h-full bg-transparent border-0 outline-none px-4"
           />
           <button
-            className={"h-full text-gray-200 text-2xl rounded-full px-8 duration-300 ".concat(
+            className={"h-full text-gray-200 text-2xl rounded-full sm:px-8 px-6 duration-300 ".concat(
               message !== "" ? "bg-indigo-500" : "bg-indigo-500/50"
             )}
           >

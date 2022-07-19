@@ -68,7 +68,7 @@ export default function ChatRoomDetails() {
         <h1 className="text-gray-200 text-2xl">Room Details</h1>
         <span className="w-10" />
       </div>
-      <div className="w-full h-[calc(100vh-10rem)] p-4 flex flex-col items-center overflow-y-auto relative">
+      <div className="w-full sm:h-[calc(100vh-10rem)] h-[calc(100vh-12rem)] p-4 flex flex-col items-center overflow-y-auto relative">
         <div className="absolute w-full h-[40rem] translate-y-[-28rem] rounded-full bg-indigo-500/50 z-[-1]"></div>
 
         <span className="my-[2.8rem]" />

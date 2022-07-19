@@ -20,12 +20,12 @@ const MusicFAB = ({
   return (
     <div className="relative flex justify-center items-center">
       <span
-        className={`bg-indigo-400 h-16 w-16 absolute ${
+        className={`bg-indigo-400 sm:h-16 sm:w-16 h-12 w-12 absolute ${
           !paused && !musicModalOpen ? "" : "hidden"
         } animate-ping rounded-full`}
       />
       <div
-        className={`absolute bottom-0 right-0 w-40 ${
+        className={`absolute bottom-0 right-0 sm:w-40 w-32 ${
           !paused && !musicModalOpen ? "flex" : "hidden"
         } justify-center items-center cursor-auto`}
       >
@@ -46,7 +46,7 @@ const MusicFAB = ({
       <button
         className={`${
           musicModalOpen ? "hidden" : ""
-        } z-10 relative overflow-hidden rounded-full bg-indigo-500 h-20 w-20 drop-shadow-2xl flex justify-center items-center p-2 text-4xl hover:scale-110 duration-300`}
+        } z-10 relative overflow-hidden rounded-full bg-indigo-500 sm:h-20 sm:w-20 w-16 h-16 drop-shadow-2xl flex justify-center items-center p-2 text-4xl hover:scale-110 duration-300`}
         onClick={handleFABClick}
       >
         <span className="absolute h-full w-full bg-black/20 z-20" />
@@ -69,8 +69,8 @@ const MusicFAB = ({
                   preserveAspectRatio: "xMidYMid slice",
                 },
               }}
-              height={80}
-              width={80}
+              height={60}
+              width={60}
             />
           </div>
         )}

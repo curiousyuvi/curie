@@ -29,7 +29,7 @@ const MusicPicker = ({
         </div>
       </div>
       <div
-        className="h-[35rem] p-2 overflow-hidden"
+        className="sm:h-[35rem] h-[30rem] p-2 overflow-hidden"
         onClick={handleModalDismiss}
       >
         <MusicPickerList query={query} />

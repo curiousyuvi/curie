@@ -175,11 +175,11 @@ const ChatVotingCloud = () => {
                   </div>
                   <span className="mx-2" />
                   <div className="w-full whitespace-nowrap">
-                    <h1 className="sm:w-[16rem] w-[12rem] text-left overflow-hidden text-ellipsis font-medium">
+                    <h1 className="sm:w-[16rem] w-[6rem] text-left overflow-hidden text-ellipsis font-medium">
                       {suggestedTrack.name}
                     </h1>
                     <span className="my-1" />
-                    <p className="sm:w-[16rem] w-[12rem] text-gray-300 text-left text-sm overflow-hidden text-ellipsis h-4">
+                    <p className="sm:w-[16rem] w-[6rem] text-gray-300 text-left text-sm overflow-hidden text-ellipsis h-4">
                       {suggestedTrack.artists.map((artist, i) => {
                         return (
                           <span key={i} className="mr-2">

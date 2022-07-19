@@ -10,7 +10,7 @@ const Music = ({
 }) => {
   return (
     <>
-      <div className="absolute bottom-28 right-10">
+      <div className="absolute sm:bottom-28 sm:right-10 bottom-24 right-4">
         <MusicFAB
           musicModalOpen={musicModalOpen}
           setMusicModalOpen={setMusicModalOpen}
