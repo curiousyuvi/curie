@@ -11,6 +11,7 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     player,
     setPlayer,
     setPaused,
+    active,
     setActive,
     setCurrentTrack,
     setProgress,
@@ -107,7 +108,7 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (player && deviceId !== "" && token !== "") {
+    if (player && deviceId !== "" && token !== "" && !active) {
       const initiatePlayback = async () => {
         await switchPlayer(token, deviceId, privateApiInstance, true);
       };
