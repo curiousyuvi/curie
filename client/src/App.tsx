@@ -16,45 +16,38 @@ import ChatRoom from "./pages/ChatRoom";
 import RoomWrapper from "./components/RoomWrapper";
 import EditRoom from "./pages/EditRoom";
 import EditUser from "./pages/EditUser";
-import { BrowserView, MobileView } from "react-device-detect";
-import NotSupportedInMobile from "./components/NotSupportedInMobile";
 
 function App() {
   return (
     <>
-      <MobileView className="w-full h-full">
-        <NotSupportedInMobile />
-      </MobileView>
-      <BrowserView className="w-full h-full">
-        <Router>
-          <Routes>
-            <Route path="/" element={<LayoutWrapper />}>
-              <Route element={<ProtectedRoutes.NoAuth />}>
-                <Route path="login" element={<Login />} />
-                <Route path="spotify_callback" element={<SpotifyCallback />} />
-                <Route path="create_user" element={<CreateUser />} />
-              </Route>
-              <Route element={<ProtectedRoutes.Auth />}>
-                <Route element={<ChatWrapper />}>
-                  <Route element={<Rooms />}>
-                    <Route index element={<NoRoom />} />
-                    <Route element={<RoomWrapper />}>
-                      <Route path=":rid" element={<ChatRoom />}>
-                        <Route path="details" element={<ChatRoomDetails />} />
-                        <Route path="edit" element={<EditRoom />} />
-                      </Route>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LayoutWrapper />}>
+            <Route element={<ProtectedRoutes.NoAuth />}>
+              <Route path="login" element={<Login />} />
+              <Route path="spotify_callback" element={<SpotifyCallback />} />
+              <Route path="create_user" element={<CreateUser />} />
+            </Route>
+            <Route element={<ProtectedRoutes.Auth />}>
+              <Route element={<ChatWrapper />}>
+                <Route element={<Rooms />}>
+                  <Route index element={<NoRoom />} />
+                  <Route element={<RoomWrapper />}>
+                    <Route path=":rid" element={<ChatRoom />}>
+                      <Route path="details" element={<ChatRoomDetails />} />
+                      <Route path="edit" element={<EditRoom />} />
                     </Route>
                   </Route>
-                  <Route path="user_profile" element={<UserProfile />} />
-                  <Route path="edit_profile" element={<EditUser />} />
-                  <Route path="join_room" element={<JoinRoom />} />
-                  <Route path="create_room" element={<CreateRoom />} />
                 </Route>
+                <Route path="user_profile" element={<UserProfile />} />
+                <Route path="edit_profile" element={<EditUser />} />
+                <Route path="join_room" element={<JoinRoom />} />
+                <Route path="create_room" element={<CreateRoom />} />
               </Route>
             </Route>
-          </Routes>
-        </Router>
-      </BrowserView>
+          </Route>
+        </Routes>
+      </Router>
     </>
   );
 }
