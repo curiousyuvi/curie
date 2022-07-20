@@ -109,7 +109,7 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (player && deviceId !== "" && token !== "") {
       const initiatePlayback = async () => {
-        await switchPlayer(token, deviceId, privateApiInstance);
+        await switchPlayer(token, deviceId, privateApiInstance, true);
       };
 
       initiatePlayback();
