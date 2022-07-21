@@ -8,6 +8,7 @@ const redirect_uri = "http://localhost:3000/spotify_callback/";
 const loginController = (req: Request, res: Response) => {
     try {
         const scope = "user-modify-playback-state \
+        streaming \
     user-read-playback-state \
     user-read-private";
 

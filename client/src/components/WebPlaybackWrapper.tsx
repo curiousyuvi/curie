@@ -1,4 +1,4 @@
-import { useEffect, ReactNode } from "react";
+import React, { useEffect, ReactNode, useState } from "react";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
@@ -6,6 +6,7 @@ import useRoomMusic from "../hooks/useRoomMusic";
 
 function WebPlaybackWrapper({ children }: { children: ReactNode }) {
   const { token, user } = useAuth();
+  const [retrysCount, setRetrysCount] = useState<number>(1);
   const privateApiInstance = useApiPrivate();
   const {
     player,
@@ -109,15 +110,22 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const initiatePlayback = async () => {
-      if (player && deviceId !== "" && token !== "" && !active) {
+      if (
+        player &&
+        deviceId !== "" &&
+        token !== "" &&
+        !active &&
+        retrysCount <= 10
+      ) {
         await switchPlayer(token, deviceId, privateApiInstance);
+        setRetrysCount(retrysCount + 1);
       }
     };
 
     initiatePlayback();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player, deviceId, token, active]);
+  }, [player, deviceId, token, active, retrysCount]);
 
   return <>{children}</>;
 }

@@ -23,7 +23,7 @@ const MusicPlayer = () => {
     else return false;
   };
 
-  const handlePlay = () => {
+  const handlePlay = async () => {
     play(token, apiPrivate);
     socket?.emit("send_play_pause", {
       uid: user?.uid,

@@ -59,9 +59,9 @@ const switchPlayer = async (
 const play = async (
   token: string,
   apiInstance: AxiosInstance,
+  deviceId?: string,
   uri?: string,
-  position?: number,
-  deviceId?: string
+  position?: number
 ) => {
   try {
     const requestConfig: AxiosRequestConfig = {
