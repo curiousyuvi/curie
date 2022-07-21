@@ -116,9 +116,6 @@ export default function ChatRoom() {
     message: Message;
     rid: string;
   }) => {
-    console.log("rid: ", rid);
-    console.log("params.rid: ", params.rid);
-
     if (rid === params.rid) {
       setMessages([...messages, message]);
     }
