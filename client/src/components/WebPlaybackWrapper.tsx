@@ -1,11 +1,13 @@
-import React, { useEffect, ReactNode } from "react";
+import React, { useEffect, ReactNode, useState } from "react";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
 import useRoomMusic from "../hooks/useRoomMusic";
+import useToken from "../hooks/useToken";
 
 function WebPlaybackWrapper({ children }: { children: ReactNode }) {
   const { token, user } = useAuth();
+  const [retrysCount, setRetrysCount] = useState<number>(1);
   const privateApiInstance = useApiPrivate();
   const {
     player,
@@ -19,9 +21,15 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
     setDeviceId,
   } = useRoomMusic();
   const { switchPlayer } = useMusic();
+  const { refreshToken } = useToken();
 
   useEffect(() => {
-    if (user) {
+    refreshToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (user && token !== "") {
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
       script.async = true;
@@ -105,18 +113,26 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
       player?.removeListener("player_state_changed");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user, token]);
 
   useEffect(() => {
-    if (player && deviceId !== "" && token !== "" && !active) {
-      const initiatePlayback = async () => {
-        await switchPlayer(token, deviceId, privateApiInstance, true);
-      };
+    const initiatePlayback = async () => {
+      if (
+        player &&
+        deviceId !== "" &&
+        token !== "" &&
+        !active &&
+        retrysCount <= 5
+      ) {
+        await switchPlayer(token, deviceId, privateApiInstance);
+        setRetrysCount(retrysCount + 1);
+      }
+    };
 
-      initiatePlayback();
-    }
+    initiatePlayback();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player, deviceId, token]);
+  }, [player, deviceId, token, active, retrysCount]);
 
   return <>{children}</>;
 }
