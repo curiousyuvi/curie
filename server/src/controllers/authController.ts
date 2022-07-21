@@ -7,6 +7,7 @@ const redirect_uri = (process.env.CLIENT_URL || 'http://localhost:3000') + '/spo
 const loginController = (req: Request, res: Response) => {
     try {
         const scope = "user-modify-playback-state \
+        streaming \
     user-read-playback-state \
     user-read-private";
 

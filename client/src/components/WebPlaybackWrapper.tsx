@@ -122,7 +122,7 @@ function WebPlaybackWrapper({ children }: { children: ReactNode }) {
         deviceId !== "" &&
         token !== "" &&
         !active &&
-        retrysCount <= 5
+        retrysCount <= 10
       ) {
         await switchPlayer(token, deviceId, privateApiInstance);
         setRetrysCount(retrysCount + 1);
