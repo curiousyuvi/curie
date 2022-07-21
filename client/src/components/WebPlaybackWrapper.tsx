@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode, useState } from "react";
+import { useEffect, ReactNode } from "react";
 import useApiPrivate from "../hooks/useApiPrivate";
 import useAuth from "../hooks/useAuth";
 import useMusic from "../hooks/useMusic";
