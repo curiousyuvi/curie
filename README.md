@@ -24,6 +24,9 @@ An app that allows users to **chat** and **listen to synced songs in chat rooms*
 - [Spotify Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk/) to manage player in Spotify Connect and playback control.
 
 
+## Demo
+https://user-images.githubusercontent.com/58589519/180454763-30446232-7155-4c32-81e4-ffc590427bc8.mp4
+
 ## Configure and run development server
 
 - ### Configure Development Environment
