@@ -5,9 +5,7 @@ import isAdminService from "./services/isAdminService";
 import sendMessage from "./services/sendMessage";
 
 const setupSocket = (server, corsOptions) => {
-    const io = new Server(server, {
-        cors: corsOptions
-    })
+    const io = new Server(server, { cors: corsOptions })
 
     io.on('connect', (client) => {
         console.log('user connected with id ' + client.id)
@@ -15,6 +13,10 @@ const setupSocket = (server, corsOptions) => {
         client.on('disconnect', () => {
             console.log('user disconnected ' + client.id)
         })
+
+        client.on("connect_error", (err) => {
+            console.log(`connect_error due to ${err.message}`);
+        });
 
         client.on('send_create_room', ({ rid }) => {
             global.rooms.set(rid, { voting: false, yesUsers: [], noUsers: [] })

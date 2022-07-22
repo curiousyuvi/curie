@@ -7,7 +7,7 @@ const socketContext = createContext<{ socket: Socket | null }>({
 const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   useEffect(() => {
-    setSocket(io(`${process.env.REACT_APP_API_ENDPOINT}`));
+    setSocket(io(process.env.REACT_APP_SERVER_URL || "http://localhost:5000"));
   }, []);
 
   return (

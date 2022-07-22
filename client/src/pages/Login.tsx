@@ -34,7 +34,7 @@ export default function Login() {
       />
       <p className="text-xl mb-4">{"🤗 "}Welcome to Curie</p>
       <a
-        href={process.env.REACT_APP_API_ENDPOINT + "/api/auth/login"}
+        href={process.env.REACT_APP_SERVER_URL + "/api/auth/login"}
         className="w-full"
       >
         <PrimaryButton onClick={() => {}}>LOG IN WITH SPOTIFY</PrimaryButton>
