@@ -3,7 +3,7 @@
 # Curie
 ![curie_poster_2](https://user-images.githubusercontent.com/58589519/173933769-db57d105-2c2e-4672-9c74-bfcd189e5a89.jpg)
 
-An app that allows users to **chat** and **listen to synced songs in chat rooms**, the playback of the song will be controlled by a chosen **DJ / Admin**, also other members of the room can suggest songs and **members can vote** 👍️ or 👎️ for that suggestion.
+Curie is a chat app where users can chat in rooms and listen to synced music, the playback of the music would be controlled by the room admin, and members of the room can suggest songs, other members can vote 👍️ or 👎️ to a suggestion, if the suggestion gets majority vote it will start playing.
 
 ## Tech/Library/Framework/Tools
 #### Frontend (client)
