@@ -20,8 +20,8 @@ Curie is a chat app where users can chat in rooms and listen to synced music, th
 - [Mongoose](https://www.npmjs.com/package/mongoose) for handling MongoDB services
 - [Axios](https://www.npmjs.com/package/axios) as API Request client
 - [Socket.io](https://www.npmjs.com/package/socket.io) for Web-socket communication
-- [Spotify Web API](https://developer.spotify.com/documentation/web-api/) to get metadata about tracks and playlists from Spotify
-- [Spotify Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk/) to manage player in Spotify Connect and playback control.
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api/) to get metadata about tracks from Spotify and playback control.
+- [Spotify Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk/) to create a player and get playback from Spotify inside my app.
 
 
 ## Demo
