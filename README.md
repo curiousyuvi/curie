@@ -27,6 +27,17 @@ Curie is a chat app where users can chat in rooms and listen to synced music, th
 ## Demo
 https://user-images.githubusercontent.com/58589519/180454763-30446232-7155-4c32-81e4-ffc590427bc8.mp4
 
+## Screenshots
+![Screenshot from 2022-07-19 20-58-59](https://user-images.githubusercontent.com/58589519/182637078-46c0af11-e7e3-46be-942c-5d272a02ccbc.png)
+![Screenshot from 2022-07-19 20-59-05](https://user-images.githubusercontent.com/58589519/182637089-fe6e7153-75cf-4a3b-b414-487cb457ffa5.png)
+![Screenshot from 2022-07-19 20-59-11](https://user-images.githubusercontent.com/58589519/182637099-41ad2257-af04-4c35-9d9b-0dc407242f6d.png)
+![Screenshot from 2022-07-19 20-59-17](https://user-images.githubusercontent.com/58589519/182637103-439bdae0-847f-4f10-afb7-a4533d7b0b80.png)
+![Screenshot from 2022-07-19 20-59-30](https://user-images.githubusercontent.com/58589519/182637112-88255cf3-3922-40e5-9748-67b9e00ab9e6.png)
+![Screenshot from 2022-07-19 21-00-05](https://user-images.githubusercontent.com/58589519/182637118-09e47058-e04b-42df-86f9-2196b8670ded.png)
+![Screenshot from 2022-07-19 21-00-12](https://user-images.githubusercontent.com/58589519/182637124-4415ec5b-e29f-4d79-ab9b-87197f502e2c.png)
+![Screenshot from 2022-07-19 21-01-24](https://user-images.githubusercontent.com/58589519/182637131-950c04a7-ca54-414b-af5c-ed1118e74af8.png)
+
+
 ## Configure and run development server
 
 - ### Configure Development Environment
