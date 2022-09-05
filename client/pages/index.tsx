@@ -9,7 +9,7 @@ const Home: NextPage = () => {
         <meta name="description" content="A chat app for music lovers" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Hello</h1>
+      <h1 className="text-6xl">Hello</h1>
     </div>
   );
 };
