@@ -5,11 +5,10 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Curie</title>
+        <title>Choose Identity | Curie</title>
         <meta name="description" content="A chat app for music lovers" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className="text-6xl">Hello</h1>
     </div>
   );
 };
