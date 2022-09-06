@@ -1,8 +1,5 @@
 import { Server } from "socket.io";
-import idFromDate from "./helpers/idFromDate";
 import { VotingRoom } from "./interfaces/VotingRoom";
-import isAdminService from "./services/isAdminService";
-import sendMessage from "./services/sendMessage";
 
 const setupSocket = (server, corsOptions) => {
     const io = new Server(server, { cors: corsOptions })
@@ -44,48 +41,36 @@ const setupSocket = (server, corsOptions) => {
         })
 
         client.on('send_play_track', async ({ uid, rid, track }) => {
-            const isAdmin = await isAdminService(rid, uid)
 
-            if (isAdmin) {
-                client.emit('receive_play_track', { uid, rid, track })
-                client.to(rid).emit('receive_play_track', { uid, rid, track })
-                client.emit('receive_message', { rid, message: { mid: idFromDate(new Date()), type: "music", content: JSON.stringify(track), sender: uid } })
-                client.to(rid).emit('receive_message', { rid, message: { mid: idFromDate(new Date()), type: "music", content: JSON.stringify(track), sender: uid } })
-                sendMessage(rid, { type: "music", content: JSON.stringify(track), sender: uid }, err => {
-                    console.error('error in sending message: ', err)
-                });
+
+            const room = global.rooms.get(rid)
+            if (room && room.voting) {
+                client.emit('receive_voting_already', { rid })
             }
             else {
-                const room = global.rooms.get(rid)
-                if (room && room.voting) {
-                    client.emit('receive_voting_already', { rid })
-                }
-                else {
-                    global.rooms.set(rid, { voting: true, yesUsers: [uid], noUsers: [] })
-                    client.emit('receive_voting_start', { uid, rid, track })
-                    client.to(rid).emit('receive_voting_start', { uid, rid, track })
-                    const finishVoting = () => {
-                        clearInterval(timer);
-                        client.emit('receive_voting_finish', { rid })
-                        client.to(rid).emit('receive_voting_finish', { rid })
-                        const room: VotingRoom = global.rooms.get(rid)
-                        if (room.yesUsers.length >= room.noUsers.length) {
-                            client.emit('receive_play_track', { uid, rid, track })
-                            client.to(rid).emit('receive_play_track', { uid, rid, track })
-                            client.emit('receive_message', { rid, message: { mid: idFromDate(new Date()), type: "music", content: JSON.stringify(track), sender: uid } })
-                            client.to(rid).emit('receive_message', { rid, message: { mid: idFromDate(new Date()), type: "music", content: JSON.stringify(track), sender: uid } })
-                            sendMessage(rid, { type: "music", content: JSON.stringify(track), sender: uid }, err => {
-                                console.error('error in sending message: ', err)
-                            });
-                        }
-                        global.rooms.set(rid, { voting: false, yesUsers: [], noUsers: [] })
+                global.rooms.set(rid, { voting: true, yesUsers: [uid], noUsers: [] })
+                client.emit('receive_voting_start', { uid, rid, track })
+                client.to(rid).emit('receive_voting_start', { uid, rid, track })
+                const finishVoting = () => {
+                    clearInterval(timer);
+                    client.emit('receive_voting_finish', { rid })
+                    client.to(rid).emit('receive_voting_finish', { rid })
+                    const room: VotingRoom = global.rooms.get(rid)
+                    if (room.yesUsers.length >= room.noUsers.length) {
+                        client.emit('receive_play_track', { uid, rid, track })
+                        client.to(rid).emit('receive_play_track', { uid, rid, track })
+                        client.emit('receive_message', { rid, message: { mid: "", type: "music", content: JSON.stringify(track), sender: uid } })
+                        client.to(rid).emit('receive_message', { rid, message: { mid: "", type: "music", content: JSON.stringify(track), sender: uid } })
 
                     }
+                    global.rooms.set(rid, { voting: false, yesUsers: [], noUsers: [] })
 
-                    const timer = setInterval(finishVoting, 15000);
                 }
 
+                const timer = setInterval(finishVoting, 15000);
             }
+
+
         })
 
         client.on('send_vote', ({ uid, rid, yes }) => {

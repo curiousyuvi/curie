@@ -1,4 +1,4 @@
 {
   "watch": ["src/", "./"],
-  "ext": "js,mjs,json,ts"
+  "ext": "js,mjs,json,ts,d.ts"
 }

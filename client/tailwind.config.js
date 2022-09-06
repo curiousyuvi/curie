@@ -1,20 +1,11 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
-    extend: {
-      backdropBlur: {
-        xs: "1px",
-      },
-      animation: {
-        shift: "shift 2s ease infinite",
-      },
-      keyframes: {
-        shift: {
-          "0%, 100%": { "background-position": "0% 0%" },
-          "50%": { "background-position": "100% 0%" },
-        },
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };

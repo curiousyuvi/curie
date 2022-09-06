@@ -5,20 +5,15 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "tsc && node dist/server.js",
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon server.ts",
     "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "curiousyuvi",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.27.2",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "mongoose": "^6.4.0",
-    "qs": "^6.10.5",
     "socket.io": "^4.5.1"
   },
   "devDependencies": {
