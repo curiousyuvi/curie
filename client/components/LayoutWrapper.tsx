@@ -1,4 +1,5 @@
 import React, { FC, ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 import WindowWrapper from "./WindowWrapper";
 
 type LayoutWrapperProps = { children: ReactNode };
@@ -14,6 +15,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       >
         <source src="/assets/bg-video.mp4" type="video/mp4" />
       </video>
+      <Toaster />
       <WindowWrapper>{children}</WindowWrapper>
     </div>
   );
