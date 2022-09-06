@@ -16,4 +16,5 @@ const UserProvider: FC<UserProviderProps> = ({ children }) => {
   );
 };
 
+export { userContext };
 export default UserProvider;
