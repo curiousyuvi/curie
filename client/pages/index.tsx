@@ -5,8 +5,9 @@ import ChooseAvatar from "../components/ChooseAvatar";
 import { IoPerson, IoPersonOutline } from "react-icons/io5";
 import BigButton from "../components/BigButton";
 import { FaLongArrowAltRight } from "react-icons/fa";
-import useUser from "../hooks/useUser";
 import useToast from "../hooks/useToast";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/userSlice";
 
 const Home: NextPage = () => {
   const [avatarUrl, setAvatarUrl] = useState<string>("");
@@ -15,11 +16,11 @@ const Home: NextPage = () => {
     setName(e.target.value);
   };
   const { successToast, errorToast } = useToast();
-  const { setUser } = useUser();
+  const dispatch = useDispatch();
 
   const handleGoToChat = () => {
     if (avatarUrl != "" && name != "") {
-      setUser({ name, avatarUrl });
+      dispatch(setUser({ name, avatarUrl }));
       successToast("Identity created successfully");
       //TODO: Add navigate to next page
     } else {
