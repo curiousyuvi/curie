@@ -19,12 +19,12 @@ const MobileNavbar = () => {
         ActiveIcon={<IoChatboxEllipses />}
       />
       <MobileNavbarLinkButton
-        to="/join_room"
+        to="/join"
         IdleIcon={<RiLoginBoxLine />}
         ActiveIcon={<RiLoginBoxFill />}
       />
       <MobileNavbarLinkButton
-        to="/create_room"
+        to="/create"
         IdleIcon={<RiAddBoxLine />}
         ActiveIcon={<RiAddBoxFill />}
       />

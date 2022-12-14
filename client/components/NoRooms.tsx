@@ -14,7 +14,7 @@ const NoRooms = () => {
       <span className="h-4" />
       <div className="flex items-center">
         <p className="text-gray-100 font-medium">Join a room </p>
-        <Link href="/join_room">
+        <Link href="/join">
           <button className="p-3 m-2 text-3xl text-white/40 bg-green-500/30 rounded group">
             <RiLoginBoxLine className="group-hover:hidden" />
             <RiLoginBoxFill className="group-hover:flex hidden text-white" />
@@ -26,7 +26,7 @@ const NoRooms = () => {
       <span className="h-2" />
       <div className="flex items-center">
         <p className="text-gray-100 font-medium">Create a new room </p>
-        <Link href="/create_room">
+        <Link href="/create">
           <button className="p-3 m-2 text-3xl text-white/40 bg-pink-500/30 rounded group">
             <BsPlusSquare className="group-hover:hidden" />
             <BsFillPlusSquareFill className="group-hover:flex hidden text-white" />

@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 import NoRooms from "./NoRooms";
 import RoomsListTile from "./RoomsListTile";
 
 const RoomsList = () => {
   const router = useRouter();
-  const rooms: any = [];
+  const { rooms } = useSelector((state: RootState) => state.rooms);
 
   return (
     <div
@@ -21,7 +23,7 @@ const RoomsList = () => {
               room={{
                 rid: room.rid,
                 name: room.name,
-                image_url: room.image_url,
+                imageUrl: room.imageUrl,
               }}
             />
           );

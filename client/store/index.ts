@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { userSlice } from "./userSlice";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
+import { roomsSlice } from "./roomsSlice";
 
 const persistConfig = {
   key: 'root',
@@ -11,6 +12,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userSlice.reducer,
+  rooms: roomsSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -21,12 +21,12 @@ const DesktopNavbar = () => {
         ActiveIcon={<IoChatboxEllipses />}
       />
       <NavbarLinkButton
-        to="/join_room"
+        to="/join"
         IdleIcon={<RiLoginBoxLine />}
         ActiveIcon={<RiLoginBoxFill />}
       />
       <NavbarLinkButton
-        to="/create_room"
+        to="/create"
         IdleIcon={<RiAddBoxLine />}
         ActiveIcon={<RiAddBoxFill />}
       />

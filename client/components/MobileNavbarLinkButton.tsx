@@ -11,7 +11,7 @@ const MobileNavbarLinkButton: FC<{
 
   return (
     <Link href={`${to}`} className="w-full">
-      <div className="w-full h-full flex items-end justify-center group relative">
+      <div className="w-full h-full flex items-end justify-center group relative cursor-pointer">
         <div
           className={"peer w-16 h-full flex justify-center items-center p-4 duration-300 ".concat(
             router.pathname === to ||
@@ -32,4 +32,4 @@ const MobileNavbarLinkButton: FC<{
 
 export default MobileNavbarLinkButton;
 
-const otherPaths = ["/user_profile", "/settings", "/join_room", "/create_room"];
+const otherPaths = ["/user_profile", "/settings", "/join", "/create"];
