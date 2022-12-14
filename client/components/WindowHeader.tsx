@@ -15,7 +15,7 @@ const WindowHeader = () => {
       />
       {currentUser ? (
         <img
-          src={currentUser.avatarUrl}
+          src={currentUser?.avatarUrl}
           alt=""
           className="h-7 w-7 rounded-full"
         />

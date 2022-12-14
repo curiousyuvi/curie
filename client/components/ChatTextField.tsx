@@ -3,7 +3,6 @@ import { FaSmile } from "react-icons/fa";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 import Picker, { IEmojiData } from "emoji-picker-react";
-import dynamic from "next/dynamic";
 
 const ChatTextField: FC<{ onSend: (value: string) => void }> = ({ onSend }) => {
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
