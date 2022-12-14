@@ -33,7 +33,9 @@ const RoomsPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <RoomsList />
-      <NoRoom />
+      <div className="w-full h-full hidden md:flex">
+        <NoRoom />
+      </div>
     </div>
   );
 };

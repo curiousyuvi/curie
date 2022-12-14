@@ -3,7 +3,7 @@ import boyListeningMusicAnimation from "../public/assets/boy_listening_music.jso
 
 export default function NoRoom() {
   return (
-    <div className="p-4 w-full h-full flex-col justify-center items-center bg-blue-900/70 hidden md:flex">
+    <div className="p-4 w-full h-full flex-col justify-center items-center bg-blue-900/70 flex">
       <Lottie
         options={{
           loop: true,

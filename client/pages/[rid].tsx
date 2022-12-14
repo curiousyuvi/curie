@@ -29,7 +29,10 @@ const ChatRoomPage = () => {
       <Head>
         <title>Room Name | Curie</title>
       </Head>
-      <RoomsList />
+      <div className="h-full hidden md:flex">
+        <RoomsList />
+      </div>
+
       <div
         className={"h-full w-full ".concat(
           router.pathname === "/" ? "hidden sm:flex" : ""
