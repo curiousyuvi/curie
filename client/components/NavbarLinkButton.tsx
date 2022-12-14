@@ -11,7 +11,7 @@ const NavbarLinkButton: FC<{
 
   return (
     <Link href={`${to}`} className="w-full">
-      <div className="w-full h-16 flex items-center justify-start group relative">
+      <div className="w-full h-16 flex items-center justify-start group relative cursor-pointer">
         <div
           className={"p-[0.2rem] rounded-full rounded-l-none duration-300 absolute ".concat(
             router.pathname === to ||
@@ -40,4 +40,4 @@ const NavbarLinkButton: FC<{
 
 export default NavbarLinkButton;
 
-const otherPaths = ["/user_profile", "/settings", "/join_room", "/create_room"];
+const otherPaths = ["/user_profile", "/settings", "/join", "/create"];

@@ -7,9 +7,11 @@ import {
   IoEllipsisVertical,
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
+import { useSelector } from "react-redux";
 import NoRooms from "../components/NoRooms";
 import RoomsList from "../components/RoomsList";
 import RoomsListTile from "../components/RoomsListTile";
+import { RootState } from "../store";
 const ChatTextField = dynamic(() => import("../components/ChatTextField"), {
   ssr: false,
 });
@@ -21,7 +23,8 @@ const ChatRoomPage = () => {
 
   const messagesSectionRef = useRef(null);
 
-  const rooms: any = [];
+  const { rooms } = useSelector((state: RootState) => state.rooms);
+
   const router = useRouter();
 
   return (
