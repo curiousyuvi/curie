@@ -1,10 +1,13 @@
+import dynamic from "next/dynamic";
 import React, { useRef } from "react";
 import {
   IoArrowBack,
   IoEllipsisVertical,
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
-import ChatTextField from "../components/ChatTextField";
+const ChatTextField = dynamic(() => import("../components/ChatTextField"), {
+  ssr: false,
+});
 
 const ChatRoomPage = () => {
   const handleBackClick = () => {};
@@ -45,7 +48,7 @@ const ChatRoomPage = () => {
         </button>
       </div>
       <div className="h-full bg-blue-900/70 w-full p-2 pr-1 sm:p-4 flex flex-col justify-start relative z-10">
-        <div className="w-full sm:h-[calc(100vh-17.5rem)] h-[calc(100vh-24rem)]  flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10">
+        <div className="w-full sm:h-[calc(100vh-17.5rem)] h-[calc(100vh-13rem)]  flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10">
           {/* TODO: Message list comes here */}
           {/* {messageList} */}
           {/* TODO: Chat Voting Cloud comes here */}
