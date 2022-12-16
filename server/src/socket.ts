@@ -64,13 +64,9 @@ const setupSocket = (server, corsOptions) => {
 
                     }
                     global.rooms.set(rid, { voting: false, yesUsers: [], noUsers: [] })
-
                 }
-
                 const timer = setInterval(finishVoting, 15000);
             }
-
-
         })
 
         client.on('send_vote', ({ uid, rid, yes }) => {

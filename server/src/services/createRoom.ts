@@ -1,12 +1,10 @@
-import Room from "../models/Room"
-const createRoom = ({ rid, name, image_url, admins, users }, handleError: (err) => void) => {
+import Room from "../models/room";
+
+const createRoom = ({ rid, name, image_url }, handleError: (err) => void) => {
       const newRoom = new Room({
-            _id: rid,
+            rid,
             name,
             image_url,
-            admins,
-            users,
-            messages: [],
       })
 
       newRoom.save(handleError);
