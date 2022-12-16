@@ -1,7 +1,7 @@
-import Room from "../models/Room"
+import Room from "../models/room";
 
-const getRoom = (rid, handleError: (err,docs) =>void)=>{
-      Room.findById(rid,handleError);
+const getRoom = (rid, handleError: (err, docs) => void) => {
+      Room.findOne({ rid }, handleError);
 }
 
 export default getRoom

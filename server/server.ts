@@ -2,8 +2,15 @@ import express, { Request, Response } from "express"
 import http from 'http'
 import cors from "cors"
 import setupSocket from "./src/socket";
+import roomRoute from './src/routes/roomRoutes'
+import dotenv from 'dotenv';
+import connectMongoDB from "./src/services/dbconnect";
 
 global.rooms = new Map()
+
+dotenv.config();
+
+connectMongoDB();
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -18,6 +25,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+
+app.use('/api/room', roomRoute);
 
 app.get('/api/hello', (req: Request, res: Response) => {
     res.send('Hello, World!');

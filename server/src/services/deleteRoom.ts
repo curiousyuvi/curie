@@ -1,7 +1,7 @@
-import Room from "../models/Room"
+import Room from "../models/room"
 
-const deleteRoom = (rid, handleError:(err,docs)=>void)=>{
-      Room.findByIdAndDelete(rid,handleError)
+const deleteRoom = (rid, handleError: (err, docs) => void) => {
+      Room.findOneAndDelete({ rid }, handleError)
 }
 
 export default deleteRoom
