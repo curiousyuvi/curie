@@ -1,11 +1,15 @@
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FiCopy } from "react-icons/fi";
+import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import ChooseAvatar from "../components/ChooseAvatar";
 import PrimaryButton from "../components/PrimaryButton";
 import useGenerateUniqueRandomString from "../hooks/useGenerateUniqueRandomString";
+import useToast from "../hooks/useToast";
+import { createRoomAPI, getRoomAPI } from "../services/apiServices";
 import { addRoom } from "../store/roomsSlice";
 // import useSocket from "../hooks/useSocket";
 
@@ -19,6 +23,16 @@ export default function CreateRoom() {
     setRoomName(e.target.value);
   };
   const [validationIssue, setValidationIssue] = useState({ roomName: "" });
+  const { successToast } = useToast();
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation(createRoomAPI, {
+    onSuccess: () => {
+      successToast("Room created successfully");
+      router.replace(`/${roomID}`);
+    },
+  });
+
   //   const { socket } = useSocket();
 
   const copyToClipBoard = () => {
@@ -55,13 +69,13 @@ export default function CreateRoom() {
 
   const handleCreateRoomClick = async () => {
     if (validate()) {
-      // TODO: Create Room code comes here
-      dispatch(addRoom({ rid: roomID, name: roomName, imageUrl: avatar }));
+      // dispatch(addRoom({ rid: roomID, name: roomName, image_url: avatar }));
       //   socket?.emit("send_create_room", {
       //     rid: roomID,
       //     uid: localStorage.getItem("UID") || "",
       //   });
-      router.replace(`/${roomID}`);
+      // TODO: Create Room code comes here
+      mutation.mutate({ rid: roomID, name: roomName, image_url: avatar });
     }
   };
 

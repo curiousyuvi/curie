@@ -8,7 +8,7 @@ import connectMongoDB from "./src/services/dbconnect";
 
 global.rooms = new Map()
 
-dotenv.config();
+dotenv.config({ path: `${__dirname}/../.env` })
 
 connectMongoDB();
 
