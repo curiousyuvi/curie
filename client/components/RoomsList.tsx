@@ -23,7 +23,7 @@ const RoomsList = () => {
               room={{
                 rid: room.rid,
                 name: room.name,
-                imageUrl: room.imageUrl,
+                image_url: room.image_url,
               }}
             />
           );

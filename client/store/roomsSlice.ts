@@ -13,7 +13,13 @@ export const roomsSlice = createSlice({
     initialState,
     reducers: {
         addRoom: (state, action: PayloadAction<RoomShort>) => {
-            state.rooms.push(action.payload)
+            const exists = state.rooms.find(room => room.rid === action.payload.rid)
+            if (exists) {
+                const foundIdx = state.rooms.findIndex(room => room.rid == action.payload.rid);
+                state.rooms[foundIdx] = { ...state.rooms[foundIdx], ...action.payload };
+            }
+            else
+                state.rooms.push(action.payload)
         },
         removeRoom: (state, action: PayloadAction<string>) => {
             state.rooms = state.rooms.filter(room => room.rid !== action.payload)

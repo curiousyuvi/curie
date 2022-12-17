@@ -8,8 +8,8 @@ const RoomsListTile: FC<{ room: RoomShort }> = ({ room }) => {
       <div className="h-16 w-full lg:w-60 flex items-center justify-start sm:px-2 py-2 px-4 border border-x-0 border-t-0 border-indigo-300/30 md:border-b-0 lg:border-b text-gray-300 text-lg hover:bg-indigo-500/10 cursor-pointer">
         <img
           alt="room"
-          src={room.imageUrl}
-          className="h-10 rounded-full sm:mr-2 mr-3"
+          src={room.image_url}
+          className="h-10 rounded-full sm:mr-2 mr-3 aspect-square object-cover"
         />
         <h2 className="hover:underline sm:hidden lg:flex">{room.name}</h2>
       </div>
