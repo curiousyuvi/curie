@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import ProtectedRouteWrapper from "../components/ProtectedRouteWrapper";
+import SocketProvider from "../providers/socketProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -16,11 +17,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <PersistGate loading={null} persistor={persistoor}>
-          <ProtectedRouteWrapper>
-            <LayoutWrapper>
-              <Component {...pageProps} />
-            </LayoutWrapper>
-          </ProtectedRouteWrapper>
+          <SocketProvider>
+            <ProtectedRouteWrapper>
+              <LayoutWrapper>
+                <Component {...pageProps} />
+              </LayoutWrapper>
+            </ProtectedRouteWrapper>
+          </SocketProvider>
         </PersistGate>
       </QueryClientProvider>
     </Provider>

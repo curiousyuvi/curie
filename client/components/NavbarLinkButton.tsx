@@ -40,4 +40,4 @@ const NavbarLinkButton: FC<{
 
 export default NavbarLinkButton;
 
-const otherPaths = ["/user_profile", "/settings", "/join", "/create"];
+const otherPaths = ["/identity", "/settings", "/join", "/create"];

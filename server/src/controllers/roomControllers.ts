@@ -32,6 +32,12 @@ const getRoomController = (req: Request, res: Response) => {
 
 }
 
+const getOnlineUsersController = (req: Request, res: Response) => {
+    const room = global.rooms.get(req.params.rid)
+    if (room) { res.status(200).json({ onlineUsers: room.onlineUsers }) }
+    else { res.status(404).json({ message: "room not found" }) }
+}
+
 const deleteRoomController = (req: Request, res: Response) => {
     deleteRoom(req.params.rid, (err, docs) => {
         if (!err)
@@ -47,4 +53,4 @@ const deleteRoomController = (req: Request, res: Response) => {
 
 
 
-export { createRoomController, getRoomController, deleteRoomController, }
+export { createRoomController, getRoomController, deleteRoomController, getOnlineUsersController }

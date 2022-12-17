@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.0",
+    "@mui/styled-engine-sc": "^5.11.0",
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.1",
     "emoji-picker-react": "^3.5.1",
@@ -21,7 +25,9 @@
     "react-power-tooltip": "^1.0.2",
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.5.1",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@types/node": "18.7.15",

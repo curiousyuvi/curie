@@ -7,9 +7,10 @@ import BigButton from "../components/BigButton";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import useToast from "../hooks/useToast";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../store/userSlice";
+import { createUser, setUser } from "../store/userSlice";
 import { useRouter } from "next/router";
 import { RootState } from "../store";
+import useGenerateUniqueRandomString from "../hooks/useGenerateUniqueRandomString";
 
 const Home: NextPage = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
@@ -21,10 +22,11 @@ const Home: NextPage = () => {
   const { successToast, errorToast } = useToast();
   const dispatch = useDispatch();
   const router = useRouter();
+  const generateUID = useGenerateUniqueRandomString();
 
   const handleGoToChat = () => {
     if (avatarUrl != "" && name != "") {
-      dispatch(setUser({ name, avatarUrl }));
+      dispatch(createUser({ uid: generateUID(), name, avatarUrl }));
       successToast("Identity created successfully");
       router.push("/");
     } else {

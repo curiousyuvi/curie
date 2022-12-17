@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IoArrowBack,
   IoEllipsisVerticalOutline,
@@ -10,14 +10,48 @@ import Tooltip from "react-power-tooltip";
 import { AiOutlineCopy } from "react-icons/ai";
 import useToast from "../hooks/useToast";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeRoom } from "../store/roomsSlice";
+import useSocket from "../hooks/useSocket";
+import { RootState } from "../store";
+import { Avatar, AvatarGroup, Badge, styled } from "@mui/material";
+import { User } from "../interfaces/User";
+import { apiInstance } from "../services/apiServices";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#4ade80",
+    color: "#4ade80",
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      //   animation: "ripple 1.2s infinite ease-in-out",
+      border: "none",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
 
 const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const { successToast } = useToast();
   const router = useRouter();
   const dispatch = useDispatch();
+  const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
 
   const handleBackClick = () => {
     router.replace("/");
@@ -26,8 +60,15 @@ const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
     navigator.clipboard.writeText(room.rid);
     successToast("Room ID copied to clipboard!");
   };
+  const { socket } = useSocket();
+  const { currentUser } = useSelector((state: RootState) => state.user);
   const handleLeaveRoom = () => {
     router.replace("/");
+    if (socket && currentUser)
+      socket.emit("send_leave_room", {
+        user: currentUser,
+        rid: router.query?.rid,
+      });
     dispatch(removeRoom(room.rid));
   };
   const handleOptionsOpen = () => {
@@ -37,6 +78,70 @@ const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
   const handleOptionsClose = () => {
     setShowOptions(false);
   };
+
+  const handleReceivejoinRoomSocket = ({
+    user,
+    rid,
+  }: {
+    user: User;
+    rid: string;
+  }) => {
+    if (rid === router.query?.rid) {
+      const exists = onlineUsers.find(
+        (onlineUser) => onlineUser.uid === user.uid
+      );
+      if (!exists) {
+        setOnlineUsers([...onlineUsers, user]);
+      }
+    }
+  };
+
+  const handleReceiveLeaveRoomSocket = ({
+    user,
+    rid,
+  }: {
+    user: User;
+    rid: string;
+  }) => {
+    if (rid === router.query?.rid) {
+      setOnlineUsers(
+        onlineUsers.filter((onlineUser) => onlineUser.uid !== user.uid)
+      );
+    }
+  };
+
+  useEffect(() => {
+    const loadOnlineUsers = async () => {
+      const data = await apiInstance({
+        url: `/room/${router.query?.rid}/online`,
+        method: "GET",
+      });
+
+      if (data.data?.onlineUsers)
+        setOnlineUsers(
+          data.data.onlineUsers.filter(
+            (onlineUser: User) => onlineUser.uid !== currentUser.uid
+          )
+        );
+    };
+    loadOnlineUsers();
+  }, [router]);
+
+  useEffect(() => {
+    if (socket) socket.on("receive_join_room", handleReceivejoinRoomSocket);
+    return () => {
+      socket?.off("receive_join_room", handleReceivejoinRoomSocket);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
+
+  useEffect(() => {
+    if (socket) socket.on("receive_leave_room", handleReceiveLeaveRoomSocket);
+    return () => {
+      socket?.off("receive_leave_room", handleReceiveLeaveRoomSocket);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
 
   return (
     <div className="w-full h-16 border-b border-indigo-300/30 bg-blue-900/90 px-2 py-1 flex items-center">
@@ -52,10 +157,33 @@ const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
         className="h-10 rounded-full mx-2 aspect-square object-cover"
       />
       <h2>{room.name}</h2>
+      <div className=" ml-auto" />
+
+      <AvatarGroup
+        max={4}
+        sx={{
+          "& .MuiAvatar-root": {
+            width: 30,
+            height: 30,
+            fontSize: "0.8rem",
+            border: "2px solid #21378D",
+          },
+        }}
+      >
+        {onlineUsers.map((onlineUser) => (
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            variant="dot"
+          >
+            <Avatar alt={onlineUser?.name} src={onlineUser?.avatarUrl} />
+          </StyledBadge>
+        ))}
+      </AvatarGroup>
       <button
         onMouseOver={handleOptionsOpen}
         onMouseLeave={handleOptionsClose}
-        className="relative ml-auto text-2xl p-2 hover:bg-white/10 rounded-full group duration-100"
+        className="relative text-2xl p-2 hover:bg-white/10 rounded-full group duration-100"
       >
         <IoEllipsisVerticalOutline className="group-hover:hidden" />
         <IoEllipsisVertical className="hidden group-hover:flex text-white" />
@@ -63,9 +191,8 @@ const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
           show={showOptions}
           position="left center"
           color="white"
-          backgroundColor="rgba(79, 70, 229,0.5)"
+          backgroundColor="rgba(64, 64, 64,0.3)"
           lineSeparated="1px solid rgba(1,1,1,0.3)"
-          flat
         >
           <li
             onClick={handleCopyRid}
