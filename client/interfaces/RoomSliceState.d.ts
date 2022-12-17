@@ -1,5 +1,5 @@
-import { RoomShort } from "./RoomShort";
+import { Room } from "./Room";
 
 export type RoomsSliceState = {
-    rooms: RoomShort[];
+    rooms: Room[];
 }

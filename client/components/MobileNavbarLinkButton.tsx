@@ -32,4 +32,4 @@ const MobileNavbarLinkButton: FC<{
 
 export default MobileNavbarLinkButton;
 
-const otherPaths = ["/user_profile", "/settings", "/join", "/create"];
+const otherPaths = ["/identity", "/settings", "/join", "/create"];
