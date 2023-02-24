@@ -8,7 +8,6 @@ import {
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
 import Lottie from "react-lottie";
-import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import ChatCloud from "../components/ChatCloud";
 import ChatDateRule from "../components/ChatDateRule";
@@ -16,6 +15,7 @@ import ChatLoading from "../components/ChatLoading";
 import ChatNotFound from "../components/ChatNotFound";
 import ChatNotification from "../components/ChatNotification";
 import ChatRoomHeader from "../components/ChatRoomHeader";
+import Music from "../components/Music";
 import NoRooms from "../components/NoRooms";
 import RoomsList from "../components/RoomsList";
 import RoomsListTile from "../components/RoomsListTile";
@@ -25,6 +25,9 @@ import { Message } from "../interfaces/Message";
 import { getRoomAPI } from "../services/apiServices";
 import { RootState } from "../store";
 import { addMessage, addRoom } from "../store/roomsSlice";
+import RoomMusicProvider from "../providers/roomMusicProvider";
+import { useQuery } from "@tanstack/react-query";
+import useGetRoom from "../hooks/useGetRoom";
 
 const ChatTextField = dynamic(() => import("../components/ChatTextField"), {
   ssr: false,
@@ -39,7 +42,8 @@ const ChatRoomPage = () => {
 
   const router = useRouter();
 
-  const query = useQuery([router.query?.rid, router.query?.rid], getRoomAPI);
+  const getRoomQuery = useGetRoom(router.query?.rid);
+
   const dispatch = useDispatch();
 
   const [messageList, setMessageList] = useState<any>([]);
@@ -181,23 +185,23 @@ const ChatRoomPage = () => {
   }, [router.query?.rid]);
 
   useEffect(() => {
-    if (query.isSuccess) {
-      dispatch(addRoom(query.data.data));
+    if (getRoomQuery.isSuccess) {
+      dispatch(addRoom(getRoomQuery.data.data));
     }
-  }, [query.isSuccess]);
+  }, [getRoomQuery.isSuccess]);
 
   return (
     <div className="h-full w-full flex justify-center items-center">
       <Head>
-        <title>{query.data?.data.name} | Curie</title>
+        <title>{getRoomQuery.data?.data.name} | Curie</title>
       </Head>
       <div className="h-full hidden md:flex">
         <RoomsList />
       </div>
 
-      {query.error ? (
+      {getRoomQuery.error ? (
         <ChatNotFound />
-      ) : query.isLoading ? (
+      ) : getRoomQuery.isLoading ? (
         <ChatLoading />
       ) : (
         <div
@@ -206,7 +210,7 @@ const ChatRoomPage = () => {
           )}
         >
           <div className="w-full h-full flex flex-col">
-            <ChatRoomHeader room={query.data?.data} />
+            <ChatRoomHeader room={getRoomQuery.data?.data} />
             <div className="h-full bg-blue-900/70 w-full p-2 pr-1 sm:p-4 flex flex-col justify-start relative z-10">
               <div
                 ref={messagesSectionRef}
@@ -218,10 +222,9 @@ const ChatRoomPage = () => {
               </div>
               <ChatTextField onSend={handleOnSend} />
               {/* TODO: Music Player FAB comes here */}
-              {/* <Music
-          musicModalOpen={musicModalOpen}
-          setMusicModalOpen={setMusicModalOpen}
-        /> */}
+              <RoomMusicProvider>
+                <Music />
+              </RoomMusicProvider>
             </div>
           </div>
         </div>

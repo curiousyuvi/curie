@@ -26,8 +26,15 @@ const Home: NextPage = () => {
 
   const handleGoToChat = () => {
     if (avatarUrl != "" && name != "") {
-      dispatch(createUser({ uid: generateUID(), name, avatarUrl }));
-      successToast("Identity created successfully");
+      if (currentUser) {
+        dispatch(setUser({ name, avatarUrl }));
+        successToast("Identity changed successfully");
+      } else {
+        {
+          dispatch(createUser({ uid: generateUID(), name, avatarUrl }));
+          successToast("Identity created successfully");
+        }
+      }
       router.push("/");
     } else {
       errorToast("Name should not be empty.");
