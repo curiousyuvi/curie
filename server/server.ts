@@ -44,7 +44,7 @@ app.get("/api/hello", (req: Request, res: Response) => {
   res.send("Hello, World!");
 });
 
-setupSocket(server, corsOptions);
+setupSocket(server);
 
 server.listen(port, () => {
   console.log("CURIE SERVER LISTENING ON PORT 5000...");
