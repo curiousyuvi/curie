@@ -32,9 +32,6 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  methods: ["GET", "POST", "PATCH", "DELETE"],
-  credentials: true,
-  allowedHeaders: ["postman-token", "Content-Type"],
 };
 
 if (process.env.NODE_ENV === "production") {
