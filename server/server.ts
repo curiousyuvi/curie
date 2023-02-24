@@ -9,7 +9,12 @@ import connectMongoDB from "./src/services/dbconnect";
 
 global.rooms = new Map();
 
-dotenv.config({ path: `${__dirname}/../.env` });
+dotenv.config({
+  path:
+    process.env.NODE_ENV === "production"
+      ? `${__dirname}/../.env`
+      : `${__dirname}/../../.env`,
+});
 
 connectMongoDB();
 
@@ -17,13 +22,27 @@ const port = process.env.PORT || 5000;
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = ["https://curie-xi.vercel.app", "http://localhost:3000"];
+
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PATCH", "DELETE"],
   credentials: true,
-  optionSuccessStatus: 200,
+  allowedHeaders: ["postman-token", "Content-Type"],
 };
 
-app.use(cors(corsOptions));
+if (process.env.NODE_ENV === "production") {
+  app.use(cors(corsOptions));
+} else {
+  app.use(cors());
+}
+
 app.use(express.json());
 
 app.use("/api/room", roomRoute);
