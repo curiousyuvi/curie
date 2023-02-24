@@ -4,7 +4,7 @@ import { RoomShort } from "../interfaces/RoomShort";
 export const apiInstance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
-      ? "/api"
+      ? "https://curie-server.vercel.app/api"
       : "http://localhost:5000/api",
 });
 

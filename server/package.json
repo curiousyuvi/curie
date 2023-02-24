@@ -4,10 +4,14 @@
   "description": "Server for Curie-app",
   "main": "dist/server.js",
   "scripts": {
-    "start": "tsc && node dist/server.js",
+    "prebuild": "rimraf dist",
+    "postinstall": "yarn build",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "dev": "nodemon server.ts",
     "lint": "eslint . --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build"
   },
   "author": "curiousyuvi",
   "license": "ISC",
