@@ -22,23 +22,18 @@ const port = process.env.PORT || 5000;
 const app = express();
 const server = http.createServer(app);
 
-const allowedOrigins = ["https://curie-xi.vercel.app", "http://localhost:3000"];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
+let allowedOrigin = "http://localhost:3000";
 
 if (process.env.NODE_ENV === "production") {
-  app.use(cors(corsOptions));
-} else {
-  app.use(cors());
+  allowedOrigin = "https://curie-xi.vercel.app";
 }
+
+const corsOptions = {
+  origin: allowedOrigin,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
