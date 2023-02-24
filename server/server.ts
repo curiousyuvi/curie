@@ -12,8 +12,8 @@ global.rooms = new Map();
 dotenv.config({
   path:
     process.env.NODE_ENV === "production"
-      ? `${__dirname}/../.env`
-      : `${__dirname}/../../.env`,
+      ? `${__dirname}/../../.env`
+      : `${__dirname}/../.env`,
 });
 
 connectMongoDB();

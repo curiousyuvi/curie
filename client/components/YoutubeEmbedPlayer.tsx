@@ -8,7 +8,6 @@ const YoutubeEmbedPlayer = () => {
     useRoomMusic();
 
   const handleStateChange = (event: any) => {
-    console.log("state change", event);
     switch (event.data) {
       case 1: {
         setPaused(false);
