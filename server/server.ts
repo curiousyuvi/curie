@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === "production") {
 
 const corsOptions = {
   origin: allowedOrigin,
-  optionsSuccessStatus: 200,
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -46,6 +46,10 @@ app.get("/api/hello", (req: Request, res: Response) => {
 const server = http.createServer(app);
 
 setupSocket(server, corsOptions);
+
+server.prependListener("request", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+});
 
 server.listen(port, () => {
   console.log("CURIE SERVER LISTENING ON PORT 5000...");
