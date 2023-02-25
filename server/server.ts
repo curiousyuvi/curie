@@ -25,7 +25,7 @@ const server = http.createServer(app);
 let allowedOrigin = "http://localhost:3000";
 
 if (process.env.NODE_ENV === "production") {
-  allowedOrigin = "https://curie-xi.vercel.app";
+  allowedOrigin = "*";
 }
 
 const corsOptions = {
