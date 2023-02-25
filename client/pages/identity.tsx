@@ -42,12 +42,12 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-4rem)] sm:h-[calc(100vh-8rem)] overflow-y-auto p-4 flex flex-col justify-start items-center">
+    <div className="w-full h-full min-h-full overflow-y-auto p-4 flex flex-col justify-start items-center">
       <Head>
         <title>Choose Identity | Curie</title>
       </Head>
       <h1 className="text-2xl font-bold mb-8">CHOOSE YOUR IDENTITY</h1>
-      <div className="w-full max-w-xl px-4 py-3">
+      <div className="w-full max-w-xl px-4 py-3 text-center sm:text-left">
         <label className="font-medium">Choose an avatar</label>
         <ChooseAvatar
           previousAvatar={currentUser?.avatarUrl}

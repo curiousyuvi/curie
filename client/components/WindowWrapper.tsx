@@ -10,7 +10,7 @@ const WindowWrapper: FC<WindowWrapperProps> = ({ children }) => {
       <WindowHeader />
       <div className="w-full h-full bg-indigo-600/50 flex flex-col-reverse justify-end sm:flex-row sm:justify-start">
         <Navbar />
-        <div className="w-full h-full max-h-[calc(100vh-7.5rem)] sm:max-h-max">
+        <div className="w-full h-full max-h-[calc(100vh-14rem)] sm:max-h-max">
           {children}
         </div>
       </div>

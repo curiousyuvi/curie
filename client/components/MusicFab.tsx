@@ -19,7 +19,7 @@ const MusicFAB = ({
   const { paused, currentTrack } = useRoomMusic();
 
   return (
-    <div className="absolute sm:bottom-36 sm:right-10 bottom-24 right-4">
+    <div className="absolute right-4 sm:right-10 bottom-36">
       <div className="relative flex justify-center items-center">
         <span
           className={`bg-indigo-400 sm:h-16 sm:w-16 h-12 w-12 absolute ${
