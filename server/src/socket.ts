@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 import { VotingRoom } from "./interfaces/VotingRoom";
 
 const setupSocket = (server, corsOptions) => {
-  const io = new Server(server, { cors: corsOptions });
+  const io = new Server(server, { cors: corsOptions, allowEIO3: true });
 
   io.on("connect", (client) => {
     console.log("user connected with id " + client.id);
