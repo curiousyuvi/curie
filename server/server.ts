@@ -20,12 +20,11 @@ connectMongoDB();
 
 const port = process.env.PORT || 5000;
 const app = express();
-const server = http.createServer(app);
 
 let allowedOrigin = "http://localhost:3000";
 
 if (process.env.NODE_ENV === "production") {
-  allowedOrigin = "*";
+  allowedOrigin = "https://curie-xi.vercel.app";
 }
 
 const corsOptions = {
@@ -44,7 +43,9 @@ app.get("/api/hello", (req: Request, res: Response) => {
   res.send("Hello, World!");
 });
 
-setupSocket(server);
+const server = http.createServer(app);
+
+setupSocket(server, corsOptions);
 
 server.listen(port, () => {
   console.log("CURIE SERVER LISTENING ON PORT 5000...");
