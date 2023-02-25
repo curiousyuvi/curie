@@ -12,7 +12,7 @@ import MobileNavbarLinkButton from "./MobileNavbarLinkButton";
 
 const MobileNavbar = () => {
   return (
-    <div className="sm:hidden flex w-full h-16 backdrop-blur-md bg-indigo-700/50 border border-x-0 border-b-0 border-indigo-300/30 text-gray-800/50 text-4xl items-center justify-evenly px-1">
+    <div className="sm:hidden flex w-full h-16 backdrop-blur-md bg-indigo-700/50 border border-x-0 border-b-0 border-indigo-300/30 text-gray-800/50 text-4xl items-center justify-evenly px-1 z-20 sticky">
       <MobileNavbarLinkButton
         to="/"
         IdleIcon={<IoChatboxEllipsesOutline />}

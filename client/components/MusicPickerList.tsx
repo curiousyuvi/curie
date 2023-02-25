@@ -11,7 +11,7 @@ const MusicPickerList = ({ query }: { query: string }) => {
   const searchMusicQuery = useSearchMusic(query);
 
   return (
-    <div className="h-[35rem] w-full overflow-y-auto pb-[8rem]">
+    <div className="h-[22rem] sm:h-[35rem] w-full overflow-y-auto pb-[8rem]">
       {!searchMusicQuery.error ? (
         searchMusicQuery.isLoading ? (
           <div className="w-full h-full flex flex-col justify-center items-center">
@@ -25,7 +25,7 @@ const MusicPickerList = ({ query }: { query: string }) => {
                 },
               }}
               height={350}
-              width={350}
+              width={300}
             />
           </div>
         ) : (
@@ -46,7 +46,7 @@ const MusicPickerList = ({ query }: { query: string }) => {
               },
             }}
             height={350}
-            width={350}
+            width={300}
           />
         </div>
       )}

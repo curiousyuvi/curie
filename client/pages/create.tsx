@@ -70,13 +70,13 @@ export default function CreateRoom() {
   };
 
   return (
-    <div className="w-full h-full rounded-br-lg flex flex-col items-center bg-blue-900/70">
-      <div className="w-full h-12 sm:h-24 flex items-center">
-        <h1 className="text-gray-200 text-2xl mx-auto sm:text-4xl py-1">
+    <div className="w-full h-full min-h-full overflow-y-auto rounded-br-lg flex flex-col items-center gap-2 p-4 bg-blue-900/70 pb-12">
+      <div className="w-full h-12 sm:h-24 flex justify-center items-center">
+        <h1 className="text-gray-200 text-2xl sm:text-4xl py-1">
           Create a Room
         </h1>
       </div>
-      <div className="w-full h-full max-w-lg flex flex-col items-start justify-center p-4">
+      <div className="w-full max-w-lg flex flex-col gap-2 items-start justify-center">
         <label className="font-medium">Write a room name</label>
         <span className="h-3" />
         <input
@@ -91,7 +91,7 @@ export default function CreateRoom() {
           {validationIssue.roomName}
         </label>
         <span className="sm:h-8 h-4" />
-        <label className="font-medium">Choose an image for room</label>
+        <h1 className="font-medium">Choose an image for room</h1>
         <span className="h-3" />
         <ChooseAvatar setAvatar={setAvatar} sprites={"adventurer-neutral"} />
         <span className="sm:h-8 h-4" />

@@ -28,7 +28,8 @@
     "react-youtube": "7.13.1",
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.5.1",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "18.7.15",
@@ -37,6 +38,7 @@
     "@types/react-lottie": "^1.2.6",
     "@types/react-power-tooltip": "^1.0.2",
     "@types/redux-persist": "^4.3.1",
+    "@types/uuid": "^9.0.1",
     "autoprefixer": "^10.4.8",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "eslint": "8.23.0",
