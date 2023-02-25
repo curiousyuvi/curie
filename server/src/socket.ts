@@ -1,8 +1,8 @@
 import { Server } from "socket.io";
 import { VotingRoom } from "./interfaces/VotingRoom";
 
-const setupSocket = (server) => {
-  const io = new Server(server, { cors: { origin: "*" } });
+const setupSocket = (server, corsOptions) => {
+  const io = new Server(server, { cors: corsOptions });
 
   io.on("connect", (client) => {
     console.log("user connected with id " + client.id);
@@ -102,17 +102,15 @@ const setupSocket = (server) => {
                   sender: uid,
                 },
               });
-              client
-                .to(rid)
-                .emit("receive_message", {
-                  rid,
-                  message: {
-                    mid: "",
-                    type: "music",
-                    content: JSON.stringify(track),
-                    sender: uid,
-                  },
-                });
+              client.to(rid).emit("receive_message", {
+                rid,
+                message: {
+                  mid: "",
+                  type: "music",
+                  content: JSON.stringify(track),
+                  sender: uid,
+                },
+              });
             }
             global.rooms.set(rid, { voting: false, yesUsers: [], noUsers: [] });
           };
@@ -136,13 +134,11 @@ const setupSocket = (server) => {
             room.noUsers.push(uid);
           }
 
-          client
-            .to(rid)
-            .emit("receive_vote", {
-              rid,
-              yesUsers: room.yesUsers,
-              noUsers: room.noUsers,
-            });
+          client.to(rid).emit("receive_vote", {
+            rid,
+            yesUsers: room.yesUsers,
+            noUsers: room.noUsers,
+          });
         }
 
         global.rooms.set(rid, {
