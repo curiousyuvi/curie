@@ -11,7 +11,8 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
       io(
         process.env.NODE_ENV === "production"
           ? "https://curie-server.vercel.app/"
-          : "http://localhost:5000/"
+          : "http://localhost:5000/",
+        { transports: ["websocket"] }
       )
     );
   }, []);
