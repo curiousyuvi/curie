@@ -11,4 +11,6 @@ export type RoomMusicContext = {
   setDuration: (progress: number) => void;
   currentTrack: Track;
   setCurrentTrack: (currentTrack: Track) => void;
+  playpause: (play: boolean) => void;
+  changeTrack: (newTrack: Track, newProgress?: number, pause?: boolean) => void;
 };

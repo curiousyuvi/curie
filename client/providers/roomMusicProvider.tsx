@@ -19,6 +19,8 @@ const roomMusicContext = createContext<RoomMusicContext>({
   setCurrentTrack: () => {},
   duration: 0,
   setDuration: () => {},
+  playpause: () => {},
+  changeTrack: () => {},
 });
 
 const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
@@ -36,9 +38,33 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   // const { socket } = useSocket();
   // const router = useRouter();
 
+  const playpause = (play: boolean) => {
+    if (play) player?.playVideo();
+    else player?.pauseVideo();
+    setProgress(player?.getCurrentTime());
+  };
+
+  const changeTrack = (
+    newTrack: Track,
+    newProgress?: number,
+    pause?: boolean
+  ) => {
+    setCurrentTrack(newTrack);
+    if (newProgress) {
+      player?.seekTo(newProgress, true);
+      setProgress(newProgress);
+    }
+    const handleInitialPlay = () => {
+      if (!pause) {
+        player?.playVideo();
+      }
+    };
+
+    setTimeout(handleInitialPlay, 1000);
+  };
+
   useEffect(() => {
-    player && setDuration(player.getDuration());
-    player && setProgress(0);
+    player && setDuration(player?.getDuration());
   }, [currentTrack, player]);
 
   useEffect(() => {
@@ -110,6 +136,8 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
         setCurrentTrack,
         duration,
         setDuration,
+        playpause,
+        changeTrack,
       }}
     >
       {children}

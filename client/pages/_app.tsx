@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import ProtectedRouteWrapper from "../components/ProtectedRouteWrapper";
 import SocketProvider from "../providers/socketProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import YoutubeEmbedPlayer from "../components/YoutubeEmbedPlayer";
+import RoomMusicProvider from "../providers/roomMusicProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -18,11 +20,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <PersistGate loading={null} persistor={persistoor}>
           <SocketProvider>
-            <ProtectedRouteWrapper>
-              <LayoutWrapper>
-                <Component {...pageProps} />
-              </LayoutWrapper>
-            </ProtectedRouteWrapper>
+            <RoomMusicProvider>
+              <ProtectedRouteWrapper>
+                <LayoutWrapper>
+                  <Component {...pageProps} />
+                  <YoutubeEmbedPlayer />
+                </LayoutWrapper>
+              </ProtectedRouteWrapper>
+            </RoomMusicProvider>
           </SocketProvider>
         </PersistGate>
       </QueryClientProvider>

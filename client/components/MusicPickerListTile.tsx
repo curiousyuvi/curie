@@ -11,10 +11,10 @@ const MusicPickerListTile = ({ track }: { track: Track }) => {
   // const { socket } = useSocket();
   // const { currentUser } = useSelector((state: RootState) => state.user);
   // const router = useRouter();
-  const { setCurrentTrack, player } = useRoomMusic();
+  const { changeTrack } = useRoomMusic();
 
   const handlePlayClick = () => {
-    setCurrentTrack(track);
+    changeTrack(track);
     // TODO: implement synced player
     // socket?.emit("send_play_track", {
     //   uid: currentUser?.uid,

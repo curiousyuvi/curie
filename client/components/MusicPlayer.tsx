@@ -6,7 +6,7 @@ import useRoomMusic from "../hooks/useRoomMusic";
 // import { RootState } from "../store";
 
 const MusicPlayer = () => {
-  const { currentTrack, paused, progress, player, setProgress, duration } =
+  const { currentTrack, paused, progress, playpause, duration } =
     useRoomMusic();
 
   // const { socket } = useSocket();
@@ -15,16 +15,8 @@ const MusicPlayer = () => {
   // const uid = localStorage.getItem("UID");
   // const router = useRouter();
 
-  const handlePlayPause = () => {
-    if (player) {
-      if (!paused) player.pauseVideo();
-      else player.playVideo();
-      setProgress(player.getCurrentTime());
-    }
-  };
-
   const handlePlay = async () => {
-    handlePlayPause();
+    playpause(true);
     // TODO: implement sync player
     // socket?.emit("send_play_pause", {
     //   uid: currentUser?.uid,
@@ -34,7 +26,7 @@ const MusicPlayer = () => {
   };
 
   const handlePause = () => {
-    handlePlayPause();
+    playpause(false);
     // TODO: implement sync player
     // socket?.emit("send_play_pause", {
     //   uid: currentUser?.uid,

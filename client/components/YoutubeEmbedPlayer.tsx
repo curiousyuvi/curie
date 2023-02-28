@@ -29,7 +29,7 @@ const YoutubeEmbedPlayer = () => {
     width: debugEmbed ? "600" : "1",
     playerVars: {
       enablejsapi: 1 as 0 | 1,
-      autoplay: 1 as 0 | 1,
+      autoplay: 0 as 0 | 1,
       playsinline: 1 as 0 | 1,
       // loop: 1 as 0 | 1,
     },

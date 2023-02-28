@@ -9,33 +9,19 @@ const ChatCloud: FC<{ message: Message }> = ({ message }) => {
   const { currentUser } = useSelector((state: RootState) => state.user);
 
   return (
-    <div
-      className={`w-full flex items-end my-2 ${
-        !(message.senderUid === currentUser?.uid)
-          ? ""
-          : "flex-row-reverse justify-end"
-      }`}
-    >
+    <div className="w-full flex items-start my-2">
       <img
         src={message.senderAvatar}
         alt="avatar"
-        className={`mb-[1.25rem] h-8 rounded-full ${
-          !(message.senderUid === currentUser?.uid) ? "mr-2" : "ml-2"
-        }`}
+        className="mr-2 h-8 rounded-full"
       />
-      <div
-        className={`w-full flex flex-col  ${
-          !(message.senderUid === currentUser?.uid)
-            ? "items-start"
-            : "items-end"
-        }`}
-      >
+      <div className="w-full flex flex-col items-start">
         <div
-          className={`max-w-[calc(70%)] min-w-[4rem] px-3 py-2 border border-indigo-300/20 rounded-lg flex flex-col items-start justify-start ${
+          className={`max-w-[calc(70%)] min-w-[4rem] px-3 py-2 ${
             !(message.senderUid === currentUser?.uid)
-              ? "bg-indigo-500/30 rounded-bl-none"
-              : "bg-indigo-500/80 rounded-br-none"
-          }`}
+              ? "bg-indigo-500/30"
+              : "bg-indigo-500/80"
+          } border border-indigo-300/20 rounded-lg rounded-bl-none flex flex-col items-start justify-start`}
         >
           <span
             className={`${
