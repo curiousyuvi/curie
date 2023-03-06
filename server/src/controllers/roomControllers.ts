@@ -1,56 +1,56 @@
-import { Request, Response } from "express"
+import { Request, Response } from "express";
 import createRoom from "../services/createRoom";
 import deleteRoom from "../services/deleteRoom";
 import getRoom from "../services/getRoom";
 
 const createRoomController = (req: Request, res: Response) => {
-    createRoom(req.body, (err) => {
-        if (!err) {
-            res.status(200).json({ message: "success" });
-        } else {
-            console.error("Error in create room: ", err);
-            res.status(400).json({ message: "failure" });
-        }
-    })
-}
+  createRoom(req.body, (err) => {
+    if (!err) {
+      res.status(200).json({ message: "success" });
+    } else {
+      console.error("Error in create room: ", err);
+      res.status(400).json({ message: "failure" });
+    }
+  });
+};
 
 const getRoomController = (req: Request, res: Response) => {
-    getRoom(req.params.rid, (err, docs) => {
-        if (!err) {
-            if (docs)
-                res.status(200).json({
-                    rid: docs.rid, name: docs.name, image_url: docs.image_url,
-                })
-
-            else
-                res.status(404).json({ message: "room not found" })
-        }
-        else {
-            res.status(400).json({ message: "failure" })
-        }
-    })
-
-}
+  getRoom(req.params.rid, (err, docs) => {
+    if (!err) {
+      if (docs)
+        res.status(200).json({
+          rid: docs.rid,
+          name: docs.name,
+          image_url: docs.image_url,
+        });
+      else res.status(404).json({ message: "room not found" });
+    } else {
+      res.status(400).json({ message: "failure" });
+    }
+  });
+};
 
 const getOnlineUsersController = (req: Request, res: Response) => {
-    const room = global.rooms.get(req.params.rid)
-    if (room) { res.status(200).json({ onlineUsers: room.onlineUsers }) }
-    else { res.status(404).json({ message: "room not found" }) }
-}
+  const room = global.rooms.get(req.params.rid);
+  if (room) {
+    res.status(200).json({ onlineUsers: room.onlineUsers });
+  } else {
+    res.status(404).json({ message: "room not found" });
+  }
+};
 
 const deleteRoomController = (req: Request, res: Response) => {
-    deleteRoom(req.params.rid, (err, docs) => {
-        if (!err)
-            if (docs)
-                res.status(200).json({ message: "success" })
-            else
-                res.status(404).json({ message: "room not found" })
-        else
-            res.status(400).json({ message: "failure" })
-    })
-}
+  deleteRoom(req.params.rid, (err, docs) => {
+    if (!err)
+      if (docs) res.status(200).json({ message: "success" });
+      else res.status(404).json({ message: "room not found" });
+    else res.status(400).json({ message: "failure" });
+  });
+};
 
-
-
-
-export { createRoomController, getRoomController, deleteRoomController, getOnlineUsersController }
+export {
+  createRoomController,
+  getRoomController,
+  deleteRoomController,
+  getOnlineUsersController,
+};

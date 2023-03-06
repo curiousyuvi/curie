@@ -24,6 +24,11 @@ const YoutubeEmbedPlayer = () => {
     setDuration(event.target.getDuration());
     setProgress(event.target.getCurrentTime());
   };
+
+  const _onEnd = () => {
+    setProgress(0);
+  };
+
   const opts = {
     height: debugEmbed ? "400" : "1",
     width: debugEmbed ? "600" : "1",
@@ -31,7 +36,6 @@ const YoutubeEmbedPlayer = () => {
       enablejsapi: 1 as 0 | 1,
       autoplay: 0 as 0 | 1,
       playsinline: 1 as 0 | 1,
-      // loop: 1 as 0 | 1,
     },
   };
   return (
@@ -40,6 +44,7 @@ const YoutubeEmbedPlayer = () => {
         videoId={currentTrack.id}
         opts={opts}
         onReady={_onReady}
+        onEnd={_onEnd}
         onStateChange={handleStateChange}
       />
     </div>

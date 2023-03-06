@@ -12,6 +12,7 @@ const searchMusic = async (query) => {
         q: query,
         key: process.env.YOUTUBE_API_KEY,
         maxResults: 20,
+        type: "video",
       },
       method: "get",
     };

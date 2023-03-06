@@ -41,7 +41,12 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   const playpause = (play: boolean) => {
     if (play) player?.playVideo();
     else player?.pauseVideo();
-    setProgress(player?.getCurrentTime());
+
+    const handleProgressSync = () => {
+      setProgress(player?.getCurrentTime());
+    };
+
+    setTimeout(handleProgressSync, 1000);
   };
 
   const changeTrack = (
@@ -64,7 +69,13 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    player && setDuration(player?.getDuration());
+    if (player) {
+      const handleRefreshDuration = () => {
+        setDuration(player?.getDuration());
+      };
+
+      setTimeout(handleRefreshDuration, 1000);
+    }
   }, [currentTrack, player]);
 
   useEffect(() => {

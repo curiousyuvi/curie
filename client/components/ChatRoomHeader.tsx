@@ -172,6 +172,7 @@ const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
       >
         {onlineUsers.map((onlineUser) => (
           <StyledBadge
+            key={onlineUser.uid}
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"

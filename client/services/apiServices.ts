@@ -16,6 +16,10 @@ export const getRoomAPI = (rid: string | string[] | undefined) => {
   return apiInstance({ url: `/room/${rid}`, method: "GET" });
 };
 
+export const getRoomLastTrackAPI = (rid: string | string[] | undefined) => {
+  return apiInstance({ url: `/room/lasttrack/${rid}`, method: "GET" });
+};
+
 export const deleteRoomAPI = (rid: string) => {
   return apiInstance({ url: `/room/${rid}`, method: "DELETE" });
 };
