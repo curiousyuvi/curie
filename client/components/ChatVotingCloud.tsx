@@ -101,6 +101,10 @@ const ChatVotingCloud = () => {
     }
   };
 
+  useEffect(() => {
+    setTimer(15);
+  }, [voting]);
+
   const handleReceiveVotingFinishSocket = ({ rid }: { rid: string }) => {
     if (rid === router?.query?.rid) {
       setVoting(false);

@@ -2,6 +2,7 @@ import { Server } from "socket.io";
 import { VotingRoom } from "./interfaces/VotingRoom";
 import { getUnixEpochTime, midFromDate } from "./helpers/dateTimeHelper";
 import updateRoom from "./services/updateRoom";
+import postMessage from "./services/postMessage";
 
 const setupSocket = (server, corsOptions) => {
   const io = new Server(server, { cors: corsOptions, allowEIO3: true });
@@ -134,6 +135,7 @@ const setupSocket = (server, corsOptions) => {
               client.emit("receive_message", {
                 rid,
                 message: {
+                  rid,
                   mid: midFromDate(new Date()),
                   type: "music",
                   content: JSON.stringify(track),
@@ -145,6 +147,7 @@ const setupSocket = (server, corsOptions) => {
               client.to(rid).emit("receive_message", {
                 rid,
                 message: {
+                  rid,
                   mid: midFromDate(new Date()),
                   type: "music",
                   content: JSON.stringify(track),
@@ -153,6 +156,19 @@ const setupSocket = (server, corsOptions) => {
                   senderAvatar: user?.avatarUrl,
                 },
               });
+              postMessage(
+                {
+                  rid,
+                  type: "music",
+                  content: JSON.stringify(track),
+                  senderUid: user?.uid,
+                  senderName: user?.name,
+                  senderAvatar: user?.avatarUrl,
+                },
+                (err) => {
+                  console.error(err);
+                }
+              );
             }
             global.rooms.set(rid, {
               voting: false,
