@@ -59,7 +59,8 @@ export default function CreateRoom() {
     }
   };
 
-  const handleCreateRoomClick = async () => {
+  const handleSubmit = async (e?: any) => {
+    e?.preventDefault();
     if (validate()) {
       createRoomMutation.mutate({
         rid: roomID,
@@ -71,7 +72,10 @@ export default function CreateRoom() {
 
   return (
     <div className="w-full h-full rounded-br-lg flex flex-col justify-start items-center gap-2 bg-blue-900/70">
-      <div className="w-full h-[calc(100%] overflow-y-auto p-4 pb-12">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full h-[calc(100%] overflow-y-auto p-4 pb-12"
+      >
         <div className="w-full h-12 sm:h-24 flex justify-center items-center">
           <h1 className="text-gray-200 text-2xl sm:text-4xl py-1">
             Create a Room
@@ -82,9 +86,11 @@ export default function CreateRoom() {
             <label className="font-medium">Write a room name</label>
             <span className="h-3" />
             <input
-              type="text"
               value={roomName}
               onChange={handleChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSubmit();
+              }}
               placeholder="Enter room name..."
               className="sm:p-2 p-1 bg-gray-300/10 outline-none border-none outline-2 focus:outline-4 outline-indigo-500/40 focus:outline-indigo-500 rounded-lg sm:text-2xl text-lg w-full duration-200"
             />
@@ -107,13 +113,13 @@ export default function CreateRoom() {
                 <span className="mr-4 font-medium text-sm sm:text-lg text-gray-200 underline decoration-indigo-500 decoration-1 decoration-dashed underline-offset-4">
                   {roomID}
                 </span>
-                <button
+                <span
                   onClick={copyToClipBoard}
-                  className="p-1 bg-indigo-500/50 hover:bg-indigo-500 rounded-lg flex items-center duration-300"
+                  className="p-1 bg-indigo-500/50 hover:bg-indigo-500 rounded-lg flex items-center duration-300 cursor-pointer"
                 >
                   <FiCopy className="mr-1" />
                   copy
-                </button>
+                </span>
               </div>
             </div>
             <span className="h-2" />
@@ -122,13 +128,11 @@ export default function CreateRoom() {
             </label>
             <span className="sm:h-8 h-4" />
             <span className="w-full flex justify-center">
-              <PrimaryButton onClick={handleCreateRoomClick}>
-                CREATE ROOM
-              </PrimaryButton>
+              <PrimaryButton type="submit">CREATE ROOM</PrimaryButton>
             </span>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

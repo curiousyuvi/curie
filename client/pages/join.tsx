@@ -3,6 +3,7 @@ import { useState } from "react";
 import Lottie from "react-lottie";
 import PrimaryButton from "../components/PrimaryButton";
 import girlListeningMusicAnimation from "../public/assets/girl_listening_to_music_lootie.json";
+import { getRoomAPI } from "../services/apiServices";
 
 export default function JoinRoom() {
   const [roomId, setRoomId] = useState<string>("");
@@ -13,15 +14,21 @@ export default function JoinRoom() {
   };
 
   const validate = async () => {
-    //TODO: Write logic for cehcking room exists
-    const exists = true;
+    try {
+      const res = await getRoomAPI(router?.query?.rid);
+      const exists = res?.data;
 
-    if (!exists) {
+      if (!exists) {
+        setValidationIssue("No room found");
+        return false;
+      } else {
+        setValidationIssue("");
+        return true;
+      }
+    } catch (err) {
+      console.error(err);
       setValidationIssue("No room found");
       return false;
-    } else {
-      setValidationIssue("");
-      return true;
     }
   };
 
@@ -59,6 +66,9 @@ export default function JoinRoom() {
           type="text"
           value={roomId}
           onChange={handleChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleJoinRoom();
+          }}
           placeholder="Enter room id to join..."
           className="p-2 bg-gray-300/10 outline-none border-none outline-2 focus:outline-4 outline-indigo-500/40 focus:outline-indigo-500 rounded-lg sm:text-2xl w-full max-w-sm duration-200"
         />

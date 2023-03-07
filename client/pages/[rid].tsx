@@ -204,7 +204,7 @@ const ChatRoomPage = () => {
 
   useEffect(() => {
     function handleResize() {
-      setChatsHeight(window.innerHeight - 280);
+      setChatsHeight(window.innerHeight - 270);
     }
 
     handleResize();

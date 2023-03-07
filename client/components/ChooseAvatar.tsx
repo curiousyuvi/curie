@@ -15,7 +15,7 @@ const ChooseAvatar = ({
   setAvatar: (avatar_url: string) => void;
   sprites: string;
   previousAvatar?: string;
-  marble: boolean;
+  marble?: boolean;
 }) => {
   const generateRandomAvatar = useGenerateRandomAvatar();
   const generateRandomMarble = useGenerateRandomMarble();
