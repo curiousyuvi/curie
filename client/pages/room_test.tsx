@@ -305,7 +305,7 @@ const ChatRoomPage = () => {
             <div className="h-full bg-blue-900/70 w-full p-2 pr-1 pb-16 sm:p-4 flex flex-col justify-start relative z-10">
               <div
                 ref={messagesSectionRef}
-                className="w-full sm:h-[calc(100vh-17.5rem)] h-[calc(100vh-17rem)]  flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10"
+                className="w-full sm:h-[calc(100%-17.5rem)] h-[calc(100%-17rem)]  flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10"
               >
                 {messageList}
                 {/* TODO: Chat Voting Cloud comes here */}

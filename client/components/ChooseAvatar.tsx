@@ -4,17 +4,22 @@ import { BiRefresh } from "react-icons/bi";
 import useGenerateRandomAvatar from "../hooks/useGenerateRandomAvatar";
 import ChooseAvatarButton from "./ChooseAvatarButton";
 import SmallButton from "./SmallButton";
+import useGenerateRandomMarble from "../hooks/useGenerateRandomMarble";
 
 const ChooseAvatar = ({
   setAvatar,
   sprites,
   previousAvatar,
+  marble,
 }: {
   setAvatar: (avatar_url: string) => void;
   sprites: string;
   previousAvatar?: string;
+  marble?: boolean;
 }) => {
   const generateRandomAvatar = useGenerateRandomAvatar();
+  const generateRandomMarble = useGenerateRandomMarble();
+
   const placeholderAvatar = "/assets/avatar_placeholder.png";
   const handleAvatarClick = (event: any) => {
     event.preventDefault();
@@ -40,11 +45,15 @@ const ChooseAvatar = ({
     if (previousAvatar) {
       newAvatars[0] = previousAvatar;
       for (let i = 1; i < 8; i++) {
-        newAvatars[i] = generateRandomAvatar(sprites);
+        newAvatars[i] = marble
+          ? generateRandomMarble()
+          : generateRandomAvatar(sprites);
       }
     } else {
       for (let i = 0; i < 8; i++) {
-        newAvatars[i] = generateRandomAvatar(sprites);
+        newAvatars[i] = marble
+          ? generateRandomMarble()
+          : generateRandomAvatar(sprites);
       }
     }
     setAvatats([...newAvatars]);

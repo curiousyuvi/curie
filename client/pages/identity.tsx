@@ -64,6 +64,9 @@ const Home: NextPage = () => {
             autoComplete="off"
             value={name}
             onChange={handleNameInputChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleGoToChat();
+            }}
             className="peer pl-9 bg-transparent appearance-none text-xl outline-none outline-1 autofill:bg-none focus:outline-2 border-none focus:outline-indigo-500 outline-gray-300/30 w-full px-2 h-12 rounded-md duration-100"
             placeholder="John Doe"
           />
