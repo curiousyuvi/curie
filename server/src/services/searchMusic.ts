@@ -1,8 +1,6 @@
 import axios from "axios";
 import { Track } from "../interfaces/Track";
 
-// TODO: implement Yotube search api
-
 const searchMusic = async (query) => {
   try {
     const requestConfig = {

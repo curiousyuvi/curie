@@ -19,13 +19,13 @@ const getLastTrackController = (req: Request, res: Response) => {
     if (!err) {
       if (docs)
         res.status(200).json({
-          id: docs.last_track_id,
-          thumbnail: docs.last_track_thumbnail,
-          name: docs.last_track_name,
-          channel: docs.last_track_channel,
-          playing: docs.last_track_playing,
-          progress: docs.last_track_progress,
-          timestamp: docs.last_track_timestamp,
+          last_track_id: docs.last_track_id,
+          last_track_thumbnail: docs.last_track_thumbnail,
+          last_track_name: docs.last_track_name,
+          last_track_channel: docs.last_track_channel,
+          last_track_playing: docs.last_track_playing,
+          last_track_progress: docs.last_track_progress,
+          last_track_timestamp: docs.last_track_timestamp,
         });
       else res.status(404).json({ message: "room not found" });
     } else {
@@ -39,7 +39,10 @@ const updateLastTrackController = (req: Request, res: Response) => {
     if (!err)
       if (docs) res.status(200).json({ massage: "success" });
       else res.status(404).json({ message: "room not found" });
-    else res.status(400).json({ message: "failure" });
+    else {
+      res.status(400).json({ message: "failure" });
+      console.error(err);
+    }
   });
 };
 

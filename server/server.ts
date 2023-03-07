@@ -9,12 +9,7 @@ import connectMongoDB from "./src/services/dbconnect";
 
 global.rooms = new Map();
 
-dotenv.config({
-  path:
-    process.env.NODE_ENV === "production"
-      ? `${__dirname}/../../.env`
-      : `${__dirname}/../.env`,
-});
+dotenv.config();
 
 connectMongoDB();
 

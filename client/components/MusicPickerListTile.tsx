@@ -8,19 +8,17 @@ import { RootState } from "../store";
 import useRoomMusic from "../hooks/useRoomMusic";
 
 const MusicPickerListTile = ({ track }: { track: Track }) => {
-  // const { socket } = useSocket();
-  // const { currentUser } = useSelector((state: RootState) => state.user);
-  // const router = useRouter();
+  const { socket } = useSocket();
+  const { currentUser } = useSelector((state: RootState) => state.user);
+  const router = useRouter();
   const { changeTrack } = useRoomMusic();
 
   const handlePlayClick = () => {
-    changeTrack(track);
-    // TODO: implement synced player
-    // socket?.emit("send_play_track", {
-    //   uid: currentUser?.uid,
-    //   rid: router.query.rid,
-    //   track: track,
-    // });
+    socket?.emit("send_play_track", {
+      user: currentUser,
+      rid: router.query.rid,
+      track: track,
+    });
   };
 
   return (
