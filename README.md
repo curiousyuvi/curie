@@ -8,6 +8,8 @@ Curie is a chat app where users can chat in rooms and listen to synced music, th
 - Made with [Next.js](https://nextjs.org/)
 - Written in [Typescript](https://www.typescriptlang.org/)
 - Styled with [TailwindCSS](https://tailwindcss.com/)
+- [Redux Toolkit] for State management.
+- [TanStack Query] for asynchronous state management and data caching.
 - [Axios](https://www.npmjs.com/package/axios) as API Request client
 - [Socket.io-client](https://www.npmjs.com/package/socket.io-client) as Web-socket client
 
