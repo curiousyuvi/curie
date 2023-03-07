@@ -19,6 +19,8 @@ export default function CreateRoom() {
     setRoomName(e.target.value);
   };
   const [validationIssue, setValidationIssue] = useState({ roomName: "" });
+  const [chatsHeight, setChatsHeight] = useState(0);
+
   const { successToast } = useToast();
 
   const createRoomMutation = useCreateRoom(() => {
@@ -70,11 +72,25 @@ export default function CreateRoom() {
     }
   };
 
+  useEffect(() => {
+    function handleResize() {
+      setChatsHeight(window.innerHeight - 120);
+    }
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="w-full h-full rounded-br-lg flex flex-col justify-start items-center gap-2 bg-blue-900/70">
       <form
         onSubmit={handleSubmit}
-        className="w-full h-[calc(100%] overflow-y-auto p-4 pb-12"
+        style={{ height: `${chatsHeight}px` }}
+        className="w-full overflow-y-auto p-4 pb-12"
       >
         <div className="w-full h-12 sm:h-24 flex justify-center items-center">
           <h1 className="text-gray-200 text-2xl sm:text-4xl py-1">
