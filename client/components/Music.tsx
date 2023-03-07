@@ -1,7 +1,6 @@
 import { useState } from "react";
 import MusicFAB from "./MusicFab";
 import MusicModal from "./MusicModal";
-import YoutubeEmbedPlayer from "./YoutubeEmbedPlayer";
 
 const Music = () => {
   const [musicModalOpen, setMusicModalOpen] = useState<boolean>(false);
@@ -16,7 +15,6 @@ const Music = () => {
         musicModalOpen={musicModalOpen}
         setMusicModalOpen={setMusicModalOpen}
       />
-      <YoutubeEmbedPlayer />
     </>
   );
 };

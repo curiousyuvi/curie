@@ -16,7 +16,8 @@ import useSocket from "../hooks/useSocket";
 import { RootState } from "../store";
 import { Avatar, AvatarGroup, Badge, styled } from "@mui/material";
 import { User } from "../interfaces/User";
-import { apiInstance } from "../services/apiServices";
+import { apiInstance, onlineUsersAPI } from "../services/apiServices";
+import useGetOnlineUsers from "../hooks/useGetOnlineUsers";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -63,12 +64,12 @@ const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
   const { socket } = useSocket();
   const { currentUser } = useSelector((state: RootState) => state.user);
   const handleLeaveRoom = () => {
-    router.replace("/");
     if (socket && currentUser)
       socket.emit("send_leave_room", {
         user: currentUser,
         rid: router.query?.rid,
       });
+    router.replace("/");
     dispatch(removeRoom(room.rid));
   };
   const handleOptionsOpen = () => {
@@ -110,22 +111,16 @@ const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
     }
   };
 
-  useEffect(() => {
-    const loadOnlineUsers = async () => {
-      const data = await apiInstance({
-        url: `/room/${router.query?.rid}/online`,
-        method: "GET",
-      });
+  const { data: onlineUsersData } = useGetOnlineUsers(router?.query?.rid);
 
-      if (data.data?.onlineUsers)
-        setOnlineUsers(
-          data.data.onlineUsers.filter(
-            (onlineUser: User) => onlineUser.uid !== currentUser.uid
-          )
-        );
-    };
-    loadOnlineUsers();
-  }, [router]);
+  useEffect(() => {
+    if (onlineUsersData?.data?.onlineUsers)
+      setOnlineUsers(
+        onlineUsersData?.data?.onlineUsers.filter(
+          (onlineUser: User) => onlineUser.uid !== currentUser.uid
+        )
+      );
+  }, [onlineUsersData]);
 
   useEffect(() => {
     if (socket) socket.on("receive_join_room", handleReceivejoinRoomSocket);
@@ -172,6 +167,7 @@ const ChatRoomHeader = ({ room }: { room: RoomShort }) => {
       >
         {onlineUsers.map((onlineUser) => (
           <StyledBadge
+            key={onlineUser.uid}
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"

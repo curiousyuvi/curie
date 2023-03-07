@@ -28,6 +28,9 @@ import { addMessage, addRoom } from "../store/roomsSlice";
 import RoomMusicProvider from "../providers/roomMusicProvider";
 import { useQuery } from "@tanstack/react-query";
 import useGetRoom from "../hooks/useGetRoom";
+import ChatVotingCloud from "../components/ChatVotingCloud";
+import ChatMusicCloud from "../components/ChatMusicCloud";
+import useRoomMusic from "../hooks/useRoomMusic";
 
 const ChatTextField = dynamic(() => import("../components/ChatTextField"), {
   ssr: false,
@@ -49,6 +52,7 @@ const ChatRoomPage = () => {
   const [messageList, setMessageList] = useState<any>([]);
   const { dateFromMid, formatDate, midFromDate } = useDateTimeHelper();
   const { currentUser } = useSelector((state: RootState) => state.user);
+  const { playpause } = useRoomMusic();
 
   const handleOnSend = (value: string) => {
     setMessages([
@@ -130,11 +134,10 @@ const ChatRoomPage = () => {
         newMessageList.push(
           <ChatNotification key={message.mid} message={message} />
         );
-      // TODO: Write code for MusicCloud
-      // else if (message.type === "music")
-      //   newMessageList.push(
-      //     <ChatMusicCloud key={message.mid} message={message} />
-      //   );
+      else if (message.type === "music")
+        newMessageList.push(
+          <ChatMusicCloud key={message.mid} message={message} />
+        );
     });
 
     setMessageList(newMessageList);
@@ -153,6 +156,7 @@ const ChatRoomPage = () => {
     }
   };
   const { socket } = useSocket();
+  const { voting } = useRoomMusic();
 
   useEffect(() => {
     if (socket) socket.on("receive_message", handleReceiveMessageSocket);
@@ -169,11 +173,18 @@ const ChatRoomPage = () => {
         rid: router.query?.rid,
       });
     }
+
+    return () => {
+      socket?.emit("send_leave_room", {
+        user: currentUser,
+        rid: router.query?.rid,
+      });
+    };
   }, [router.query?.rid]);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messageList]);
+  }, [messageList, voting]);
 
   useEffect(() => {
     createMessageList();
@@ -211,20 +222,16 @@ const ChatRoomPage = () => {
         >
           <div className="w-full h-full flex flex-col">
             <ChatRoomHeader room={getRoomQuery.data?.data} />
-            <div className="h-full bg-blue-900/70 w-full p-2 pr-1 pb-16 sm:p-4 flex flex-col justify-start relative z-10">
+            <div className="h-full bg-blue-900/70 w-full pt-2 px-0 pb-16 sm:py-4 flex flex-col justify-start relative z-10">
               <div
                 ref={messagesSectionRef}
-                className="w-full sm:h-[calc(100vh-17.5rem)] h-[calc(100vh-17rem)]  flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10"
+                className="w-full sm:h-[calc(100vh-17.5rem)] h-[calc(100vh-17rem)] px-3  flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10"
               >
                 {messageList}
-                {/* TODO: Chat Voting Cloud comes here */}
-                {/* <ChatVotingCloud /> */}
+                <ChatVotingCloud />
               </div>
               <ChatTextField onSend={handleOnSend} />
-              {/* TODO: Music Player FAB comes here */}
-              <RoomMusicProvider>
-                <Music />
-              </RoomMusicProvider>
+              <Music />
             </div>
           </div>
         </div>

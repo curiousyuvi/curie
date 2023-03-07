@@ -4,7 +4,9 @@
   "description": "**🚧 Under development**",
   "main": "index.js",
   "scripts": {
-    "start": "cd client && npm run build && cd ../server && npm run start",
+    "start": "concurrently npm:start:*",
+    "start:server": "cd server && npm run build && npm run start",
+    "start:client": "cd client && npm run build && npm run start",
     "dev": "concurrently npm:dev:*",
     "dev:server": "cd server && npm run dev",
     "dev:client": "cd client && npm run dev"

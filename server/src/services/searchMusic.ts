@@ -1,8 +1,6 @@
 import axios from "axios";
 import { Track } from "../interfaces/Track";
 
-// TODO: implement Yotube search api
-
 const searchMusic = async (query) => {
   try {
     const requestConfig = {
@@ -12,6 +10,7 @@ const searchMusic = async (query) => {
         q: query,
         key: process.env.YOUTUBE_API_KEY,
         maxResults: 20,
+        type: "video",
       },
       method: "get",
     };

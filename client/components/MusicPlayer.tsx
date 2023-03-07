@@ -1,47 +1,95 @@
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { BsFillPlayCircleFill, BsPauseCircleFill } from "react-icons/bs";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import useRoomMusic from "../hooks/useRoomMusic";
-// import useSocket from "../hooks/useSocket";
-// import { RootState } from "../store";
+import useSocket from "../hooks/useSocket";
+import { RootState } from "../store";
+import { useEffect } from "react";
+import { getUnixEpochTime } from "../helpers/epoch";
+import { updateLastTrackAPI } from "../services/apiServices";
+import { Track } from "../interfaces/Track";
+import { User } from "../interfaces/User";
 
 const MusicPlayer = () => {
-  const { currentTrack, paused, progress, player, setProgress, duration } =
-    useRoomMusic();
+  const {
+    currentTrack,
+    paused,
+    progress,
+    duration,
+    playpause,
+    changeTrack,
+    player,
+  } = useRoomMusic();
 
-  // const { socket } = useSocket();
-  // const { currentUser } = useSelector((state: RootState) => state.user);
+  const { socket } = useSocket();
+  const { currentUser } = useSelector((state: RootState) => state.user);
 
-  // const uid = localStorage.getItem("UID");
-  // const router = useRouter();
-
-  const handlePlayPause = () => {
-    if (player) {
-      if (!paused) player.pauseVideo();
-      else player.playVideo();
-      setProgress(player.getCurrentTime());
-    }
-  };
+  const router = useRouter();
 
   const handlePlay = async () => {
-    handlePlayPause();
-    // TODO: implement sync player
-    // socket?.emit("send_play_pause", {
-    //   uid: currentUser?.uid,
-    //   rid: router.query.rid,
-    //   play: true,
-    // });
+    playpause(true);
+    socket?.emit("send_play_pause", {
+      uid: currentUser?.uid,
+      rid: router.query.rid,
+      play: true,
+      progress,
+    });
   };
 
   const handlePause = () => {
-    handlePlayPause();
-    // TODO: implement sync player
-    // socket?.emit("send_play_pause", {
-    //   uid: currentUser?.uid,
-    //   rid: router.query.rid,
-    //   play: false,
-    // });
+    playpause(false);
+    socket?.emit("send_play_pause", {
+      uid: currentUser?.uid,
+      rid: router.query.rid,
+      play: false,
+      progress,
+    });
   };
+
+  const handleReceivePlayPauseSocket = ({
+    uid,
+    rid,
+    play,
+  }: {
+    uid: string;
+    rid: string;
+    play: boolean;
+  }) => {
+    if (rid === router?.query?.rid) {
+      if (play) {
+        playpause(true);
+      } else {
+        playpause(false);
+      }
+    }
+  };
+
+  const handleReceivePlayTrackSocket = ({
+    user,
+    rid,
+    track,
+  }: {
+    user: User;
+    rid: string;
+    track: Track;
+  }) => {
+    if (rid === router.query.rid) {
+      changeTrack(track);
+    }
+  };
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("receive_play_pause", handleReceivePlayPauseSocket);
+      socket.on("receive_play_track", handleReceivePlayTrackSocket);
+    }
+
+    return () => {
+      socket?.off("receive_play_pause", handleReceivePlayPauseSocket);
+      socket?.off("receive_play_track", handleReceivePlayTrackSocket);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket, router, player]);
 
   return (
     <div className="w-full absolute bottom-0 left-0 right-0 px-4 pb-4">
@@ -53,7 +101,7 @@ const MusicPlayer = () => {
             className="h-14 rounded"
           />
           <span className="mx-2" />
-          <div className="w-full flex flex-col items-start justify-between">
+          <div className="w-full flex flex-col items-start justify-between max-w-[8rem] sm:max-w-[12rem]">
             <p className="text-gray-100 font-medium overflow-hidden text-ellipsis w-full h-6">
               {currentTrack.name}
             </p>

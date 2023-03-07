@@ -39,7 +39,7 @@ const ChatTextField: FC<{ onSend: (value: string) => void }> = ({ onSend }) => {
     setEmojiPickerOpen(false);
   };
   return (
-    <div className="w-full">
+    <div className="w-full px-2">
       {emojiPickerOpen ? (
         <>
           <div

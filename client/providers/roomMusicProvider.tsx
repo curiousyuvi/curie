@@ -1,8 +1,11 @@
 import { useRouter } from "next/router";
 import React, { createContext, ReactNode, useEffect, useState } from "react";
-// import useSocket from "../hooks/useSocket";
+import useSocket from "../hooks/useSocket";
 import { RoomMusicContext } from "../interfaces/RoomMusicContext";
 import { Track } from "../interfaces/Track";
+import { getLastTrackAPI, updateLastTrackAPI } from "../services/apiServices";
+import { getUnixEpochTime } from "../helpers/epoch";
+import { User } from "../interfaces/User";
 const roomMusicContext = createContext<RoomMusicContext>({
   player: null,
   setPlayer: () => {},
@@ -19,6 +22,10 @@ const roomMusicContext = createContext<RoomMusicContext>({
   setCurrentTrack: () => {},
   duration: 0,
   setDuration: () => {},
+  playpause: () => {},
+  changeTrack: () => {},
+  voting: false,
+  setVoting: () => {},
 });
 
 const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
@@ -33,12 +40,52 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     thumbnail:
       "https://upload.wikimedia.org/wikipedia/en/0/0b/JustinBieberLoveYourself.png",
   });
-  // const { socket } = useSocket();
-  // const router = useRouter();
+  const [voting, setVoting] = useState<boolean>(false);
+  const router = useRouter();
+
+  const playpause = (play: boolean) => {
+    if (play) {
+      player?.playVideo();
+    } else player?.pauseVideo();
+
+    const handleProgressSync = () => {
+      setProgress(player?.getCurrentTime());
+    };
+
+    setTimeout(handleProgressSync, 1000);
+  };
+
+  const changeTrack = (
+    newTrack: Track,
+    newProgress?: number,
+    pause?: boolean
+  ) => {
+    setCurrentTrack(newTrack);
+
+    const handleInitialPlay = () => {
+      if (pause) {
+        playpause(false);
+      } else {
+        playpause(true);
+      }
+      if (newProgress) {
+        player?.seekTo(newProgress, true);
+        setProgress(newProgress);
+        if (newProgress >= player?.getDuration()) playpause(false);
+      }
+    };
+
+    setTimeout(handleInitialPlay, 1000);
+  };
 
   useEffect(() => {
-    player && setDuration(player.getDuration());
-    player && setProgress(0);
+    if (player) {
+      const handleRefreshDuration = () => {
+        setDuration(player?.getDuration());
+      };
+
+      setTimeout(handleRefreshDuration, 1000);
+    }
   }, [currentTrack, player]);
 
   useEffect(() => {
@@ -51,51 +98,45 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress, paused]);
 
-  // TODO: Implement synced player
-  // const handleReceivePlayPauseSocket = ({
-  //   uid,
-  //   rid,
-  //   play,
-  // }: {
-  //   uid: string;
-  //   rid: string;
-  //   play: boolean;
-  // }) => {
-  //   if (rid === router.query.rid) {
-  //     if (play) {
-  //       music.play();
-  //     } else {
-  //       music.pause();
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    const fetchLastTrack = async () => {
+      try {
+        const response = await getLastTrackAPI(router?.query?.rid);
 
-  // const handleReceivePlayTrackSocket = ({
-  //   uid,
-  //   rid,
-  //   track,
-  // }: {
-  //   uid: string;
-  //   rid: string;
-  //   track: Track;
-  // }) => {
-  //   if (rid === router.query.rid) {
-  //     music.play(undefined, track.uri);
-  //   }
-  // };
+        if (response?.data?.last_track_playing) {
+          const currentTimestamp = getUnixEpochTime();
+          if (response?.data?.last_track_timestamp !== 0) {
+            const secondsElapsed =
+              currentTimestamp - response?.data?.last_track_timestamp;
+            changeTrack(
+              {
+                id: response?.data?.last_track_id,
+                thumbnail: response?.data?.last_track_thumbnail,
+                name: response?.data?.last_track_name,
+                channel: response?.data?.last_track_channel,
+              },
+              response?.data?.last_track_progress + secondsElapsed
+            );
+          }
+        } else {
+          changeTrack(
+            {
+              id: response?.data?.last_track_id,
+              thumbnail: response?.data?.last_track_thumbnail,
+              name: response?.data?.last_track_name,
+              channel: response?.data?.last_track_channel,
+            },
+            response?.data?.last_track_progress,
+            true
+          );
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
-  // useEffect(() => {
-  //   if (socket) {
-  //     socket.on("receive_play_pause", handleReceivePlayPauseSocket);
-  //     socket.on("receive_play_track", handleReceivePlayTrackSocket);
-  //   }
-
-  //   return () => {
-  //     socket?.off("receive_play_pause", handleReceivePlayPauseSocket);
-  //     socket?.off("receive_play_track", handleReceivePlayTrackSocket);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [socket, router]);
+    fetchLastTrack();
+  }, [router?.query?.rid, player]);
 
   return (
     <roomMusicContext.Provider
@@ -110,6 +151,10 @@ const RoomMusicProvider = ({ children }: { children: ReactNode }) => {
         setCurrentTrack,
         duration,
         setDuration,
+        playpause,
+        changeTrack,
+        voting,
+        setVoting,
       }}
     >
       {children}
