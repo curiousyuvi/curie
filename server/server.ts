@@ -4,6 +4,7 @@ import cors from "cors";
 import setupSocket from "./src/socket";
 import roomRoute from "./src/routes/roomRoutes";
 import musicRoute from "./src/routes/musicRoutes";
+import messageRoute from "./src/routes/messageRoutes";
 import dotenv from "dotenv";
 import connectMongoDB from "./src/services/dbconnect";
 
@@ -33,6 +34,7 @@ app.use(express.json());
 
 app.use("/api/room", roomRoute);
 app.use("/api/music", musicRoute);
+app.use("/api/message", messageRoute);
 
 app.get("/api/hello", (req: Request, res: Response) => {
   res.send("Hello, World!");

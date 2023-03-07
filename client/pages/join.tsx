@@ -15,7 +15,7 @@ export default function JoinRoom() {
 
   const validate = async () => {
     try {
-      const res = await getRoomAPI(router?.query?.rid);
+      const res = await getRoomAPI(roomId);
       const exists = res?.data;
 
       if (!exists) {

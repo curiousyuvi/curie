@@ -1,6 +1,7 @@
 import axios from "axios";
 import { RoomShort } from "../interfaces/RoomShort";
 import { LastTrack } from "../interfaces/LastTrack";
+import { Message } from "../interfaces/Message";
 
 export const apiInstance = axios.create({
   baseURL:
@@ -45,4 +46,19 @@ export const onlineUsersAPI = (rid: string | string[] | undefined) => {
 
 export const searchMusicAPI = (query: string) => {
   return apiInstance({ url: `/music/search/${query}`, method: "GET" });
+};
+
+export const postMessageAPI = (newMessage: Omit<Message, "mid">) => {
+  return apiInstance({
+    url: "/message",
+    method: "POST",
+    data: newMessage,
+  });
+};
+
+export const getMessagesAPI = (
+  rid: string | string[] | undefined,
+  after?: number
+) => {
+  return apiInstance({ url: `/message/${rid}?after=${after}`, method: "GET" });
 };

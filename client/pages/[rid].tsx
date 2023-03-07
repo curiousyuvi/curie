@@ -2,12 +2,6 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  IoArrowBack,
-  IoEllipsisVertical,
-  IoEllipsisVerticalOutline,
-} from "react-icons/io5";
-import Lottie from "react-lottie";
 import { useDispatch, useSelector } from "react-redux";
 import ChatCloud from "../components/ChatCloud";
 import ChatDateRule from "../components/ChatDateRule";
@@ -16,21 +10,19 @@ import ChatNotFound from "../components/ChatNotFound";
 import ChatNotification from "../components/ChatNotification";
 import ChatRoomHeader from "../components/ChatRoomHeader";
 import Music from "../components/Music";
-import NoRooms from "../components/NoRooms";
 import RoomsList from "../components/RoomsList";
-import RoomsListTile from "../components/RoomsListTile";
 import useDateTimeHelper from "../hooks/useDateTimeHelper";
 import useSocket from "../hooks/useSocket";
 import { Message } from "../interfaces/Message";
-import { getRoomAPI } from "../services/apiServices";
 import { RootState } from "../store";
-import { addMessage, addRoom } from "../store/roomsSlice";
-import RoomMusicProvider from "../providers/roomMusicProvider";
-import { useQuery } from "@tanstack/react-query";
+import { addMessage, addMessages, addRoom } from "../store/roomsSlice";
 import useGetRoom from "../hooks/useGetRoom";
 import ChatVotingCloud from "../components/ChatVotingCloud";
 import ChatMusicCloud from "../components/ChatMusicCloud";
 import useRoomMusic from "../hooks/useRoomMusic";
+import usePostMessage from "../hooks/usePostMessage";
+import { getMessagesAPI } from "../services/apiServices";
+import { getUnixEpochTime } from "../helpers/epoch";
 
 const ChatTextField = dynamic(() => import("../components/ChatTextField"), {
   ssr: false,
@@ -53,25 +45,27 @@ const ChatRoomPage = () => {
   const [messageList, setMessageList] = useState<any>([]);
   const { dateFromMid, formatDate, midFromDate } = useDateTimeHelper();
   const { currentUser } = useSelector((state: RootState) => state.user);
-  const { playpause } = useRoomMusic();
+  const postMessageMutation = usePostMessage();
 
   const handleOnSend = (value: string) => {
-    setMessages([
-      ...messages,
-      {
-        mid: midFromDate(new Date()),
-        type: "text",
-        content: value,
-        senderName: currentUser?.name,
-        senderAvatar: currentUser?.avatarUrl,
-        senderUid: currentUser?.uid,
-      },
-    ]);
+    // setMessages([
+    //   ...messages,
+    //   {
+    //     rid: router?.query?.rid as string,
+    //     mid: midFromDate(new Date()),
+    //     type: "text",
+    //     content: value,
+    //     senderName: currentUser?.name,
+    //     senderAvatar: currentUser?.avatarUrl,
+    //     senderUid: currentUser?.uid,
+    //   },
+    // ]);
 
     dispatch(
       addMessage({
         rid: router.query?.rid as string,
         message: {
+          rid: router?.query?.rid as string,
           mid: midFromDate(new Date()),
           type: "text",
           content: value,
@@ -85,6 +79,7 @@ const ChatRoomPage = () => {
     if (socket)
       socket.emit("send_message", {
         message: {
+          rid: router.query?.rid as string,
           mid: midFromDate(new Date()),
           type: "text",
           content: value,
@@ -94,6 +89,15 @@ const ChatRoomPage = () => {
         },
         rid: router.query?.rid,
       });
+
+    postMessageMutation.mutate({
+      rid: router.query?.rid as string,
+      type: "text",
+      content: value,
+      senderUid: currentUser?.uid,
+      senderName: currentUser?.name,
+      senderAvatar: currentUser?.avatarUrl,
+    });
   };
 
   const getMessages = () => {
@@ -157,7 +161,7 @@ const ChatRoomPage = () => {
     }
   };
   const { socket } = useSocket();
-  const { voting } = useRoomMusic();
+  const { voting, setVoting } = useRoomMusic();
 
   useEffect(() => {
     if (socket) socket.on("receive_message", handleReceiveMessageSocket);
@@ -194,7 +198,7 @@ const ChatRoomPage = () => {
 
   useEffect(() => {
     getMessages();
-  }, [router.query?.rid]);
+  }, [router.query?.rid, rooms]);
 
   useEffect(() => {
     if (getRoomQuery.isSuccess) {
@@ -204,7 +208,7 @@ const ChatRoomPage = () => {
 
   useEffect(() => {
     function handleResize() {
-      setChatsHeight(window.innerHeight - 270);
+      setChatsHeight(window.innerHeight - 273);
     }
 
     handleResize();
@@ -213,6 +217,42 @@ const ChatRoomPage = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    const loadMessagesFromDB = async () => {
+      try {
+        const exists = rooms.find((room) => room.rid === router.query?.rid);
+        if (exists) {
+          const foundIdx = rooms.findIndex(
+            (room) => room.rid == router.query?.rid
+          );
+          const res = await getMessagesAPI(
+            router?.query?.rid,
+            getUnixEpochTime(
+              dateFromMid(
+                rooms[foundIdx].messages[rooms[foundIdx].messages.length - 1]
+                  .mid
+              )
+            )
+          );
+          dispatch(
+            addMessages({
+              rid: router?.query?.rid as string,
+              messages: res?.data,
+            })
+          );
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadMessagesFromDB();
+  }, [router?.query?.rid]);
+
+  useEffect(() => {
+    setVoting(false);
   }, []);
 
   return (
