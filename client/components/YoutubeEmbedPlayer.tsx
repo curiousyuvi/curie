@@ -3,14 +3,26 @@ import useRoomMusic from "../hooks/useRoomMusic";
 import YouTube from "react-youtube";
 
 const YoutubeEmbedPlayer = () => {
+  let requestId;
   const debugEmbed = false;
-  const { setPlayer, setPaused, currentTrack, setProgress, setDuration } =
-    useRoomMusic();
+  const {
+    setPlayer,
+    setPaused,
+    currentTrack,
+    setProgress,
+    setDuration,
+    player,
+  } = useRoomMusic();
 
   const handleStateChange = (event: any) => {
-    switch (event.data) {
+    switch (event?.data) {
       case 1: {
         setPaused(false);
+        const update = () => {
+          player?.getCurrentTime();
+          requestId = requestAnimationFrame(update);
+        };
+        requestId = requestAnimationFrame(update);
         break;
       }
       default:
@@ -20,8 +32,14 @@ const YoutubeEmbedPlayer = () => {
 
   const _onReady = (event: any) => {
     setPlayer(event.target);
-    setDuration(event.target.getDuration());
-    setProgress(event.target.getCurrentTime());
+    setDuration(event.target?.getDuration());
+    setProgress(event.target?.getCurrentTime());
+
+    function update() {
+      event.target?.getCurrentTime();
+      requestId = requestAnimationFrame(update);
+    }
+    requestId = requestAnimationFrame(update);
   };
 
   const _onEnd = (event: any) => {
