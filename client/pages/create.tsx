@@ -70,56 +70,64 @@ export default function CreateRoom() {
   };
 
   return (
-    <div className="w-full h-full min-h-full overflow-y-auto rounded-br-lg flex flex-col items-center gap-2 p-4 bg-blue-900/70 pb-12">
-      <div className="w-full h-12 sm:h-24 flex justify-center items-center">
-        <h1 className="text-gray-200 text-2xl sm:text-4xl py-1">
-          Create a Room
-        </h1>
-      </div>
-      <div className="w-full max-w-lg flex flex-col gap-2 items-start justify-center">
-        <label className="font-medium">Write a room name</label>
-        <span className="h-3" />
-        <input
-          type="text"
-          value={roomName}
-          onChange={handleChange}
-          placeholder="Enter room name..."
-          className="sm:p-2 p-1 bg-gray-300/10 outline-none border-none outline-2 focus:outline-4 outline-indigo-500/40 focus:outline-indigo-500 rounded-lg sm:text-2xl text-lg w-full duration-200"
-        />
-        <span className="h-2" />
-        <label className="text-sm text-red-500">
-          {validationIssue.roomName}
-        </label>
-        <span className="sm:h-8 h-4" />
-        <h1 className="font-medium">Choose an image for room</h1>
-        <span className="h-3" />
-        <ChooseAvatar setAvatar={setAvatar} sprites={"adventurer-neutral"} />
-        <span className="sm:h-8 h-4" />
-        <div className="flex flex-col items-start">
-          <label className="font-medium mb-2">Room ID</label>
-          <div className="w-full flex">
-            <span className="mr-4 font-medium text-sm sm:text-lg text-gray-200 underline decoration-indigo-500 decoration-1 decoration-dashed underline-offset-4">
-              {roomID}
+    <div className="w-full h-full rounded-br-lg flex flex-col justify-start items-center gap-2 bg-blue-900/70">
+      <div className="w-full h-[calc(100%] overflow-y-auto p-4 pb-12">
+        <div className="w-full h-12 sm:h-24 flex justify-center items-center">
+          <h1 className="text-gray-200 text-2xl sm:text-4xl py-1">
+            Create a Room
+          </h1>
+        </div>
+        <div className="w-full flex flex-col items-center">
+          <div className="w-full max-w-lg flex flex-col gap-2 items-center justify-center">
+            <label className="font-medium">Write a room name</label>
+            <span className="h-3" />
+            <input
+              type="text"
+              value={roomName}
+              onChange={handleChange}
+              placeholder="Enter room name..."
+              className="sm:p-2 p-1 bg-gray-300/10 outline-none border-none outline-2 focus:outline-4 outline-indigo-500/40 focus:outline-indigo-500 rounded-lg sm:text-2xl text-lg w-full duration-200"
+            />
+            <span className="h-2" />
+            <label className="text-sm text-red-500">
+              {validationIssue.roomName}
+            </label>
+            <span className="sm:h-8 h-4" />
+            <h1 className="font-medium">Choose an image for room</h1>
+            <span className="h-3" />
+            <ChooseAvatar
+              setAvatar={setAvatar}
+              sprites={"adventurer-neutral"}
+              marble
+            />
+            <span className="sm:h-8 h-4" />
+            <div className="flex flex-col items-start">
+              <label className="font-medium mb-2">Room ID</label>
+              <div className="w-full flex">
+                <span className="mr-4 font-medium text-sm sm:text-lg text-gray-200 underline decoration-indigo-500 decoration-1 decoration-dashed underline-offset-4">
+                  {roomID}
+                </span>
+                <button
+                  onClick={copyToClipBoard}
+                  className="p-1 bg-indigo-500/50 hover:bg-indigo-500 rounded-lg flex items-center duration-300"
+                >
+                  <FiCopy className="mr-1" />
+                  copy
+                </button>
+              </div>
+            </div>
+            <span className="h-2" />
+            <label className="text-sm text-white/40">
+              Note: This Room ID will be used when joining room
+            </label>
+            <span className="sm:h-8 h-4" />
+            <span className="w-full flex justify-center">
+              <PrimaryButton onClick={handleCreateRoomClick}>
+                CREATE ROOM
+              </PrimaryButton>
             </span>
-            <button
-              onClick={copyToClipBoard}
-              className="p-1 bg-indigo-500/50 hover:bg-indigo-500 rounded-lg flex items-center duration-300"
-            >
-              <FiCopy className="mr-1" />
-              copy
-            </button>
           </div>
         </div>
-        <span className="h-2" />
-        <label className="text-sm text-white/40">
-          Note: This Room ID will be used when joining room
-        </label>
-        <span className="sm:h-8 h-4" />
-        <span className="w-full flex justify-center">
-          <PrimaryButton onClick={handleCreateRoomClick}>
-            CREATE ROOM
-          </PrimaryButton>
-        </span>
       </div>
     </div>
   );

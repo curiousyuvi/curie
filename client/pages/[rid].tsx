@@ -40,6 +40,7 @@ const ChatRoomPage = () => {
   const messagesSectionRef = useRef<HTMLDivElement>(null);
 
   const [messages, setMessages] = useState<Message[]>([]);
+  const [chatsHeight, setChatsHeight] = useState(0);
 
   const { rooms } = useSelector((state: RootState) => state.rooms);
 
@@ -201,6 +202,19 @@ const ChatRoomPage = () => {
     }
   }, [getRoomQuery.isSuccess]);
 
+  useEffect(() => {
+    function handleResize() {
+      setChatsHeight(window.innerHeight - 280);
+    }
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="h-full w-full flex justify-center items-center">
       <Head>
@@ -222,10 +236,11 @@ const ChatRoomPage = () => {
         >
           <div className="w-full h-full flex flex-col">
             <ChatRoomHeader room={getRoomQuery.data?.data} />
-            <div className="h-full bg-blue-900/70 w-full pt-2 px-0 pb-16 sm:py-4 flex flex-col justify-start relative z-10">
+            <div className="h-full bg-blue-900/70 w-full pt-2 px-0 pb-2 sm:py-4 flex flex-col justify-start relative z-10">
               <div
                 ref={messagesSectionRef}
-                className="w-full sm:h-[calc(100vh-17.5rem)] h-[calc(100vh-17rem)] px-3  flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10"
+                style={{ height: `${chatsHeight}px` }}
+                className="w-full px-3 flex flex-col overflow-x-hidden overflow-y-scroll mb-2 relative z-10"
               >
                 {messageList}
                 <ChatVotingCloud />
