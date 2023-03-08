@@ -229,12 +229,15 @@ const ChatRoomPage = () => {
           );
           const res = await getMessagesAPI(
             router?.query?.rid,
-            getUnixEpochTime(
-              dateFromMid(
-                rooms[foundIdx].messages[rooms[foundIdx].messages.length - 1]
-                  .mid
-              )
-            )
+            rooms[foundIdx].messages.length > 0
+              ? getUnixEpochTime(
+                  dateFromMid(
+                    rooms[foundIdx].messages[
+                      rooms[foundIdx].messages.length - 1
+                    ].mid
+                  )
+                )
+              : undefined
           );
           dispatch(
             addMessages({
