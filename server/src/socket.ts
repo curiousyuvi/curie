@@ -97,88 +97,142 @@ const setupSocket = (server, corsOptions) => {
           noUsers: [],
           onlineUsers: [user],
         });
-      else {
-        if (room && room?.voting) {
-          client.emit("receive_voting_already", { rid });
-        } else {
+
+      if (room && room?.voting) {
+        client.emit("receive_voting_already", { rid });
+      } else if (room.onlineUsers.length < 2) {
+        updateRoom(
+          rid,
+          {
+            last_track_id: track.id,
+            last_track_name: track.name,
+            last_track_channel: track.channel,
+            last_track_thumbnail: track.thumbnail,
+            last_track_playing: true,
+            last_track_progress: 0,
+            last_track_timestamp: getUnixEpochTime(),
+          },
+          (err) => {
+            if (err) console.error("Error in updating last track", err);
+          }
+        );
+        client.emit("receive_play_track", { user, rid, track });
+        client.to(rid).emit("receive_play_track", { user, rid, track });
+        client.emit("receive_message", {
+          rid,
+          message: {
+            rid,
+            mid: midFromDate(new Date()),
+            type: "music",
+            content: JSON.stringify(track),
+            senderUid: user?.uid,
+            senderName: user?.name,
+            senderAvatar: user?.avatarUrl,
+          },
+        });
+        client.to(rid).emit("receive_message", {
+          rid,
+          message: {
+            rid,
+            mid: midFromDate(new Date()),
+            type: "music",
+            content: JSON.stringify(track),
+            senderUid: user?.uid,
+            senderName: user?.name,
+            senderAvatar: user?.avatarUrl,
+          },
+        });
+        postMessage(
+          {
+            rid,
+            type: "music",
+            content: JSON.stringify(track),
+            senderUid: user?.uid,
+            senderName: user?.name,
+            senderAvatar: user?.avatarUrl,
+          },
+          (err) => {
+            console.error(err);
+          }
+        );
+      } else {
+        global.rooms.set(rid, {
+          voting: true,
+          yesUsers: [user.uid],
+          noUsers: [],
+          onlineUsers: room.onlineUsers,
+        });
+        client.emit("receive_voting_start", { user, rid, track });
+        client.to(rid).emit("receive_voting_start", { user, rid, track });
+        const finishVoting = () => {
+          clearInterval(timer);
+          client.emit("receive_voting_finish", { rid });
+          client.to(rid).emit("receive_voting_finish", { rid });
+          const room: VotingRoom = global.rooms.get(rid);
+          if (room.yesUsers.length >= room.noUsers.length) {
+            updateRoom(
+              rid,
+              {
+                last_track_id: track.id,
+                last_track_name: track.name,
+                last_track_channel: track.channel,
+                last_track_thumbnail: track.thumbnail,
+                last_track_playing: true,
+                last_track_progress: 0,
+                last_track_timestamp: getUnixEpochTime(),
+              },
+              (err) => {
+                if (err) console.error("Error in updating last track", err);
+              }
+            );
+            client.emit("receive_play_track", { user, rid, track });
+            client.to(rid).emit("receive_play_track", { user, rid, track });
+            client.emit("receive_message", {
+              rid,
+              message: {
+                rid,
+                mid: midFromDate(new Date()),
+                type: "music",
+                content: JSON.stringify(track),
+                senderUid: user?.uid,
+                senderName: user?.name,
+                senderAvatar: user?.avatarUrl,
+              },
+            });
+            client.to(rid).emit("receive_message", {
+              rid,
+              message: {
+                rid,
+                mid: midFromDate(new Date()),
+                type: "music",
+                content: JSON.stringify(track),
+                senderUid: user?.uid,
+                senderName: user?.name,
+                senderAvatar: user?.avatarUrl,
+              },
+            });
+            postMessage(
+              {
+                rid,
+                type: "music",
+                content: JSON.stringify(track),
+                senderUid: user?.uid,
+                senderName: user?.name,
+                senderAvatar: user?.avatarUrl,
+              },
+              (err) => {
+                console.error(err);
+              }
+            );
+          }
           global.rooms.set(rid, {
-            voting: true,
-            yesUsers: [user.uid],
+            voting: false,
+            yesUsers: [],
             noUsers: [],
             onlineUsers: room.onlineUsers,
           });
-          client.emit("receive_voting_start", { user, rid, track });
-          client.to(rid).emit("receive_voting_start", { user, rid, track });
-          const finishVoting = () => {
-            clearInterval(timer);
-            client.emit("receive_voting_finish", { rid });
-            client.to(rid).emit("receive_voting_finish", { rid });
-            const room: VotingRoom = global.rooms.get(rid);
-            if (room.yesUsers.length >= room.noUsers.length) {
-              updateRoom(
-                rid,
-                {
-                  last_track_id: track.id,
-                  last_track_name: track.name,
-                  last_track_channel: track.channel,
-                  last_track_thumbnail: track.thumbnail,
-                  last_track_playing: true,
-                  last_track_progress: 0,
-                  last_track_timestamp: getUnixEpochTime(),
-                },
-                (err) => {
-                  if (err) console.error("Error in updating last track", err);
-                }
-              );
-              client.emit("receive_play_track", { user, rid, track });
-              client.to(rid).emit("receive_play_track", { user, rid, track });
-              client.emit("receive_message", {
-                rid,
-                message: {
-                  rid,
-                  mid: midFromDate(new Date()),
-                  type: "music",
-                  content: JSON.stringify(track),
-                  senderUid: user?.uid,
-                  senderName: user?.name,
-                  senderAvatar: user?.avatarUrl,
-                },
-              });
-              client.to(rid).emit("receive_message", {
-                rid,
-                message: {
-                  rid,
-                  mid: midFromDate(new Date()),
-                  type: "music",
-                  content: JSON.stringify(track),
-                  senderUid: user?.uid,
-                  senderName: user?.name,
-                  senderAvatar: user?.avatarUrl,
-                },
-              });
-              postMessage(
-                {
-                  rid,
-                  type: "music",
-                  content: JSON.stringify(track),
-                  senderUid: user?.uid,
-                  senderName: user?.name,
-                  senderAvatar: user?.avatarUrl,
-                },
-                (err) => {
-                  console.error(err);
-                }
-              );
-            }
-            global.rooms.set(rid, {
-              voting: false,
-              yesUsers: [],
-              noUsers: [],
-              onlineUsers: room.onlineUsers,
-            });
-          };
-          const timer = setInterval(finishVoting, 15000);
-        }
+        };
+        const timer = setInterval(finishVoting, 15000);
       }
     };
 
