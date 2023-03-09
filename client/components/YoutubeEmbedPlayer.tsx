@@ -32,6 +32,7 @@ const YoutubeEmbedPlayer = () => {
 
   const _onReady = (event: any) => {
     setPlayer(event.target);
+    event.target?.pauseVideo();
     setDuration(event.target?.getDuration());
     setProgress(event.target?.getCurrentTime());
 
