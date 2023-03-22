@@ -6,7 +6,7 @@ import { Message } from "../interfaces/Message";
 export const apiInstance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
-      ? "https://curie-server.up.railway.app/api"
+      ? "https://curie-server.onrender.com/api"
       : "http://localhost:5000/api",
 });
 
