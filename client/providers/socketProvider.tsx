@@ -9,9 +9,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     setSocket(
       io(
-        process.env.NODE_ENV === "production"
-          ? `${process.env.SERVER_URL}/`
-          : "http://localhost:5000/",
+        `${process.env.SERVER_URL}/`,
         { transports: ["websocket"] }
       )
     );
