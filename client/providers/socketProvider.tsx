@@ -10,7 +10,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
     setSocket(
       io(
         process.env.NODE_ENV === "production"
-          ? "https://curie-server.up.railway.app/"
+          ? `${process.env.SERVER_URL}/`
           : "http://localhost:5000/",
         { transports: ["websocket"] }
       )
