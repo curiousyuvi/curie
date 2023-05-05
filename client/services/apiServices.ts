@@ -3,8 +3,10 @@ import { RoomShort } from "../interfaces/RoomShort";
 import { LastTrack } from "../interfaces/LastTrack";
 import { Message } from "../interfaces/Message";
 
+console.log("env", process.env.NEXT_PUBLIC_SERVER_URL);
+
 export const apiInstance = axios.create({
-  baseURL: `${process.env.SERVER_URL}/api`,
+  baseURL: `${process.env.NEXT_PUBLIC_SERVER_URL}/api`,
 });
 
 export const createRoomAPI = (newRoom: RoomShort) => {
