@@ -4,10 +4,7 @@ import { LastTrack } from "../interfaces/LastTrack";
 import { Message } from "../interfaces/Message";
 
 export const apiInstance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "production"
-      ? `${process.env.SERVER_URL}/api`
-      : "http://localhost:5000/api",
+  baseURL: `${process.env.SERVER_URL}/api`,
 });
 
 export const createRoomAPI = (newRoom: RoomShort) => {
