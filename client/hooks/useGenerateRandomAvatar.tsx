@@ -21,12 +21,12 @@ const generateRandomColorHex: () => string = () => {
 };
 
 const generateRandomAvatar: (sprites: string) => string = (sprites) => {
-  const diceBearAvatarEndpoint = "https://avatars.dicebear.com/api";
+  const diceBearAvatarEndpoint = "https://api.dicebear.com/7.x";
   const generateRandomString = useGenerateRandomString;
 
-  return `${diceBearAvatarEndpoint}/${sprites}/${generateRandomString(
+  return `${diceBearAvatarEndpoint}/${sprites}/svg?backgroundColor=${generateRandomColorHex()}&seed=${generateRandomString(
     16
-  )}.svg?b=%23${generateRandomColorHex()}`;
+  )}`;
 };
 
 const useGenerateRandomAvatar = () => generateRandomAvatar;
